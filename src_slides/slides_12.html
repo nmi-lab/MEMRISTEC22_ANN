@@ -67,9 +67,26 @@
       </textarea></section>
 
       <section data-markdown><textarea data-template>
-      <h2> A Model of a Non-linear Device </h2>                                                     
+      <h2> A Simple Memristor Model </h2>                                                     
+
+      <p> Update Model:
+      $$ 
+      \begin{eqnarray*}
+      w_{ij}  &\leftarrow&  w_{ij} - \Delta w_{ij}^d(\gamma_{ij}^d\;w_{ij}
+      + 1 + \sigma_\text{c-to-c}\,\xi)\\
+      w_{ij}  &\leftarrow& \text{clip}(w_{ij},b^\text{min}_{ij},b^\text{max}_{ij})
+      \end{eqnarray*}  
+      $$
+      </p>
+
       <ul>
-        <li/> $$ TBD $$
+        <li/> $\sigma_\text{c-to-c}$ variance of cycle-to-cycle noise
+        <li/> $\gamma_{ij}^d$ crosspoint-dependent Slope parameter  initalized as 
+          $$\begin{eqnarray*}
+\gamma_{ij}^+ &=& - |\gamma^+ + \gamma_\text{d-to-d}^+ \xi|/b^\text{max}_{ij}\\
+\gamma_{ij}^- &=& - |\gamma^- + \gamma_\text{d-to-d}^- \xi|/b^\text{min}_{ij}
+\end{eqnarray*}$$
+<li/> b_{ij} crosspoint-dependent boundaries
       </ul>
       </textarea></section>
 
