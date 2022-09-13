@@ -1467,8 +1467,7 @@ train_loader = torch.utils.data.DataLoader(train_set, batch_size=100, shuffle=Tr
 	optimizer.regroup_param_groups(model)
         </code></pre>
 	<li/> After creating the analog optimizer, the 'regroup_param_groups' function has to be called.
-        <li/> This will identify the analog layers in the model that are supposed to be excuted on memristors,
-	      and regroup their parameters seperately.
+        <li/> This will identify the analog layers in the model that are supposed to be excuted on memristors, and regroup their parameters seperately.
         <li class="fragment"/> Hands-on tutorial aihwkit: 
       </ul>
 
