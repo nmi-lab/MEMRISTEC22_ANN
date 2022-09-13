@@ -1,0 +1,649 @@
+<script>
+  //function for evaluation
+  function solve()
+  {
+          let w0 = parseFloat(document.getElementById("w0").value)-50
+          let w1 = parseFloat(document.getElementById("w1").value)-50
+          let b =  parseFloat(document.getElementById("b").value) -50
+          document.getElementById("a11").innerHTML = (eval(w0)*1+eval(w1)*1+eval(b)).toFixed(2)
+          document.getElementById("a10").innerHTML = (eval(w0)*1+eval(w1)*0+eval(b)).toFixed(2)
+          document.getElementById("a01").innerHTML = (eval(w0)*0+eval(w1)*1+eval(b)).toFixed(2)
+          document.getElementById("a00").innerHTML = (eval(w0)*0+eval(w1)*0+eval(b)).toFixed(2)
+          document.getElementById("y11").innerHTML = (((eval(w0)*1+eval(w1)*1+eval(b))>0)*1)
+          document.getElementById("y10").innerHTML = (((eval(w0)*1+eval(w1)*0+eval(b))>0)*1)
+          document.getElementById("y01").innerHTML = (((eval(w0)*0+eval(w1)*1+eval(b))>0)*1)
+          document.getElementById("y00").innerHTML = (((eval(w0)*0+eval(w1)*0+eval(b))>0)*1)
+          document.getElementById('w0val').innerHTML=eval(w0).toFixed(2); 
+          document.getElementById('w1val').innerHTML=eval(w1).toFixed(2); 
+          document.getElementById('bval').innerHTML =eval(b).toFixed(2); 
+        }
+
+</script>
+
+
+<section>
+        <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
+            <h1> Lecture 2: Pattern Recognition and Machine Learning<br/> </h1>
+        </textarea></section>
+        <section data-markdown><textarea data-template>
+        ## History of Artificial Intelligence and Neural Networks
+        ![](images/image.C0KVC0.png)                                                      
+        </textarea></section>
+
+
+        <section>
+        <h2>The First Artificial Neuron</h2><ul>
+        <li><p>In 1943, McCulloch and Walter Pitts propose the first artificial neuron, the Linear Threshold Unit. </p>
+        <img src="images/artificial_neuron.png" class="large"/>
+        </li>
+        <li><p>In the Linear Threshold Unit, $f$ is a step function: $f(x) = 1$ if $x&gt;0$</p>
+        </li>
+        <li>"Modern" artificial neurons are similar, but $f$ is typically a sigmoid or rectified linear function</li>
+        </ul>
+        </section>
+
+        <section>
+        <h2>Mathematical Model of the Artificial Neuron</h2>
+        <div class=row>
+        <div class=column>
+        <img src="images/artificial_neuron.png"/>
+        </div>
+        <div class=column>
+        <ul>
+        <li>$x_i$  is the state of the input neurons</li>
+        <li>$w_i$ is the weight of the connection</li>
+        <li>$b$ is a bias</li>
+        <li>The total input to the neuron is: $ a = \sum_i w_i x_i +b $</li>
+        <li>The output of the neuron is: $ y = f(a) $</li>
+        <li>where $f$ is the activation function</li>
+        </ul>
+        </div>
+        </div>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        <h2>The Perceptron</h2>
+        <img src="images/rosenblatt57_title.png" />
+        <blockquote>
+        <img src="images/rosenblatt57_quote1.png" class=small />
+        </blockquote>
+        <ul>
+          <li/> Further reading: <a href="https://news.cornell.edu/stories/2019/09/professors-perceptron-paved-way-ai-60-years-too-soon">Professor’s perceptron paved the way for AI – 60 years too soon </a>
+        </ul>
+        </textarea></section>
+
+
+        <section>
+        <h2>The Perceptron</h2>
+        <ul>
+          <li> The Perceptron is a special case of the artificial neuron where:
+        $$
+        \begin{eqnarray}
+        \mbox{y} & = & \begin{cases}
+              -1 & \mbox{if } a = \sum_j w_j x_j + b \leq 0  \\\\
+              1 & \mbox{if } a = \sum_j w_j x_j + b > 0
+              \end{cases}
+        \end{eqnarray}
+        $$</li>
+        <img src=images/single_perceptron.svg />
+        <li> Three inputs $x_1$, $x_2$, $x_3$ with weights $w_1$, $w_2$, $w_3$, and bias $b$</li>
+        </ul>
+        </section>
+
+        <section>
+          <h2> Perceptron Example</h2>
+          <ul>
+            <li/> Like McCulloch and Pitts neurons, Perceptrons can be hand-constructed to solve simple logical tasks
+            <li/> Let's build a "sprinkler" that activates only if it is dry and sunny.
+            <li/> Let's assume we have a dryness detector $x_0$ and a light detector $x_1$ (two inputs)
+            <li/> Find $w_0$, $w_1$ and $b$ such that output $y$ matches target $t$
+          </ul>
+
+
+        
+
+        
+        <div class=row>
+        <div class=column>
+        <img src="images/twonode_perceptron_template.svg"  style="height:200px"    />
+        </div>
+        <div class=column>
+          <table>
+          <thead>
+          <tr>
+          <th>Sunny</th>
+          <th>Dry</th>
+          <th>$a$</th>
+          <th>$y$</th>
+          <th>$t$</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+          <td>1 (yes)</td>
+          <td>1 (yes)</td>
+          <td> <div id="a11"></div></td>
+          <td> <div id="y11"></div></td>
+
+          <td>1</td>
+          </tr>
+          <tr>
+          <td>1 (yes)</td>
+          <td>0 (no)</td>
+          <td> <div id="a10"></div></td>
+          <td> <div id="y10"></div></td>
+
+          <td>0</td>
+          </tr>
+          <tr>
+          <td>0 (no)</td>
+          <td>1 (yes)</td>
+          <td> <div id="a01"></div></td>
+          <td> <div id="y01"></div></td>
+          <td>0</td>
+          </tr>
+          <tr>
+          <td>0 (no)</td>
+          <td>0 (no)</td>
+          <td> <div id="a00"/></div></td>
+          <td> <div id="y00"/></div></td>
+          <td>0</td>
+          </tr>
+          </tbody>
+          </table>
+        </div>
+        </div>
+
+            <table border="1">
+              <tr>
+                <td>$w_0 =$ <span id=w0val>0</span></td>
+                <td>$w_1 =$ <span id=w1val>0</span></td>
+                <td>$b =$   <span id=bval>0</span></td>
+              </tr>
+              <tr>
+                <td colspan="1"><input type="range" min="-50." max="100." step=0.01  onchange="solve();" id="w0"  /></td>
+                <td colspan="1"><input type="range" min="-50." max="100." step=0.01  onchange="solve();" id="w1"  /></td>
+                <td colspan="1"><input type="range" min="-50." max="100." step=0.01  onchange="solve();" id="b"  /></td>
+              </tr>
+            </table>
+
+
+        </section>
+
+
+
+        <section data-markdown><textarea data-template>
+        ## Perceptron Example
+        - The Sprinkler detects the state "dry" and "sunny": it is like an AND gate. 
+        ![](images/and_gate.png) 
+        </textarea></section>
+
+        <!-- <section>
+        <h3>Programming A Linear Threshold Unit</h3>
+        <pre><code data-trim data-noescape>
+        x = np.array([1,-1,-1])
+        w = np.array([.1,.5,.8])
+        a = w[0]*x[0] + w[1]*x[1] + w[2]*x[2]
+        out = 1 if a>0 else -1 #This implements the step function
+        </code></pre>
+        </section> -->
+
+
+
+        <section data-markdown><textarea data-template>
+        ## Logic Gates 
+
+        - Logic gates are (idealized) devices that perform one logical operation
+        - Common operations are AND, Not, and OR and can perform Boolean logic
+        - Using only Not AND (NAND) gates, any boolean function can be built. <!-- .element: class="fragment" -->
+        <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/NAND_ANSI_Labelled.svg/240px-NAND_ANSI_Labelled.svg.png />
+        <table>
+        <tr bgcolor="#ddeeff" align="center">
+        <td colspan="2"><b>INPUT</b></td>
+        <td><b>OUTPUT</b>
+        </td></tr>
+        <tr bgcolor="#ddeeff" align="center">
+        <td>A</td>
+        <td>B</td>
+        <td>A NAND B
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>0</td>
+        <td>0</td>
+        <td>1
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>0</td>
+        <td>1</td>
+        <td>1
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>1</td>
+        <td>0</td>
+        <td>1
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>1</td>
+        <td>1</td>
+        <td>0
+        </td></tr>
+        </table>
+        - Thus: any Boolean function can be built out of Perceptrons: Big deal! <!-- .element: class="fragment" -->
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## The Perceptron Learning Algorithm
+        - Given inputs and targets, the Perceptron Algorithm can automatically learn the parameters so the output matches the target
+        - Number of Misclassified Samples as a Target for Learning
+          ![](pli/machine_learning_procedure.png)
+        <p class=pl>Perceptron weights are iteratively modified until number of misclassified samples is minimized</p>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## The Perceptron Criterion
+        - If a pattern $\mathbf{x}^n$ verifies $\mathbf{y}^n t^n>0$, then it is correctly classified.
+        - where $\mathbf{y}^n = \mathbf{x}^n \mathbf{w} = \sum_j x_j^n w_j$
+        - This can be used as a cost function
+          $$
+          C_P(\mathbf{w}) = - \sum_{n\in \mathcal{M}} (\mathbf{x}^n \mathbf{w} ) t^n
+          $$
+          where $\mathcal{M}$ is the set of misclassified samples.
+
+        - This cost function is also called the *Perceptron Criterion*
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## The Perceptron Learning Rule
+        To minimize error, repeat for every misclassified data sample:
+
+        $$
+          w_i  \leftarrow  w_i + \eta x_{i}^n t^n  
+        $$
+
+        $$
+          b  \leftarrow  b + \eta t^n
+        $$
+
+        where $\eta$ is a "learning rate".
+        - If $y^n = t^n$ no change
+        - If $y^n = 1$ and $t^n = -1$: add inputs  $x_{i}^n$ to weights
+        - If $y^n = -1$ and $t^n = 1$: subtract inputs $x_{i}^n$ from weights
+
+        - Let's implement it: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://drive.google.com/open?id=1XOkJh_bB7K1oiKLTKJrj5iaRjYUSNy2w)
+        </textarea></section>
+
+
+
+
+
+
+
+
+
+
+
+
+        <section data-markdown><textarea data-template>
+        ## The Perceptron Learning Rule
+        <img src=common_img/perceptron_convergence.png class=large />
+        <p class=ref>(Bishop, 2006 Pattern Recognition and Machine Learning)</p>
+
+        - Perceptron convergence theorem: if the training dataset is linearly separable, then the perceptron learning rule is guaranteed to find an exact solution
+        <p class=ref>(Rosenblatt, 1962, Principles of Neurodynamics: Perceptrons and the Theory of Brain Mechanisms)</p>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Cost Functions
+
+        <ul>
+        <li/> The Cost (Error) function returns a number representing how well a model performed. 
+        <li/> Perceptrons: Cost function = Number of Misclassified Samples
+        <li/> Other common cost functions are 
+          <ul>
+          <li/> Mean Squared Error: $  C_\text{MSE}  = \frac{1}{2N} \sum_{n \in \text{train}} (\mathbf{y}^n - \mathbf{t}^n) ^2 $ 
+          <li/> Cross-Entropy: $  C_{XENT} = - \frac1N \sum_{n \in \text{train}} \sum_k y_{k}^n  \log t_{k}^n $
+          </ul>
+        <li /> The objective is to minimize the cost function. 
+        <li /> Cost functions can be minimized using an optimization algorithm
+        </ul>
+        </textarea></section>
+
+
+        <section data-markdown><textarea data-template>
+        ## Optimization Algorithm Gradient Descent
+          
+          Example: Find $x$ that minimizes $C(x) = x^2$
+
+          <img src=images/quadratix_function.png class=small />
+
+          - Incremental change in $\Delta x$:
+          $$
+          \begin{eqnarray} 
+            \Delta C \approx \underbrace{\frac{\partial C}{\partial x}}_{\text{=Slope of }C(x)} \Delta x 
+          \end{eqnarray}
+          $$
+          With $\Delta x = - \eta \frac{\partial C}{\partial x}$, $\Delta C \approx - \eta \left( \frac{\partial C}{\partial x} \right)^2$
+
+          - Gradient Descent for finding the optimal $x$: 
+          $
+          \begin{eqnarray} 
+            x \leftarrow x - \eta \frac{\partial C}{\partial x}
+          \end{eqnarray} 
+          $
+        </textarea></section>
+
+
+
+        <section  data-markdown><textarea data-template>
+        ## Smooth Activation Function
+        <img src="common_img/mlp_gradient_notext.png" />
+
+        $$
+        \begin{eqnarray} 
+          \Delta \mbox{y} \approx \sum_j \frac{\partial \mbox{y}}{\partial w_j} \Delta w_j 
+        \end{eqnarray}
+        $$
+
+        <ul>
+          <li/> Derivative of output: $\frac{\partial \mbox{y}}{\partial w_j} = \frac{\partial f(\mathbf{a})}{\partial w_j} = \frac{\partial f'(\mathbf{a})}{\partial \mathbf{a}} \frac{\partial\mathbf{a}}{\partial w_j}$
+          <li/> The function $f'$ needs to be defined, i.e. $f$ must be continuous
+          <li/> Problem with Perceptrons: A tiny $\Delta w$ can induce a flip (large $\Delta$ y)
+        </ul>
+
+        </textarea></section>
+
+
+
+
+        <section data-markdown><textarea data-template>
+        ## Deriving the Perceptron Rule from Gradient Descent
+
+        - The Perceptron criterion is specifically chosen to avoid the discontinuity problem
+        $$  C_P(\mathbf{w}) = - \sum_{n\in \mathcal{M}} ( \mathbf{x}^n \mathbf{w}) t^n $$
+        - Gradient:  <!-- .element: class="fragment" -->
+        $$  \frac{\partial}{\partial w_i} C_P(\mathbf{w}) = - \sum_{n\in \mathcal{M}} \frac{\partial}{\partial w_i}( \mathbf{x}^n \mathbf{w}) t^n = - \sum_{n \in \mathcal{M}} x^n_i t^n $$
+        - Parameter Update: <!-- .element: class="fragment" -->
+        $$  \Delta \mathbf{w} = -\eta \frac{\partial}{\partial w_j} C_P(\mathbf{w}) =  \eta\sum_{n\in \mathcal{M}}  x^n_j t_j $$
+        - Note that biases can be considered as weights of an input that is always equal to 1 <!-- .element: class="fragment" -->
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## XOR Gate
+
+        - XOR is another important logic gate
+        <table>
+        <tbody><tr bgcolor="#ddeeff" align="center">
+        <td colspan="2"><b>INPUT</b></td>
+        <td><b>OUTPUT</b>
+        </td></tr>
+        <tr bgcolor="#ddeeff" align="center">
+        <td>A</td>
+        <td>B</td>
+        <td>A XOR B
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>0</td>
+        <td>0</td>
+        <td>0
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>0</td>
+        <td>1</td>
+        <td>1
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>1</td>
+        <td>0</td>
+        <td>1
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>1</td>
+        <td>1</td>
+        <td>0
+        </td></tr></tbody>
+        </table>
+
+        - The XOR gate cannot be implemented using a Perceptron 
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Linear separability                                                     
+          A perceptron is equivalent to a decision boundary.
+          - A straight line can separate blue vs. red
+          <img src=common_img/perceptron_rain_hyperplane.png class="small">
+          - There is no straight line that can separate blue vs. red <!-- .element: class="fragment" -->
+          <img src=common_img/perceptron_xor_hyperplane.png class="small">
+          <p class="pl">Problems where a straight line can separate two classes are called <em>Linearly Separable</em></p>
+        </textarea></section>
+
+
+
+
+
+        <section data-markdown ><textarea data-template>
+        # Machine Learning Basics
+        </textarea></section>
+
+        <section data-markdown ><textarea data-template>
+        ## Machine Learning Basics
+        - An ML algorithm is an algorithm that is able to learn from data 
+        - In ML, learning is our means of attaining the ability to perform some task. 
+        <!--  - Classification
+         - Regression
+         - Machine translation
+         - Anomaly Detection
+         - Denoising
+         - Density Estimation 
+         - Classiﬁcation with missing inputs -->
+         <img src="images/ml-loop.svg" class="stretch" />
+        - The key ingredients of an ML algorithm are: <!-- .element: class="fragment" -->
+         - Performance Measure (cost function)
+         - Data
+         - Model
+         - Optimization algorithm
+
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Performance Measure and Cost Functions
+        - To evaluate the abilities of a model, we need a quantitative measure of its performance.
+        - The performance measure is specific to the task, for example: <!-- .element: class="fragment" -->
+         - Accuracy for classification
+         - Likelihood for density estimation
+        - Data is often separated in training sets and testing sets. Performance is evaluated on the testing set <!-- .element: class="fragment" -->
+        - Designing a tractable criterion to estimate performance is a key aspect of ML <!-- .element: class="fragment" -->
+
+        </textarea>
+        </section>
+
+
+        <section data-markdown><textarea data-template>
+        ## Data                                                     
+        - ML algorithms studied in this course use a *dataset*, a collection of data points.
+        - ML algorithms can be broadly categorized as unsupervised or supervised
+         - Unsupervised learning algorithms use datasets containing many features, then learn useful properties of the structure of this dataset
+         - Supervised learning algorithms use datasets containing features, each of which is associated with a *label* or *target*
+         - Note that collecting a labeled dataset is much more costly than an unlabeled one <!-- .element: class="fragment" -->
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Features and representations
+
+        - Each piece of information included in the dataset is a *feature*
+        - Features can be raw (e.g. pixel intensity), processed (e.g. frequency power) or higher-level (e.g. "number of limbs" or "frequency power"), or all of these combined.
+        - The collection of features is a *representation*
+        - The performance of the ML algorithm is highly dependent on the representation
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ##  Example Labeled Dataset: Iris Dataset
+        <img src=images/Iris_dataset_scatterplot.svg class=stretch />
+
+        - 150 Data Samples
+        - 4 Features: petal length, petal width, sepal length, sepal width
+        - 3 Classes:  Steosa, Vesicolor, Virginica
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Design Matrix
+
+        - A common way of describing a dataset is with a design matrix, a matrix containing a different example in each row. 
+        - Each column of the matrix corresponds to a different feature. 
+        - For example the Iris dataset design matrix is $X \in \mathbb{R}^{150\times 4}$
+         - Each sample is a row vector of the design matrix: $X = [\mathbb{x}^1, \mathbb{x}^2, ..., \mathbb{x}^{150}]$, where each $x^n$ is a 4D vector
+         - Labels *Steosa, Vesicolor, Virginica* can be represented using numerical values 0, 1 and 2, respectively.
+         - This way labels can be described using a design matrix $Y \in \mathbb{N}^{150} = [y^1, y^2, ..., y^{150}]$, where $y^n$ is 0, 1 or 2
+
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Model
+
+        <ul>
+          <li /> A model (as studied in this class) is some parameterized function that transforms inputs to outputs.
+          <li /> Optionally, a model may be hierarchical and introduce several layers of representation 
+          <li class=fragment /> A neural network can be viewed as a composition of simple functions that takes parameters and inputs and produces outputs
+          <li class=fragment /> Deep learning generally requires the functions to be differentiable with respect to their parameters
+        </ul>
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Optimization Algorithms
+
+        <ul>
+          <li /> Our goal is to minimize the cost function with respect to some dataset
+          <li /> This is an optimization problem. Gradient Descent (GD) is one such approach. We will see several variants of GD.
+          <li class=fragment/> Almost all deep learning models are trained with a form of GD.
+            <ul><li />In Neural Networks, it is implemented using the <em>gradient backpropagation algorithm</em></ul>
+        </ul>
+        </textarea></section>
+
+
+        <section data-markdown><textarea data-template>
+          ## Example Model: BOLD signal in fMRI
+          
+          <p> Blood oxygen level dependent (BOLD) signal in functional magnetic resonance imaging (fMRI) data assume that the BOLD signal is predominantly linear in space and time. </p>
+          <img src=images/linear_fmri.jpeg style="height:200px"/>
+          $$
+          y^n = x^n \beta + \epsilon^n
+          $$
+
+          - $y_i$ is the $i$th BOLD signal measurement
+          - $x_i$ is a value determined by the experiment design (retinal illumination here)
+          - $\epsilon_i$ represents variation that is unexplained by the model
+          <p class="ref">(Hansen et al. 2004)</p>
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Refresher: Linear Regression                            
+
+        - Linear regression is an ML algorithm. 
+        - The goal of linear regression is to build a system that can take a vector $\mathbf{x} \in \mathbb{R}^M$ as input and predict the value a scalar $y \in \mathbb{R}$ as its output using a linear function  
+        ![](images/linear_regressin_example.png)
+        - It is a form of supervised learning, where $\mathbf{x}$ can be seen as features and $y$ as targets
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Refresher: Linear Regression                            
+        - Assuming that $\hat{y}$ is the predicted (one-dimensional) output, the linear regression model is defined as
+        $$
+        \hat{y} = \mathbf{x} \mathbf{w} = x_1 w_1 + x_2 w_2 + ... + x_M w_M
+        $$
+        where $\mathbf{w} \in \mathbb{R}^{M}$ is a vector of parameters (weights) to be "learned". 
+        - In linear regression, the performance measure is Mean Squared Error (MSE) evaluated on all samples $n$ of the test set <!-- .element: class="fragment"  -->
+        $$
+        MSE_{test} = \frac{1}{N_{test}} \sum_{n=1}^{N_{test}} (y^n-\hat{y}^n)^2
+        $$  <!-- .element: class="fragment"  -->
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Linear Regression Solution
+        - In matrix form:
+        $$
+        \hat{Y} = X_{test} \mathbf{w}, \quad MSE_{test} = \frac{1}{N_{test}} (Y_{test}-\hat{Y}_{test})^2
+        $$ 
+        - To make a ML algorithm, we could design an algorithm that trains the MSE on the training set
+        - But linear regression can be solved analytically by minimizing the MSE with respect to $\mathbf{w}$ 
+        $$
+        \mathbf{w} = (X_{train}^\top X_{train})^{-1} X_{train}^\top Y_{train}
+        $$ <!-- .element: class="fragment"  -->
+        - The model is then evaluated on $MSE_{test}$ <!-- .element: class="fragment"  -->
+
+        </textarea>
+        </section>
+
+
+        <section data-markdown><textarea data-template>
+        ## Linear Models for Classification
+        (Sometimes called Logistic Regression)
+
+        - The Iris dataset has 3 classes. We can represent the output as a 3 dimensional vector describing the probability of being class 0, 1, or 2. Class 0 is the vector $(1,0,0)$, class 1 is the vector $(0,1,0)$ and class three is the vector $(0,0,1)$
+        - Because probabilities are bounded between 0 and 1, we use a sigmoid function around $XW$, where $W \in \mathbb{R}^{4\times 3}$ 
+        $$
+        \hat{Y} = \sigma(XW), \quad MSE = \frac{1}{2N} (Y-\hat{Y})^2
+        $$ <!-- .element: class="fragment"  -->
+        <img src=images/logistic-curve.svg style="height:100px"/>
+        - Due to the non-linearity, we cannot use the same MSE solution as with linear regression. This can be solved using GD.  <!-- .element: class="fragment"  -->
+
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Why does ML work?
+
+        <blockquote>How can we affect performance on the test set when we can observe only the training set? </blockquote>
+
+        The feld of statistical learning theory provides some answers.
+
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Generalization error 
+
+        In ML, the challenge is to perform well on new, previously unseen inputs. The ability to perform well on new inputs is called *generalization*. 
+
+        - Therefore, although we train on the training set, we actually care about the test set, i.e. minimizing the value of 
+        $$
+        MSE_{test} = \frac{1}{N_{test}} (X_{test} \mathbf{w}-\mathbf{y}_{test})^2
+        $$
+
+        - A central assumption here is that the training samples are "representative" of the test samples, in other words we require the two sets to be independent and identically distributed (iid).
+        - The distribution generating the train and test sets is called the *data-generating distribution*
+        - It is crucial to never use the test samples during training.
+
+        </textarea>
+        </section>
+
+
+        <section data-markdown><textarea data-template>
+        ## Underfitting and Overfitting
+        ![](images/dlbook_fig__5_2_capacity.png)
+
+        - The factors determining the performance of an ML algorithm are
+         - Small training error (prevent underfitting)
+         - Small gap between training error and test error (prevent overfitting)
+        </textarea>
+        </section>
+         
+        <section data-markdown><textarea data-template>
+        ## Model Capacity
+        ![](images/dlbook_fig__5_3_capacity.png)
+        - Capacity changes the tendency of an ML algorithm to underfit/overfit 
+        - Roughly speaking, capacity is related to the complexity of the model (e.g. number of parameters)
+        - A model with larger capacity typically needs more training data to achieve good generalization error.
+        </textarea></section>
+
+  </section>
+
+

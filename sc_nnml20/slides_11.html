@@ -1,0 +1,483 @@
+<section>
+        <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
+            <h1> Lecture 11: Neural Networks for Natural Language Processing <br/> </h1>
+
+        </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Last Goody of the Quarter</h2>                                                     
+      <ul>
+        <li> Load and save models</li>
+      </ul>
+        <pre><code class="Python" data-trim data-noescape>
+        # Save network
+        torch.save(network.state_dict(), 'network.torch')
+        # Load network
+        network.load.state_dict(torch.load('network.pytorch'))
+        </code></pre>
+      </textarea></section>
+
+
+
+      <section data-markdown><textarea data-template>
+      <h2> Recurrent Neural Networks in Deep Learning </h2>
+      <img src="images/RNN-unrolled.png" />
+
+      <ul>
+        <li/> RNNs can be unfolded to form a deep neural network
+          <li/> The depth along the unfolded dimension is equal to the number of time steps.
+          <li/> An output can be produced at some or every time steps.
+          <li/> Depending on the output structure, different problems can be solved
+      </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Example Tasks</h2>                                                     
+      <img src="images/rnn_tasks.jpeg" />
+      <ul>
+        <li class="fragment"/> Today: Sequence-to-sequence models for text-like data
+      </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Word embeddings</h2>                                                     
+      <ul>
+        <li /> Words can be represented as an <i>integer</i>, one for each word in a vocabularny
+<pre>Let's represent this sequence 
+23 450 27 124</pre>
+        <li /> The vocabulary size is the number of words we can represent. Typical sizes are 30000
+        <li class=fragment /> A word is like one category among 30000 possibilities: it is very sparse and not practical to work in it.
+          <li class=fragment /> Word embeddings are mappings that map a word into a real vector space of of smaller dimension (typicaly $\mathbb{R}^{256}$). 
+<pre>Let's represent this sequence 
+0.3  1.3   0.1  1.3
+-0.5 2.3   5.5  -2.5
+...  ...   ...   ...
+1.6  0.0   -3.2  8.2
+</pre>
+        <li class=fragment /> Various techniques exist to learn this function, let's assume this mapping exists
+      </ul>
+      </textarea></section>
+
+
+
+      <section data-markdown><textarea data-template>
+      <h2> Sequence-to-sequence Task</h2>                                                     
+      <ul>
+        <li/> Translate English to German, for example:
+      </ul>
+      <img src="images/seq2seq_step0.svg" class=large />
+      <p class=ref><a href=https://arxiv.org/pdf/1406.1078v3.pdf> Cho et al. 2014 </a>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Sequence-to-sequence Task</h2>                                                     
+      <ul>
+        <li/> Embed words:
+      </ul>
+      <img src="images/seq2seq_step1.svg" class=large />
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Sequence-to-sequence Task</h2>                                                     
+      <ul>
+        <li/> Encode sequence, <i>e.g</i> using an LSTM:
+      </ul>
+      <img src="images/seq2seq_step2.svg" class=large />
+      <img src="images/lstm.svg" class=small />
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Sequence-to-sequence Task</h2>                                                     
+      <ul>
+        <li/> Decode sentences
+      </ul>
+      <img src="images/seq2seq.svg" class=large />
+      <img src="images/lstm.svg" class=small />
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Sequence-to-sequence Task</h2>                                                     
+      <ul>
+        <li/> There is a problem in this network
+      </ul>
+      <img src="images/seq2seq.svg" class=large />
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> The Vanishing Gradients Problem</h2>                            
+      <p>Remember the temporal credit assignment problem</p>
+      <ul>
+        <li /> Short-term dependencies
+        <img src="images/RNN-shorttermdepdencies.png" class=small />
+        <li /> Long-term dependencies
+        <img src="images/RNN-longtermdependencies.png" class=small />
+        <p class=ref>https://colah.github.io/posts/2015-08-Understanding-LSTMs/</p>
+      </ul>
+      </div>
+
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Sequence-to-sequence Task</h2>                                                     
+      <ul>
+        <li/> In addition to the vanishing gradient, the final encoded vector must encode the entire sentence
+        <li /> While this is OK for classification (and even desirable), it is not appropriate for generating sequences.
+      </ul>
+      <img src="images/seq2seq_bottleneck.svg" class=large />
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Sequence-to-Sequence Models with Attention</h2>
+      <p>Motivation:</p>                                                     
+      <ul>
+        <li /> Attention provides a solution to the bottleneck problem.
+        <li class=fragment /> At each step, the decoder can focus on the part of the input sentence that is most relevant.
+        <li class=fragment /> Allows the decoder can have direct access to all the hidden states of the encoder.
+        <li class=fragment /> Attention mechanisms are internal transformations with trainable parameters: <em> they can be learned jointly with the rest of the model </em> 
+      </ul>
+      </textarea></section>
+
+      <section data-markdown  data-transition="fade-in"><textarea data-template>
+      <h2> Sequence-to-sequence Task With Attention</h2>                                                     
+      <ul>
+        <li/> Generate 1st decoder hidden vector as before.
+      </ul>
+      <img src="images/attention_singh_00.svg" class=large />
+
+
+      </textarea></section>
+
+      <section data-markdown data-transition="fade-in"><textarea data-template>
+      <h2> Sequence-to-sequence Task</h2>                                                     
+      <ul>
+        <li/> Calculate a similarity score between the decoder hidden vector and all the encoder hidden vectors.
+      </ul>
+        <img src="images/attention_singh_01.svg" class=large />
+      <ul>
+        <li /> Encoder hidden states $\mathbf{h} = h_1, ..., h_N \in \mathbb{R}^h$
+      </ul>
+      </textarea></section>
+
+      <section data-markdown data-transition="fade-in"><textarea data-template>
+      <h2> Sequence-to-sequence Task</h2>                                                     
+      <ul>
+        <li/> Calculate a similarity score between the decoder hidden vector and all the encoder hidden vectors.
+      </ul>
+      <img src="images/attention_singh_02.svg" class=large />
+      <ul>
+        <li  /> Decoder states $s_t \in \mathbb{R}^h$
+        <li /> Similarity scores (alignment) $e_t = [s_t^\top h_1, ..., s_t^\top h_N] \in \mathbb{R}^N$
+      </ul>
+      </textarea></section>
+
+      <section data-markdown data-transition="fade-in"><textarea data-template>
+      <h2> Sequence-to-sequence Task</h2>                                                     
+      <ul>
+
+        <li/> Pass similarity score vector through a softmax to generate attention weights.
+      </ul>
+      <img src="images/attention_singh_03.svg" class=large />
+      <ul>
+        <li /> Attention weights $\alpha_t = softmax(e_t) \in \mathbb{R}^N$
+      </ul>
+      </textarea></section>
+
+      <section data-markdown data-transition="fade-in"><textarea data-template>
+      <h2> Sequence-to-sequence Task</h2>                                                     
+      <ul>
+        <li/> Use the attention weights to generate the context vector by taking a weighted sum of the encoder hidden vectors.
+      </ul>
+      <img src="images/attention_singh_04.svg" class=large />
+      <ul>
+      <li /> Context vector is a weighted sum of the encoder states $a_t = \alpha_t \cdot \mathbf{h} \in \mathbb{R}^h$
+      </ul>
+      </textarea></section>
+
+      <section data-markdown data-transition="fade-in"><textarea data-template>
+      <h2> Sequence-to-sequence Task</h2>                                                     
+      <ul>
+        <li />Concatenate the context vector to the decoder hidden vector and generate the first word.
+      </ul>
+      <img src="images/attention_singh_06.svg" class=large />
+
+      </textarea></section>
+
+      <section data-markdown data-transition="fade-in"><textarea data-template>
+      <h2> Sequence-to-sequence Task</h2>                                                     
+      <ul>
+        <li />And Proceed as before
+      </ul>
+      <img src="images/attention_singh_07.svg" class=large />
+      </textarea></section>
+
+      <section data-markdown data-transition="fade-in"><textarea data-template>
+      <h2> Sequence-to-sequence Task</h2>                                                     
+      <ul>
+        <li />Translation is complete when the END token is generated
+      <img src="images/attention_singh_08.svg" class=large />
+      </ul>
+      <ul>
+      <li /> Concatenate $a_t$ and decoder state $s_t$ together and train as in the non-attention model
+      <li class=fragment /> Note
+      </ul>
+      </textarea></section>
+
+
+      <section data-markdown data-transition="fade-in"><textarea data-template>
+      <h2> Attention: Interpretation </h2>                                                     
+      <ul>
+        <li /> Alignments found. Each pixel shows the weight $\alpha_{ij}$ of the ith source word for the jth target word
+      </ul>
+      <img src="images/alignment.png" class=large />
+      <ul>
+      <p class=ref>Bahdenau et al. 2015</p>
+      <li /> Concatenate $a_t$ and decoder state $s_t$ together and train as in the non-attention model
+      </ul>
+      </textarea></section>
+
+
+      <section data-markdown><textarea data-template>
+      <h2> Attention: A more general definition</h2>                                                     
+      <ul>
+        <li/>Definition: Given a set of <b>value vectors</b> (encoded state $h_t$) and a <b>query vector</b> (decoded state, $s_t$), attention is a technique to compute a <em>weighted</em> sum of the values, dependent on the query, using an attention function.
+          <li class=fragment > The weighted sum is a selective summary of the information contained in the values, where the query determines which values to focus on.</li>
+        <li  class=fragment > Different attention functions are used:
+          <ul>
+            <li /> Dot product attention: $e_{ij} = \mathbf{s}^\top_j \mathbf{h}_i \in \mathbb{R}$
+            <li /> Luong et al. 2015: $e_{ij} = \mathbf{s}^\top_j W \mathbf{h}_i \in \mathbb{R}$
+              <li /> Bahdenau et al. 2015: $e_{ij} = V^\top \tanh(W_s \mathbf{s}_j + W_h \mathbf{h}_i) \in \mathbb{R}$</li>
+      </ul>
+      </textarea></section>
+
+
+      <section data-markdown><textarea data-template>
+      <h2> Stacked Attention </h2>                                                     
+      <img src="images/stacked_attention.svg" class=large />
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Seq2Seq with Attention Tutorial (PyTorch) </h2>      
+      <img src="https://pytorch.org/tutorials/_images/seq2seq.png" class=large />
+
+      [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://drive.google.com/open?id=1tThcNewnf1ChK36luba1IeTgxXnLhxgL)
+
+      </textarea></section>
+
+
+
+      <section data-markdown><textarea data-template>
+      <h2> Word Embeddings </h2>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+        <h2> What is the meaning of a word? </h2>
+        <ul>
+          <li>Common linguistic way of thinking of meaning: signifier (symbol) $\leftrightarrow$ (idea or thing)</li>
+        </ul>
+
+        <p>How to represent meaning in a computer?</p>
+          <ul>
+            <li> Common solution: Use e.g. WordNet, a thesaurus containing lists of synonym setsand hypernyms(“is a” relationships) <img src="images/wordnet_example_good.png" > </li>
+          
+          </ul>
+          <p class=ref>CS224n, Stanford 2019<p>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Problems with Wordnet </h2>
+      <ul>
+        <li> Wordnet great as a resource but missing nuance</li>
+        <ul><li>e.g. “proficient” is listed as a synonym for “good”. This is only correct in some contexts.</li></ul>
+        
+      <li>Missing new meanings of words</li>
+        <ul><li>e.g., wicked, badass, nifty, wizard, genius, ninja, bombest</li>
+      <li>Difficult to keep up-to-date!</li></ul>
+      <li>Requires human labor to create and adapt</li>
+      <li>Can’t compute accurate word similarity</li>
+      </ul>
+      <p class=ref>CS224n, Stanford 2019<p>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Representing words as discrete symbols </h2>
+
+      <ul>
+      <li>In traditional NLP, we regard words as discrete symbols: hotel,conference,motel</li>
+
+      <li>Words can be represented by one-hotvectors:
+      <pre>motel = [0 0 0 0 0 0 0 0 0 0 1 0 0 0 0]
+      hotel = [0 0 0 0 0 0 0 1 0 0 0 0 0 0 0]</pre></li>
+
+      <li /> Vector dimension = number of words in vocabulary (e.g., 30,000)
+
+      <li /> Problem: these two vector are orthogonal (no similarity)
+      <li /> Solution: learn to encode similarity in the vectors themselves
+      </ul>
+
+      <p class=ref>CS224n, Stanford 2019<p>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Representing words by their context </h2>
+
+      <ul>
+      <li>A word’s meaning is givenby the words that frequently appear close-by</li>
+      <li>When a word wappears in a text, its contextis the set of words that appear nearby (within a fixed-size window).</li>
+      <li>Use the many contexts of wto build up a representation of w</li>
+      <img src="images/word_context.png" />
+
+      </ul>
+
+      <p class=ref>CS224n, Stanford 2019<p>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Word Embedding </h2>
+      <p>A word embedding is a distributed and dense representation for each word (generally a dense vector), chosen so that it is similar to vectors of words that appear in similar contexts</p>
+      <img src="images/banking_example.png" />
+      <p class=ref>CS224n, Stanford 2019<p>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Word2Vec </h2>
+      <p>Word2vec (Mikolov et al. 2013) was an early framework for learning word vectors</p>
+
+      <p>Idea:</p>
+      <ul>
+      <li/>We have a large corpus of text
+      <li/>Every word in a fixed vocabulary is represented by a vector
+      <li/>Go through each position in the text, which has a center word c and context (“outside”) words o
+      <li/>Use the similarity of the word vectors for c and o to calculate $P(o|c)$ (or vice versa)
+      <li/>Keep adjusting the word vectors to maximize this probability
+      <li/>This is called a skip-gram model
+      </ul>
+
+      <p class=ref>CS224n, Stanford 2019<p>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Word2Vec </h2>
+     <p> Word2vec (Mikolov et al. 2013) was an early framework for learning word vectors</p>
+      <img src="images/word2vec_example.png" />
+
+      <p class=ref>CS224n, Stanford 2019<p>
+      </textarea></section>
+
+
+      <section data-markdown><textarea data-template>
+      <h2> Word2Vec Architecture</h2>
+        <img src="images/word2vec_architecture.png"/>
+        <ul>
+          <li>The hidden layer weight matrix $W$ ($\in \mathbb{R}^{300\times 10000}$)becomes the word vector lookup table</li>
+          <li>Word embeddings are often (but not always) pre-trained</li>
+        </ul>
+      <p class=ref>http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/</p>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+          <h2>Word2vec Puts Similar Words Nearby In Space</h2>
+          <img src="images/word_embeddings_example.png">
+
+          <ul>
+            <li> A remarkable property of word embeddings $W$ is that analogies and differenced are preserved. For example 
+              <div class=row>
+              <div class=column>
+              $$W(woman)−W(man) \cong W(aunt)−W(uncle)$$
+              $$W(woman)−W(man) \cong W(queen)−W(king)$$
+              </div>
+              <div class=column>
+                <img src="images/Mikolov-GenderVecs.png" />
+              </div>
+              </div>
+              <p class=ref>Mikolov et al. 2013</p>
+            </li>
+      </textarea></section>
+              
+
+
+
+
+
+
+
+
+        <section data-markdown><textarea data-template>
+        <h2> Feed-Forward vs. Recurrent Networks</h2>                                                     
+        <ul>
+          <li/> Due to the difficulties of training recurrent neural networks, they are now falling out of favor. 
+            <ul>
+              <li/> Sequential computations are difficult to parallelize
+              <li/> No explicit modeling of long and short range dependencies (although Attention helps)
+            </ul>
+          <li/> This applies beyond NLP: State-of-the-art audio are also feed-forward networks (e.g. Wavenets)
+        </ul>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Feed-Forward Example For Time-Dependent Data: WaveNet</h2>
+        <ul>
+          <li/> Wavenet is a type of feedforward Convnet. It uses convolutions "à trous" to obtain large receptive fields
+        <div class=row>
+          <div class=column>
+            <img src="images/dilation.gif" />
+          </div>
+          <div class=column>
+            <img src="images/dilated_wavenet.png" />
+          </div>
+        </div>
+        <p class=ref> Van der Oord et al. 2016</p>
+          <li/> Learns generative model: 
+            $$
+            p(\mathbf{x}) = \prod_t p(x_t|x_{t-1}, ..., x_0)
+            $$
+            <li/> Wavenets are the state-of-the-art in audio generation. See <a href="https://deepmind.com/blog/article/wavenet-generative-model-raw-audio"> Google's blog </a>.
+        </ul>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Feed-Forward Example For Language Understanding: BERT </h2>
+        <ul>
+          <li/> BERT is a popular language modeling architecture. It uses a feedforward "transformers with "self-attention block" to learn relations across text
+        <div class=row>
+          <div class=column>
+            <img src="images/self-attention-block.png" class=medium />
+          </div>
+          <div class=column>
+            <img src="images/bert.png" class=medium />
+          </div>
+        </div>
+        <p class=ref> Vaswani et al. 2017, Devlin et al. 2017</p>
+          <li/> Trained to predict missing words: ("My dog is [MASK]", predict target "Hairy") and next sentence prediction
+        <div class=row>
+          <div class=column>
+        <blockquote>
+        the man went to [MASK] store [SEP] he bought a gallon [MASK] milk 
+
+        Label = IsNext
+        </blockquote>
+          </div>
+          <div class=column>
+        <blockquote>
+        the man [MASK] to the store [SEP] penguin [MASK] are flight ##less birds 
+
+        Label = NotNext
+        </blockquote>
+          </div>
+        </div>
+        </ul>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Further Reading </h2>
+        <ul>
+          <li> <a href=http://web.stanford.edu/class/cs224n/slides/cs224n-2020-lecture01-wordvecs1.pdf > Word2Vec </a> </li>
+          <li> <a href = http://nlp.seas.harvard.edu/2018/04/03/attention.html>Transformer</a></li>
+          <li><a href=http://web.stanford.edu/class/cs224n/slides/cs224n-2019-lecture14-transformers.pdf>Self-Attention</a></li>
+          <li><a href=http://web.stanford.edu/class/cs224n/slides/cs224n-2019-lecture08-nmt.pdf>Machine Translation</a></li>
+        </ul>
+        </textarea></section>
+
+
+
+
+</section>

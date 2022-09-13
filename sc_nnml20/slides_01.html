@@ -1,0 +1,395 @@
+<section>
+        <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
+            <h1> Lecture 1: Introduction<br/> </h1>
+        </textarea></section>
+
+        <section data-markdown data-vertical-align-top><textarea data-template>
+        ## Example: Keyword Detection
+        ![](images/wake-word.svg)
+        ![](images/some_soundwave.jpg)
+
+        - Every second, the microphone will collect roughly 44,000 samples. Each sample is a measurement of the amplitude of the sound wave  
+        - How to detect "Alexa" , "OK, Google" from the raw audio?
+        </textarea>
+        </section>
+
+        <section data-markdown data-vertical-align-top><textarea data-template>
+        ## Example: Face Detection
+        ![](images/face-detection-model.svg)
+        ![](images/data_image_matrix.png)
+        - Every image is a collection of numbers indicating the intensity of the color channel at a given pixel
+        - How to detect the presence of a face in a picture?
+        </textarea>
+        </section>
+
+        <section data-markdown data-vertical-align-top><textarea data-template>
+        ## Machine Learning Approach
+
+        ![](images/ml-loop.svg)  
+        <ul>
+          <li /> The goal of Machine Learning (ML) is to learn to solve a problem by extracting patterns from raw data 
+          <li class=fragment /> The performance of ML models depends heavily on the representation of the data
+          <li class=fragment /> Neural Networks are particularly efficient at learning these representations  
+        </ul>
+
+
+        </textarea></section>
+        
+        <section data-markdown data-vertical-align-top><textarea data-template>
+        ## History of Artificial Intelligence and Neural Networks
+        ![](images/image.C0KVC0.png)
+
+        <div class=fragment>
+          <p>Early AI shortcomings: </p>
+        <ul>
+          <li/> Symbol based processing lacks domain-specific knowledge
+          <li/> Combinatorial explosion: solutions to small problems did not scale to exponentially large problems.
+          <li/> Solving a problem in principle is very different than solving it practically
+        </ul>
+        </div>
+
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## AI's Moonshot
+        <img src=images/image.I6QZC0.png class="stretch"/>
+        </textarea>
+        </section>
+
+        <section>
+        <h2> Modern Artificial Intelligence and Machine Learning </h2>
+        <img src=images/image.X8Q2C0.png />
+        <img src=images/image.0IJ5C0.png />
+
+        <div class="fragment fade-in"><p class="pl">A lot of progress in machine learning can be attributed to better hardware and
+          more data</p></div>
+        </section>
+
+
+
+
+
+
+        <section>
+        <h2>Connectionism and Neural Networks</h2><ul>
+        <img src="images/connectionnism.png"/>
+        <li/>At the heart of deep learning, there is an <b>artificial neural network</b></li>
+        <li/>Artificial neural networks are a subset of machine learning approaches using networks of simple (neuron-like) units.</li>
+        </ul>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Machine Learning / Artificial Intelligence                                                     
+        <img src="images/venn_ml.png" class=stretch />
+
+        <blockquote>Deep learning is a kind of representation learning, which is in turn a kind of machine learning, which is used for many but not all approaches to AI" </blockquote>
+        <p class='ref'>(Goodfellow et al. 2016)</p>
+
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## How does deep learning differ from other AI systems?
+
+        <img src=images/ml_flowchart.png class="stretch"/>
+        <p class='ref'>(Goodfellow et al. 2016)</p>
+
+
+        </textarea>
+        </section>
+
+
+
+        <section data-markdown><textarea data-template>
+        ## Learning from Examples
+        - Machine learning typically uses (large) ***datasets*** to learn to
+         - Recognize patterns (Classification)
+         - Generate patterns (Generation)
+         - Take Actions (Reinforcement Learning)
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Visual Recognition 
+
+        - Visual Recognition (Image Classification) is the most common task performed by neural networks
+        ![](images/image_classification.png)
+        - Neural networks are trained using a dataset consisting of pairs of images and labels
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Example Dataset: MNIST and CIFAR
+        <div class="row">
+        <div class="column">
+          <p style="text-align:center" >MNIST</p>
+          <img src=images/mnist.png />
+          </div>
+          <div class="column">
+          <p style="text-align:center" >CIFAR10</p>
+          <img src=images/CIFAR-10.png />
+          </div>
+        </div>
+
+        - MNIST/CIFAR10 are considered as the "Hello, World" example of deep learning
+
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Example Dataset: ImageNet
+        ![](images/ImageNet.jpg)
+
+        - ImageNet: 1M images, 1000 classes, 469x387 pixels
+
+        <img src=images/ilsvrc.png class=small />
+
+        [![](http://image-net.org/index_files/logo.jpg)](http://www.image-net.org/)
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Example Dataset: CelebA                                                     
+        ![](images/celebA.png)
+        - CelebA: large-scale face attributes dataset with more than 200K celebrity images, each with 40 attribute annotations.
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Beyond Image Classification
+
+        Machine Learning and neural networks can be applied to a wide variety of problems, such as: 
+
+        - Image Segmentation and Object Detection
+        - Text or Audio Classification
+        - Regression
+        - Translation
+        - Anomaly Detection
+        - Generation (Density Estimation)
+        </textarea></section>
+
+
+        <section data-markdown><textarea data-template>
+        ## Other (Non-Visual) Datasets: 
+
+        - Speech Commands: 65,000 one-second long utterances of 30 short words, such as "Yes", "No", "Right", "Stop" 
+        - Penn Tree Bank (PTB) dataset: A text corpus that is parsed and annotated for natural language processing research <!-- .element: class="fragment" -->
+        - SMS Spam Collection Dataset: 5574 messages, tagged according being ham (legitimate) or spam <!-- .element: class="fragment" -->
+
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Convolutional Neural Networks: Image Classification
+        <img src="images/image_classification_imagenet.png" class="small"/>
+        <img src="images/lenet.png" class=stretch />
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## YOLO: Object Detection
+        <img src="images/yolo.png" class="stretch"/>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## U-Nets: Image Segmentation
+        <img src="images/u-net-segmentation.png" class="small"/>
+        <img src="images/u-net-architecture.png" class="stretch" />
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Neural Style Transfer
+        <img src=images/art_style_transfer.png class=stretch />
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Neural Style Transfer: Deep Empathy
+        <img src=images/deep_empathy_style_transfer.png class="stretch" />
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Image Generation Using Generative Adversarial Networks (GAN)
+        <img src=images/image_generation_gan.png class=stretch />
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Visual Attention: Captioning
+        <img src=images/captioning.png class=stretch />
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Deep Reinforcement Learning: Game of Go
+        <img src=images/game_playing.png class=stretch />
+        <p class=ref>Silver, et al. 2016</p>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Sequence Prediction
+
+        - Data can have a temporal structure
+        - Neural networks can be applied to learn and predict sequences
+        - Recurrent Neural Networks are one such example
+        <img src=images/sequence_prediction.png />
+        <p class=ref>C. Olah, 2015</p>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Robot Control: Solving Rubik's Cube with a Robot Hand
+        <div class=row>
+          <div class=column>
+          <img src="images/openai_rubiks_arch.png" style="height:600px;max-height:600px" />
+          </div>
+          <div class=column>
+        <iframe src="https://www.youtube.com/embed/kVmp0uGtShk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style='autoplay; max-height:500px;height:300px;width:100%;translate: scale(.1)'></iframe>
+        <p class=ref>OpenAI, 2019</p>
+          </div>
+        </div>
+
+
+        </textarea></section>
+
+
+
+
+        <section data-markdown><textarea data-template>
+        ## WaveNets: Voice and Music Generation
+        <img src=images/wavenet.png class=stretch />
+
+        - Parametric Text-To-Speech <audio controls="" src="https://storage.googleapis.com/deepmind-media/research/WaveNet/US%20English/parametric-1.wav"></audio>
+        - WaveNet <audio controls="" src="https://storage.googleapis.com/deepmind-media/research/WaveNet/US%20English/wavenet-1.wav"></audio>
+        <p class=ref>Van den Oord et al. 2016</p>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Attention Networks:  Machine Translation
+        <img src=images/translation.png />
+        <img src="images/attention_bahdenau.png" class=stretch />
+        <p class=ref>Bahdenau, et al. 2015</p>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## ML/NN as Models for Understanding the Brain   
+
+        <img src="images/comparing_ann_and_brain.png" class=stretch />
+        <p class=ref>Blake, et al. 2019</p>
+
+        - ML/NN attempts to solve tasks that are similar to that of animals.
+        - Researchers use ML/NN to make hypotheses in the brain.
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## The Explosion of Deep Learning
+        - Deep Learning has become the de facto solution for any representation learning problem
+        - Neural Information Processing Systems (NeurIPS) is the most prestigious conference in ML/AI
+         - 13'000 Participant in 2019
+         - In 2018, the main conference sold out after 12 minutes
+        <div class="row">
+        <div class="column">
+          <img src=images/neurips_stats.png />
+          </div>
+          <div class="column">
+            <img src=images/neurips2019_photo.JPG />
+          </div>
+        </div>
+
+        </textarea>
+        </section>
+
+
+
+        <section data-markdown><textarea data-template>
+        ## Books
+
+        <ul>
+          <li /> Machine Learning
+          <ul>
+            <li/> Ian Goodfellow, Yoshua Bengio, and Aaron Courville. Deep learning. MIT press, 2016.
+            <li/> C.M. Bishop. Pattern recognition and machine learning. Springer-Verlag New York, Inc. Secaucus, NJ, USA, 2006.
+          </ul>
+        <li class=fragment /> Biologically-Inspired Neural Networks
+          <ul>
+            <li/> Wulfram Gerstner, Werner M Kistler, Richard Naud, and Liam Paninski. Neuronal dynamics: From single neurons to networks and models of cognition. Cambridge University Press, 4.
+            <li/> E. O. Neftci, H. Mostafa, and F. Zenke. “Surrogate Gradient Learning in Spiking Neural Networks: Bringing the Power of Gradient-Based Optimization to Spiking Neural Networks”. IEEE Signal Processing Magazine 36.6 (Nov. 2019), pp. 51–63.
+          </ul>
+
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Course Overview (Weeks 1-3)
+
+        - Historical perspective and Course logistics (Today) 
+        - Pattern Recognition Basics (1 Week) <!-- .element: class="fragment"  -->
+          - Linear Regression, Classification (k-Nearest Neighbor, Perceptrons, Multilayer Perceptrons) 
+        - Machine Learning and Deep Learning (2 Weeks)  <!-- .element: class="fragment"  -->
+          - Software and computer setup
+          - Deep Neural Networks
+          - Loss functions       
+          - Optimization, Gradient Backpropagation                    
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Course Overview (Weeks 5-10)
+
+        - Applications (4 weeks) 
+         - Visual Recognition: ConvNets
+         - Pattern Generation: Autoencoders, Variational Autoencoders and Generative Adversarial Networks
+         - Sequence Learning: Recurrent Neural Networks, LSTM, WaveNet 
+         - Natural Language Processing: Embeddings, Transformer Networks
+        - From Artificial Neural Networks to Biological Neural Nets: (1 week) <!-- .element: class="fragment"  -->
+         - Spiking Neural Networks
+         - Surrogate Gradient Learning   
+        - Final Projects Presentation (Last week)   <!-- .element: class="fragment"  -->
+
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Software and Assignments
+
+        This is a hands-on class comprising programming assignments. All programming will be browser-based (no installation necessary): 
+
+        - Programming Language: Python 3
+        [![Python 3](https://communityblog.fedoraproject.org/wp-content/uploads/2015/11/Python-logo.png)](https://scipy-lectures.org/intro/)
+         - Expected basic scientific programming skills in Python, and familiarity with the concepts in sections 1.1 through 1.4 in the [scipy lecture notes](http://www.scipy-lectures.org/intro/index.html).
+        - Programming Environment: Jupyter + Google Colaboratory
+        [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/notebooks/welcome.ipynb)
+        - Deep Learning Environment: PyTorch 
+        [![PyTorch](https://upload.wikimedia.org/wikipedia/commons/9/96/Pytorch_logo.png)](http://pytorch.org)
+
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Final Project
+
+        - Topic in ML/NN:
+          - Apply a neural network to a new dataset, or
+          - Modify an algorithm on an existing dataset
+        - Week 10: 10+5 min presentation
+        - Finals Week: Project report, using NeurIPS conference paper template https://nips.cc/Conferences/2015/PaperInformation/StyleFiles
+        - Discuss topic with instructor before week 6
+        - Groups of two OK, but delineate contributions
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Final Project: Example Projects
+        - Visual / Sequence Recognition
+          - Terrain Classification from Videos
+          - Agent Localization using Video
+
+        - Computational Neuroscience
+          - Representation Similarity Analysis with Binary Neural Networks
+
+        - Classification/Regression on neuroimaging data
+          - Artifact detection using EEG
+          - Representation Similarity Analysis using Convnets and behavioral and neuroimaging data
+
+        <p class="pl">If possible, choose a topic that relates to your expertise and research</p>
+        </textarea>
+        </section>
+
+        </section>
+

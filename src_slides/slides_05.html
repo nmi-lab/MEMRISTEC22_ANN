@@ -1,0 +1,138 @@
+<section>
+
+<section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
+    <h1> Lecture 5:  Neural Networks For Vision <br/> </h1>
+
+</textarea></section>
+
+
+<section data-markdown><textarea data-template>
+## Regularization
+
+Regularization can improve generalization error. The simplest regularization technique is to add a term to the cost:
+$$
+C_{total} = C_{task} + \lambda R(W)
+$$
+
+For example:
+- L2 Regularization: $R(W) = \sum_{ij} W_{ij}^2$
+<pre><code class="Python" data-trim data-noescape>
+opt = torch.optim.Adam(net.parameters(), lr=1e-3, weight_decay=1e-3)
+</code></pre>
+- L1 Regularization: $R(W) = \sum_{ij} |W_{ij}|$
+<pre><code class="Python" data-trim data-noescape>
+l1_loss = 0
+for param in net.parameters():
+    l1_loss += torch.sum(torch.abs(param))
+loss_total = loss + l1_loss
+</code></pre>
+
+
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+## Regularization: Dropout
+
+In the forward pass, randomly set the output of some neurons to zero. The probability of dropping is generally 50%
+
+<img src="images/dropout.png" />
+
+<p class=ref>Srivastava et al, Dropout: A simple way to prevent neural networks from overfitting, JMLR 2014</p>
+
+- Dropout is used as a layer placed *after* activation functions
+<pre><code class="Python" data-trim data-noescape>
+torch.nn.DropOut(.5)
+</code></pre>
+
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+## Regularization: Dropout
+
+Why is this a good idea?
+
+<img src="images/dropout_why.png" />
+
+<p class=ref>Li et al. CS231n Stanford.</p>
+
+- Dropout can be shown to have a regularizing effect (e.g. improves generalization error)
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+## Regularization: Dropout at Test Time
+
+At test time, units are generally not dropped out, but activities are scaled by the probability. 
+
+- The dropout layer can do this automatically, but you must explicitely set the network into training and evaluation mode:
+
+<pre><code class="Python" data-trim data-noescape>
+net.train() #network is in training mode, dropout is applied
+... #do training
+net.eval() #network is in testing mode, dropout is disabled, activities are scaled
+</code></pre>
+
+- But not always! Keeping dropout during test time may allow some probabilistic inference, see <a href='https://www.nature.com/articles/s41467-022-30305-8'>Neural sampling machine with stochastic synapse allows brain-like learning and inference</a>
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+<h2> How to Use Dropout </h2>
+
+<ul>
+  <li /> Use dropout between fully hidden layers outputs or the output of a group of hiddens layers at a rate of .5 for effective regularization
+  <pre><code class="Python" data-trim data-noescape>
+  dropout = torch.nn.Dropout(0.5) 
+  dropout(x)
+  </code></pre>
+  <li /> In convolutional networks, use 2D dropout to drop the entire feature 
+  <pre><code class="Python" data-trim data-noescape>
+  dropout2d = torch.nn.Dropout2d(0.5) 
+  dropout2d(x)
+  </code></pre>
+  <li /> Some use low rate (.25) dropout at the input
+  <li /> Don't use dropout after the output layer
+  <li /> If still overfitting, use weight decay (L2 norm). If sparse activity is desired, use L1 norm
+</ul>
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+    <h2>Weight Initialization</h2>
+    <img src="images/Glorot_fig6.png" class="large" />
+    <p class=ref> Glorot and Bengio, 2010 </p>
+<ul>
+  <li /> The parameters in a neural netwok must be initialized to some value. Setting all values to zero can be problematic, and should be avoided.
+  <li /> Some randomness is necessary to "break symmetries". The magnitude of the randomness must be carefully adjusted so the activities do not saturate/die across the network.
+  <li class=fragment /> PyTorch layers generally use initialization that is dependent on the layer sizes. Generally it uses the "Xavier Glorot initialization" 
+    $W \sim U[-\frac{\sqrt{6}}{N^{in} + N^{out}}, \frac{\sqrt{6}}{N^{in} + N^{out}}]$
+</ul>
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+<h2> How to Use Weight Initialization </h2>
+<ul>
+  <li /> If using standard layers, use the default settings!
+  <li /> On custom layers, try using the Xavier (Glorot) method, if using Relu, try using $U[-\frac{\sqrt{2}}{N},\frac{\sqrt{2}}{N}]$
+    <p class=ref>https://arxiv.org/abs/1502.01852</p>
+    <li /> In some cases, data-driven initalization may help, see <a href="https://arxiv.org/abs/1511.06422"> All you need is a good init </a>
+</ul>
+</textarea></section>
+
+
+
+
+<section data-markdown><textarea data-template>
+    <h2>Deep Neural Networks for Vision: Convolutional Neural Networks</h2>
+    <ul>
+      <li />Nearly all state-of-the-art algorithms in AI/ML have a deep learning component, often in the form of structured neural networks known as Convolutional Neural Networks
+    </ul>
+
+    <img src="images/typical_cnn.png" class=stretch/>
+    <p class=ref>LeCun_etal98</p>
+  <p class=pl>CNNs can learn end-to-end and outperform humans on certain recognition tasks</p>
+  <p class=pl>CNNs are generally not the best application for memristive crossbar arrays (Why?)</p>
+</textarea></section>
+
+</section>
+
+
+
+

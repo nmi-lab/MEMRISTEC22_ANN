@@ -1,0 +1,34 @@
+      </div></div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/zoom/zoom.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/math/math.js"></script>
+		<script src="plugin/search/search.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+        width: 1280,
+        height: 720,
+        margin: 0.0,
+        navigationMode: 'grid',
+        transition: 'fade',
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+				plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.MathJax2],
+        math: {
+              mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+              config: 'TeX-AMS_HTML-full', 
+              TeX: { Macros: { Dp: ["\\frac{\\partial #1}{\\partial #2}",2] }}
+            },
+			});
+		</script>
+	</body>
+</html>

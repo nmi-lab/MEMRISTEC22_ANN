@@ -1,0 +1,111 @@
+<section>
+        <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
+            <h1> Lecture 8: Generative Adversarial Networks (GANs) <br/> </h1>
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Generative Adversarial Networks - a Brief intro </h2>
+        <ul>
+          <li/> A framework for estimating generative models via an adversarial process
+          <li  class=fragment /> Simultaneously train two models: 
+          <ul >
+            <li/>a generative model G that captures the data distribution
+            <li />a discriminative model D that estimates the probability that a sample came from the training data rather than G
+          </ul>
+        </ul>
+        <img src="images/GAN_overview.png" class=stretch />
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Generative Adversarial Networks - Examples </h2>
+
+        <img src="images/ProgressiveGAN_fig6.png" class=stretch />
+        <p class=ref><a href=https://arxiv.org/pdf/1710.10196.pdf>Karras et al. 2017</a></p>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Generative Adversarial Networks - intuition </h2>                                                     
+        <blockquote><p>The generative model can be thought of as analogous to a team of counterfeiters,​
+        trying to produce fake currency and use it without detection, while the discriminative model is analogous to the police, trying to detect the counterfeit currency. Competition in this game drives both teams to improve their methods until the counterfeits are indistiguishable from the genuine articles.</p>
+        <footer>—Goodfellow, <cite>Generative Adversarial Networks</cite></footer>
+        </blockquote>
+        <img src="images/GAN_overview.png" class=stretch />
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Generative Adversarial Networks - Some background </h2>
+        <ul>
+          <li/> Zero-sum game
+          <li/> Minimax
+          <ul>
+            <li/> You maximize your payoff
+            <li/> Your opponent tries to minimize your payoff
+          </ul>
+          <li/> Find Nash equilibrium
+          <ul>
+            <li/> Each player is assumed to know the equilibrium strategies of the other players, and no player has anything to gain by changing only their own strategy (source: Wikipedia)
+          </ul>
+        </ul>
+        </textarea></section>
+
+        <!--
+          Add general explanation about Generative Modeling itself and bridge the last lecture and GANs
+        -->
+
+        <section data-markdown><textarea data-template>
+        <h2> Generative Adversarial Networks - Cost and how it works </h2>
+        $$min_G max_D V(D,G) = \mathbb{E}_{x \sim p_{data}(x)} \left[ logD(x) \right] + \mathbb{E}_{z \sim p_z(z)} \left[ log(1 - D(G(z))) \right]$$
+        <ul>
+          <li/> $D$: the probability that a sample came from the training data rather than G
+          <li class=fragment /> First equation of the right hand side
+            <ul>
+              <li/> Sample data $x$ from real distribution
+              <li/> Since $x$ is sampled from real distribution, $D(x)$ should be close to 1
+            </ul>
+          <li  class=fragment /> Second equation of the right hand side
+            <ul>
+              <li/> Draw a noise $z$ from distribution $P_z$ and generate data $G(z)$
+              <li/> $G$ want to fool $D$: Want to make D(G(z)) close to 1
+            </ul>
+          <ul>
+            <li/> D wants to maximize (as close to 0 as possible) this quantity. G wants to minimize.
+          </ul>
+        </ul>
+        
+        [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1KRvrS_VhPuZPF4Jhglf24E77yfmatcgF?usp=sharing)
+        </textarea></section>
+
+        <section data-markdown data-vertical-align-top><textarea data-template>
+            <h2> Conditional GAN (cGAN) </h2>
+
+            <ul>
+              <li/> Although GANs showed successful image generation ability, there was no way to control or specify a certain type of image to generate
+              <li/> Conditional Generative Adversarial Nets was proposed a few months later
+            </ul>
+        <img src="images/ConditionalAdversarialNet.png" class=stretch />
+        </textarea></section>
+
+        <section data-markdown data-vertical-align-top><textarea data-template>
+          <h2> Implement cGAN </h2>
+
+          <ul>
+            <li/> The first cGAN simply concat additional information for conditioning
+        </ul>
+
+<pre><code class="Python" data-trim data-noescape>
+class Generator(nn.Module):
+  def __init__(self, batch, z_dim, out_shape, num_classes):
+    super(Generator, self).__init__()
+    self.batch_size = batch
+    self.z_dim = z_dim
+    self.out_shape = out_shape
+    self.num_classes = num_classes
+    self.fc1 = nn.Linear(z_dim+num_classes, 256) # simple concat
+</code></pre>
+
+        </textarea></section>
+
+
+
+</section>

@@ -1,0 +1,2668 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<xsl:stylesheet version = "1.0" xmlns:xsl = "http://www.w3.org/1999/XSL/Transform">
+<xsl:template match = "/"> 
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+    
+		<title>Lecture 1 - NNML 2020</title>
+		<meta name="description" content="NNML">
+		<meta name="author" content="Emre Neftci">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="nmilab.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+    <script src="jquery.js"></script> 
+    <script> 
+    $(function(){
+      $("#sdlides").load("slides_1_inner.html"); 
+    });
+    </script> 
+
+  </head>    
+
+	<body>
+		<div class="reveal">
+			<div class="slides">
+<section>
+        <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
+            <h1> Lecture 1: Introduction<br/> </h1>
+        </textarea></section>
+
+       <section data-markdown data-vertical-align-top><textarea data-template>
+        ## Machine Learning Approach
+
+        ![](images/ml-loop.svg)  
+        <ul>
+          <li /> The goal of Machine Learning (ML) is to learn to solve a problem by extracting patterns from raw data 
+          <li class=fragment /> The performance of ML models depends heavily on the representation of the data
+          <li class=fragment /> Neural Networks are particularly efficient at learning these representations  
+        </ul>
+
+
+        </textarea></section>
+        
+        <section data-markdown data-vertical-align-top><textarea data-template>
+        ## History of Artificial Intelligence and Neural Networks
+        ![](images/image.C0KVC0.png)
+
+        <div class=fragment>
+          <p>Early AI shortcomings: </p>
+        <ul>
+          <li/> Symbol based processing lacks domain-specific knowledge
+          <li/> Combinatorial explosion: solutions to small problems did not scale to exponentially large problems.
+          <li/> Solving a problem in principle is very different than solving it practically
+        </ul>
+        </div>
+
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## AI's Moonshot
+        <img src=images/image.I6QZC0.png class="stretch"/>
+        </textarea>
+        </section>
+
+        <section>
+        <h2> Modern Artificial Intelligence and Machine Learning </h2>
+        <img src=images/image.X8Q2C0.png />
+        <img src=images/image.0IJ5C0.png />
+
+        <div class="fragment fade-in"><p class="pl">A lot of progress in machine learning can be attributed to better hardware and
+          more data</p></div>
+        </section>
+
+        <section>
+        <h2>Connectionism and Neural Networks</h2><ul>
+        <img src="images/connectionnism.png"/>
+        <li/>At the heart of deep learning, there is an <b>artificial neural network</b></li>
+        <li/>Artificial neural networks are a subset of machine learning approaches using networks of simple (neuron-like) units.</li>
+        </ul>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Machine Learning / Artificial Intelligence                                                     
+        <img src="images/venn_ml.png" class=stretch />
+
+        <blockquote>Deep learning is a kind of representation learning, which is in turn a kind of machine learning, which is used for many but not all approaches to AI" </blockquote>
+        <p class='ref'>(Goodfellow et al. 2016)</p>
+
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## How does deep learning differ from other AI systems?
+
+        <img src=images/ml_flowchart.png class="stretch"/>
+        <p class='ref'>(Goodfellow et al. 2016)</p>
+        </textarea>
+        </section>
+
+        </section>
+
+<script>
+  //function for evaluation
+  function solve()
+  {
+          let w0 = parseFloat(document.getElementById("w0").value)-50
+          let w1 = parseFloat(document.getElementById("w1").value)-50
+          let b =  parseFloat(document.getElementById("b").value) -50
+          document.getElementById("a11").innerHTML = (eval(w0)*1+eval(w1)*1+eval(b)).toFixed(2)
+          document.getElementById("a10").innerHTML = (eval(w0)*1+eval(w1)*0+eval(b)).toFixed(2)
+          document.getElementById("a01").innerHTML = (eval(w0)*0+eval(w1)*1+eval(b)).toFixed(2)
+          document.getElementById("a00").innerHTML = (eval(w0)*0+eval(w1)*0+eval(b)).toFixed(2)
+          document.getElementById("y11").innerHTML = (((eval(w0)*1+eval(w1)*1+eval(b))>0)*1)
+          document.getElementById("y10").innerHTML = (((eval(w0)*1+eval(w1)*0+eval(b))>0)*1)
+          document.getElementById("y01").innerHTML = (((eval(w0)*0+eval(w1)*1+eval(b))>0)*1)
+          document.getElementById("y00").innerHTML = (((eval(w0)*0+eval(w1)*0+eval(b))>0)*1)
+          document.getElementById('w0val').innerHTML=eval(w0).toFixed(2); 
+          document.getElementById('w1val').innerHTML=eval(w1).toFixed(2); 
+          document.getElementById('bval').innerHTML =eval(b).toFixed(2); 
+        }
+
+</script>
+
+
+<section>
+        <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
+            <h1> Lecture 2: Pattern Recognition and Machine Learning<br/> </h1>
+        </textarea></section>
+
+        <section>
+        <h2>The First Artificial Neuron</h2><ul>
+        <li><p>In 1943, McCulloch and Walter Pitts propose the first artificial neuron, the Linear Threshold Unit. </p>
+        <img src="images/artificial_neuron.png" class="large"/>
+        </li>
+        <li>In the Linear Threshold Unit, $f$ is a step function: $f(x) = 1$ if $x&gt;0$
+        </li>
+        <li>"Modern" artificial neurons are similar, but $f$ is typically a sigmoid or rectified linear function</li>
+        </ul>
+        </section>
+
+        <section>
+        <h2>Basic Mathematical Model of the Artificial Neuron</h2>
+        <div class=row>
+        <div class=column>
+        <img src="images/artificial_neuron.png"/>
+        </div>
+        <div class=column>
+        <ul>
+        <li>$x_i$  is the state of the input neurons</li>
+        <li>$w_i$ is the weight of the connection</li>
+        <li>$b$ is a bias</li>
+        <li>The total input to the neuron is: $ a = \sum_i w_i x_i +b $</li>
+        <li>The output of the neuron is: $ y = f(a) $</li>
+        <li>where $f$ is the activation function</li>
+        </ul>
+        </div>
+        </div>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        <h2>The Perceptron</h2>
+        <img src="images/rosenblatt57_title.png" />
+        <blockquote>
+        <img src="images/rosenblatt57_quote1.png" class=small />
+        </blockquote>
+        <ul>
+          <li/> Further reading: <a href="https://news.cornell.edu/stories/2019/09/professors-perceptron-paved-way-ai-60-years-too-soon">Professor’s perceptron paved the way for AI – 60 years too soon </a>
+        </ul>
+        </textarea></section>
+
+
+        <section>
+        <h2>The Perceptron</h2>
+        <ul>
+          <li> The Perceptron is a special case of the artificial neuron where:
+        $$
+        \begin{eqnarray}
+        \mbox{y} & = & \begin{cases}
+              -1 & \mbox{if } a = \sum_j w_j x_j + b \leq 0  \\\\
+              1 & \mbox{if } a = \sum_j w_j x_j + b > 0
+              \end{cases}
+        \end{eqnarray}
+        $$</li>
+        <img src=images/single_perceptron.svg />
+        <li> Three inputs $x_1$, $x_2$, $x_3$ with weights $w_1$, $w_2$, $w_3$, and bias $b$</li>
+        </ul>
+        </section>
+
+        <section>
+          <h2> Perceptron Example</h2>
+          <ul>
+            <li/> Like McCulloch and Pitts neurons, Perceptrons can be hand-constructed to solve simple logical tasks
+            <li/> Let's build a "sprinkler" that activates only if it is dry and sunny.
+            <li/> Let's assume we have a dryness detector $x_0$ and a light detector $x_1$ (two inputs)
+            <li/> Find $w_0$, $w_1$ and $b$ such that output $y$ matches target $t$
+          </ul>
+
+
+        
+
+        
+        <div class=row>
+        <div class=column>
+        <img src="images/twonode_perceptron_template.svg"  style="height:200px"    />
+        </div>
+        <div class=column>
+          <table>
+          <thead>
+          <tr>
+          <th>Sunny</th>
+          <th>Dry</th>
+          <th>$a$</th>
+          <th>$y$</th>
+          <th>$t$</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+          <td>1 (yes)</td>
+          <td>1 (yes)</td>
+          <td> <div id="a11"></div></td>
+          <td> <div id="y11"></div></td>
+
+          <td>1</td>
+          </tr>
+          <tr>
+          <td>1 (yes)</td>
+          <td>0 (no)</td>
+          <td> <div id="a10"></div></td>
+          <td> <div id="y10"></div></td>
+
+          <td>0</td>
+          </tr>
+          <tr>
+          <td>0 (no)</td>
+          <td>1 (yes)</td>
+          <td> <div id="a01"></div></td>
+          <td> <div id="y01"></div></td>
+          <td>0</td>
+          </tr>
+          <tr>
+          <td>0 (no)</td>
+          <td>0 (no)</td>
+          <td> <div id="a00"/></div></td>
+          <td> <div id="y00"/></div></td>
+          <td>0</td>
+          </tr>
+          </tbody>
+          </table>
+        </div>
+        </div>
+
+            <table border="1">
+              <tr>
+                <td>$w_0 =$ <span id=w0val>0</span></td>
+                <td>$w_1 =$ <span id=w1val>0</span></td>
+                <td>$b =$   <span id=bval>0</span></td>
+              </tr>
+              <tr>
+                <td colspan="1"><input type="range" min="-50." max="100." step=0.01  onchange="solve();" id="w0"  /></td>
+                <td colspan="1"><input type="range" min="-50." max="100." step=0.01  onchange="solve();" id="w1"  /></td>
+                <td colspan="1"><input type="range" min="-50." max="100." step=0.01  onchange="solve();" id="b"  /></td>
+              </tr>
+            </table>
+
+
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Logic Gates 
+
+        - Logic gates are (idealized) devices that perform one logical operation
+        - Common operations are AND, Not, and OR and can perform Boolean logic
+        - Using only Not AND (NAND) gates, any boolean function can be built. <!-- .element: class="fragment" -->
+        <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/NAND_ANSI_Labelled.svg/240px-NAND_ANSI_Labelled.svg.png />
+        <table>
+        <tr bgcolor="#ddeeff" align="center">
+        <td colspan="2"><b>INPUT</b></td>
+        <td><b>OUTPUT</b>
+        </td></tr>
+        <tr bgcolor="#ddeeff" align="center">
+        <td>A</td>
+        <td>B</td>
+        <td>A NAND B
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>0</td>
+        <td>0</td>
+        <td>1
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>0</td>
+        <td>1</td>
+        <td>1
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>1</td>
+        <td>0</td>
+        <td>1
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>1</td>
+        <td>1</td>
+        <td>0
+        </td></tr>
+        </table>
+        - Thus: any Boolean function can be built out of Perceptrons: Big deal! <!-- .element: class="fragment" -->
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## The Perceptron Learning Algorithm
+        - Given inputs and targets, the Perceptron Algorithm can automatically learn the parameters so the output matches the target
+        - Number of Misclassified Samples as a Target for Learning
+          ![](pli/machine_learning_procedure.png)
+        <p class=pl>Perceptron weights are iteratively modified until number of misclassified samples is minimized</p>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## The Perceptron Criterion
+        - If a pattern $\mathbf{x}^n$ verifies $\mathbf{y}^n t^n>0$, then it is correctly classified.
+        - where $\mathbf{y}^n = \mathbf{x}^n \mathbf{w} = \sum_j x_j^n w_j$
+        - This can be used as a cost function
+          $$
+          C_P(\mathbf{w}) = - \sum_{n\in \mathcal{M}} (\mathbf{x}^n \mathbf{w} ) t^n
+          $$
+          where $\mathcal{M}$ is the set of misclassified samples.
+
+        - This cost function is also called the *Perceptron Criterion*
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## The Perceptron Learning Rule
+        To minimize error, repeat for every misclassified data sample:
+
+        $$
+          w_i  \leftarrow  w_i + \eta x_{i}^n t^n  
+        $$
+
+        $$
+          b  \leftarrow  b + \eta t^n
+        $$
+
+        where $\eta$ is a "learning rate".
+        - If $y^n = t^n$ no change
+        - If $y^n = 1$ and $t^n = -1$: add inputs  $x_{i}^n$ to weights
+        - If $y^n = -1$ and $t^n = 1$: subtract inputs $x_{i}^n$ from weights
+
+        - Let's implement it: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://drive.google.com/open?id=1XOkJh_bB7K1oiKLTKJrj5iaRjYUSNy2w)
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## The Perceptron Learning Rule
+        <img src=images/perceptron_convergence.png class=large />
+        <p class=ref>(Bishop, 2006 Pattern Recognition and Machine Learning)</p>
+
+        - Perceptron convergence theorem: if the training dataset is linearly separable, then the perceptron learning rule is guaranteed to find an exact solution
+        <p class=ref>(Rosenblatt, 1962, Principles of Neurodynamics: Perceptrons and the Theory of Brain Mechanisms)</p>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Cost Functions
+
+        <ul>
+        <li/> The Cost (Error) function returns a number representing how well a model performed. 
+        <li/> Perceptrons: Cost function = Number of Misclassified Samples
+        <li/> Other common cost functions are 
+          <ul>
+          <li/> Mean Squared Error: $  C_\text{MSE}  = \frac{1}{2N} \sum_{n \in \text{train}} (\mathbf{y}^n - \mathbf{t}^n) ^2 $ 
+          <li/> Cross-Entropy: $  C_{XENT} = - \frac1N \sum_{n \in \text{train}} \sum_k y_{k}^n  \log t_{k}^n $
+          </ul>
+        <li /> The objective is to minimize the cost function. 
+        <li /> Cost functions can be minimized using an optimization algorithm
+        </ul>
+        </textarea></section>
+
+
+        <section data-markdown><textarea data-template>
+        ## Optimization Algorithm Gradient Descent
+          
+          Example: Find $x$ that minimizes $C(x) = x^2$
+
+          <img src=images/quadratix_function.png class=small />
+
+          - Incremental change in $\Delta x$:
+          $$
+          \begin{eqnarray} 
+            \Delta C \approx \underbrace{\frac{\partial C}{\partial x}}_{\text{=Slope of }C(x)} \Delta x 
+          \end{eqnarray}
+          $$
+          With $\Delta x = - \eta \frac{\partial C}{\partial x}$, $\Delta C \approx - \eta \left( \frac{\partial C}{\partial x} \right)^2$
+
+          - Gradient Descent for finding the optimal $x$: 
+          $
+          \begin{eqnarray} 
+            x \leftarrow x - \eta \frac{\partial C}{\partial x}
+          \end{eqnarray} 
+          $
+        </textarea></section>
+
+
+
+        <section  data-markdown><textarea data-template>
+        ## Smooth Activation Function
+        <img src="images/mlp_gradient_notext.png" />
+
+        $$
+        \begin{eqnarray} 
+          \Delta \mbox{y} \approx \sum_j \frac{\partial \mbox{y}}{\partial w_j} \Delta w_j 
+        \end{eqnarray}
+        $$
+
+        <ul>
+          <li/> Derivative of output: $\frac{\partial \mbox{y}}{\partial w_j} = \frac{\partial f(\mathbf{a})}{\partial w_j} = \frac{\partial f'(\mathbf{a})}{\partial \mathbf{a}} \frac{\partial\mathbf{a}}{\partial w_j}$
+          <li/> The function $f'$ needs to be defined, i.e. $f$ must be continuous
+          <li/> Problem with Perceptrons: A tiny $\Delta w$ can induce a flip (large $\Delta$ y)
+        </ul>
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Deriving the Perceptron Rule from Gradient Descent
+
+        - The Perceptron criterion is specifically chosen to avoid the discontinuity problem
+        $$  C_P(\mathbf{w}) = - \sum_{n\in \mathcal{M}} ( \mathbf{x}^n \mathbf{w}) t^n $$
+        - Gradient:  <!-- .element: class="fragment" -->
+        $$  \frac{\partial}{\partial w_i} C_P(\mathbf{w}) = - \sum_{n\in \mathcal{M}} \frac{\partial}{\partial w_i}( \mathbf{x}^n \mathbf{w}) t^n = - \sum_{n \in \mathcal{M}} x^n_i t^n $$
+        - Parameter Update: <!-- .element: class="fragment" -->
+        $$  \Delta \mathbf{w} = -\eta \frac{\partial}{\partial w_j} C_P(\mathbf{w}) =  \eta\sum_{n\in \mathcal{M}}  x^n_j t_j $$
+        - Note that biases can be considered as weights of an input that is always equal to 1 <!-- .element: class="fragment" -->
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## XOR Gate
+
+        - XOR is another important logic gate
+        <table>
+        <tbody><tr bgcolor="#ddeeff" align="center">
+        <td colspan="2"><b>INPUT</b></td>
+        <td><b>OUTPUT</b>
+        </td></tr>
+        <tr bgcolor="#ddeeff" align="center">
+        <td>A</td>
+        <td>B</td>
+        <td>A XOR B
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>0</td>
+        <td>0</td>
+        <td>0
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>0</td>
+        <td>1</td>
+        <td>1
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>1</td>
+        <td>0</td>
+        <td>1
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>1</td>
+        <td>1</td>
+        <td>0
+        </td></tr></tbody>
+        </table>
+
+        - The XOR gate cannot be implemented using a Perceptron 
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Linear separability                                                     
+          A perceptron is equivalent to a decision boundary.
+          - A straight line can separate blue vs. red
+          <img src=images/perceptron_rain_hyperplane.png class="small">
+          - There is no straight line that can separate blue vs. red <!-- .element: class="fragment" -->
+          <img src=images/perceptron_xor_hyperplane.png class="small">
+          <p class="pl">Problems where a straight line can separate two classes are called <em>Linearly Separable</em></p>
+        </textarea></section>
+
+        <section data-markdown ><textarea data-template>
+        ## Machine Learning Basics
+        - An ML algorithm is an algorithm that is able to learn from data 
+        - In ML, learning is our means of attaining the ability to perform some task. 
+
+         <img src="images/ml-loop.svg" class="stretch" />
+
+        - The key ingredients of an ML algorithm are: <!-- .element: class="fragment" -->
+          - Performance Measure (cost function)
+          - Data
+          - Model
+          - Optimization algorithm
+
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Features and representations
+
+        - Each piece of information included in the dataset is a *feature*
+        - Features can be raw (e.g. pixel intensity), processed (e.g. frequency power) or higher-level (e.g. "number of limbs" or "frequency power"), or all of these combined.
+        - The collection of features is a *representation*
+        - The performance of the ML algorithm is highly dependent on the representation
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ##  Example Labeled Dataset: Iris Dataset
+        <img src=images/Iris_dataset_scatterplot.svg class=stretch />
+
+        - 150 Data Samples
+        - 4 Features: petal length, petal width, sepal length, sepal width
+        - 3 Classes:  Steosa, Vesicolor, Virginica
+        </textarea>
+        </section>
+
+  </section>
+
+
+<section>
+
+        <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
+            <h1> Lecture 3: Artificial Neural Networks<br/> </h1>
+        </textarea></section>
+        <section data-markdown><textarea data-template>
+        ## Linear separability (Reminder)                   
+          A perceptron is equivalent to a decision boundary.
+          - A straight line can separate blue vs. red
+          <img src=images/perceptron_rain_hyperplane.png class="small">
+          - There is no straight line that can separate blue vs. red <!-- .element: class="fragment" -->
+          <img src=images/perceptron_xor_hyperplane.png class="small">
+          <p class="pl">Problems where a straight line can separate two classes are called <em>Linearly Separable</em></p>
+        </textarea></section>
+
+
+        <section data-markdown><textarea data-template>
+        ## Limitations of Perceptrons
+
+        The limitation of a Perceptron to linearly separable problems caused its downfall:
+        <img src="images/perceptrons_minsky_papert.png" class=stretch />
+        <p class=ref> Minsky and Papert, 1969 </p>
+
+        </textarea></section>
+
+
+
+        <section data-markdown><textarea data-template>
+        ## XOR can be solved with an intermediate perceptron
+
+
+        <div class=row>
+          <div class=column>
+          <img src="images/perceptron_xor_hyperplane.svg" class="large" />
+          </div>
+          <div class=column>
+          <img src="images/perceptron_xor_hyperplane_extended.svg" class=large />
+          </div>
+        </div>
+
+        - We need an intermediate unit that is on only when $x_1$ and $x_2$ are both on.
+        </textarea></section>
+
+
+
+        <section data-markdown><textarea data-template>
+        ## A Neural Network Solving XOR
+
+        - Find the parameters in the following network:
+        <div class=row>
+        <div class=column>
+        <img src="images/xor_template.svg" class="stretch" />
+        </div>
+        <div class=column>
+        <table>
+        <tbody><tr bgcolor="#ddeeff" align="center">
+        <td colspan="2"><b>INPUT</b></td>
+        <td><b>Y</b>
+        </td></tr>
+        <tr bgcolor="#ddeeff" align="center">
+        <td>A</td>
+        <td>B</td>
+        <td>A XOR B
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>0</td>
+        <td>0</td>
+        <td>0
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>0</td>
+        <td>1</td>
+        <td>1
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>1</td>
+        <td>0</td>
+        <td>1
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>1</td>
+        <td>1</td>
+        <td>0
+        </td></tr></tbody>
+        </table>
+        </div>
+        
+        Exercise: Try finding the weights by hand
+
+        <div class=fragment><p class=pl> The strategy of automatically extending networks with intermediate units is the main idea of representation learning </p></div>
+
+        </textarea></section>
+
+
+
+        <section data-markdown><textarea data-template>
+        ## Neural Network
+
+        - We can connect Perceptrons together to form a multi-layered network.
+        <img src=images/mlp.png />
+        <ul>
+          <li/> If a neuron produces an input, it is called an <em>input neuron</em>
+          <li/> If a neuron's output is used as a prediction, we will call it an <em>output neuron</em>
+          <li/> If a neuron is neither and input or an output neuron, it is a <em>hidden neuron</em>
+        </ul>
+        - Increased level of abstraction from layer to layer
+        - Also called Multilayer Perceptrons (although units are not always Perceptrons)
+
+        </textarea></section>
+
+
+        <section data-markdown><textarea data-template>
+        ## Multiple Linear Layers are Equivalent to one Single Layer
+
+        <ul>
+          <li/> A linear transformation is of the type:
+            $$
+            \mathbf{y} = W \mathbf{x}  
+            $$
+          <li/> Linear networks are mathematically tractable, so why not build multilayer linear networks?
+            $$
+            \mathbf{y}^{(2)} = {W}^{(2)} ({W}^{(1)} \mathbf{x}^{(1)} ) 
+            $$
+          <li class=fragment /> Such a network is equivalent to a wide single layer network
+            $$
+            \begin{split}
+            \mathbf{y}^{(2)} &= V \mathbf{x}^{(1)}  \\
+            V &= W^{(2)} W^{(1)} 
+            \end{split}
+            $$
+          <li class=fragment /> Non-linearities preserve the composition of layers, and thus have more representational power
+            $$
+            \begin{split}
+            \mathbf{y}^{(2)} &= \sigma(W^{(2)}\sigma(W^{(1)}\mathbf{x}^{(1)} ) ) 
+            \end{split}
+            $$
+
+        </ul>
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Deep neural networks
+          - Before:
+          <blockquote>
+            How many hidden layers and how many units per layer do we need? The answer is at most two
+          </blockquote>
+          <p class=ref> Hertz, <em>et al.</em> 1991</p>
+
+          - Now:
+          <blockquote>
+            <img src="images/gist_Szegedy_etal14_90deg.png" style="height:100px" />
+          </blockquote>
+            <p class=ref> Szegedy <em>et al.</em> 2014 </p>
+
+            <p class=pl> Deeper networks tend to have more representational power </p>
+
+        </textarea></section>
+
+
+
+
+
+
+
+        <section data-markdown><textarea data-template>
+        ## Credit Assignment Problem
+
+        Multilayer (deep) networks are more powerful: how can one train multilayer networks?
+        <img src=images/mlp_gradient.png />
+
+        Two problems:
+        - Perceptrons' discontinuity 
+        - Credit assignment: which hidden unit weight should we modify to reach a target output? 
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Continuous Output Neurons (Sigmoid Neuron)
+
+        Neurons in deep neural networks are similar to Perceptrons, but  with a continuous activation function
+
+        <div class="row">
+          <div class="column">
+              Threshold unit (Perceptron)
+              $$
+              y = \Theta(a) = \begin{cases} -1 & \mbox{if } a \leq 0 \\  1 & \mbox{if } a > 0 \end{cases}
+              $$
+
+          </div>
+          <div class="column">
+              Sigmoid unit
+              $$
+              y = \sigma(\text{a}) = \frac{1}{1+e^{-a}}
+              $$
+          </div>
+        </div>
+
+        <div class="row">
+        <div class="column">
+              <img src="images/step_function.png" class=small />
+          </div>
+          <div class="column">
+              <img src="images/sigmoid_function.png" class=small />
+          </div>
+        </div>
+
+          $$
+            a = \sum_j w_j x_j + b
+          $$
+
+        - A function is continuous if the curve can be drawn "without lifting the pen"
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Single Layer Network with Sigmoid Units
+
+        Weight matrix: $W^{(1)} \in \mathbb{R}^{N\times M}$ (meaning $M$ inputs, $N$ outputs)
+         
+        `$$
+        \begin{eqnarray}
+        y^{(1)}_i &=& \sigma(\underbrace{\sum_j W^{(1)}_{ij} x_j}_{a_i^{(1)}}) \\
+        \end{eqnarray}
+        $$`
+
+        - MSE cost function, assuming a single data sample $\mathbf{x}\in\mathbb{R}^{M} $, and target vector $\mathbf{t}\in\mathbb{R}^{N}$
+
+        `$$
+        C_{MSE} = \frac{1}{2} \sum_i(y^{(1)}_i - t_i)^2
+        $$`
+
+        - Gradient w.r.t. $W^{(1)}$ (in scalar form):
+        `$$
+        \frac{\partial }{\partial W^{(1)}_{ij}} C_\text{MSE}=  \frac1N (y^{(1)}_i - t_i) \sigma'(a^{(1)}_i) x_j
+        $$`
+
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Single Layer Network with Sigmoid Units
+
+        <p> Neural networks operations are generally written in Matrix form</p>
+
+        <div class=row>
+        <div class=column>
+          <center>Scalar Form (one sample)</center>
+        $$
+        \begin{split}
+        a_i^{(1)} &= \sum_j W^{(1)}_{ij} x_j, \quad y^{(1)}_i = \sigma(a_i^{(1)}) \\
+        \delta_i^{(1)} &= \frac{1}{N^{s}} (y^{(1)}_i - t_i) \sigma'(a^{(1)}_i)\\
+        \Delta W_{ij} &=  -\eta \delta_i x_j
+        \end{split}
+        $$
+        </div>
+        <div class=column>
+          <center>Matrix Form ($N^{s}$ samples)</center>
+          <div class=fragment>
+          $$
+          \begin{split}
+          A^{(1)} & = X W^{(1),T}, \quad 
+          Y^{(1)}  = \sigma(A^{(1)}) \\ 
+          \end{split}
+          $$
+          </div>
+          <div class=fragment>
+          $$
+          \begin{split}
+          \delta &= \frac{1}{N^{s}} (Y^{(1)} - T) \odot \sigma'(A^{(1)}) \\
+          \end{split}
+          $$
+          </div>
+        <div class=fragment>
+        $$
+        \begin{split}
+        \Delta W & =  - \eta \delta^T \mathbf{X} \\
+        \end{split}
+        $$
+        </div>
+        </div>
+        </div>
+        $$
+        W \leftarrow W + \Delta W 
+        $$
+        <ul>
+          <li /> $\delta$ $\in \mathbb{R}^{N^{s}\times N}$, $X$ $\in \mathbb{R}^{N^{s} \times M}$, and dimension of $\Delta W$ must be same as $W$!
+          <li /> Implement it here:
+        </ul>
+
+        [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1xQiNcjf-O88vi_09R5Zntv_gK2zB7MMh?usp=sharing)
+
+        </textarea></section>
+
+
+        <section data-markdown><textarea data-template>
+        ## Two Layer Network with Sigmoid Units
+
+        - Two layers means we have two weight matrices $W^{(1)}$ and $W^{(2)}$
+        - $W^{(1)} \in \mathbb{R}^{N^{(1)}\times M}$, $W^{(2)} \in \mathbb{R}^{N^{(2)}\times N^{(1)}}$
+        - The output is a composition of two functions:
+
+        $$
+        \begin{eqnarray}
+        \mathbf{y}^{(1)} &=& \sigma(W^{(1)} \mathbf{x} ) \\\\
+        \mathbf{y}^{(2)} &=& \sigma(W^{(2)} \mathbf{y}^{(1)} ) \\\\
+        \end{eqnarray}
+        $$
+        <ul>
+          <li class=fragment /> Cost function $ C_{MSE} = \frac{1}{2N^{s}} \sum_{i=1}^{N^{(2)}}(y^{(2)}_i - t_i)^2 $
+            <li class=fragment /> Gradient wrt $W^{(2)}$ is: $ \frac{\partial }{\partial W^{(2)}_{ij}} C_\text{MSE}=  \underbrace{(y^{(2)}_i - t_i) \sigma'(a^{(2)}_i)}_{\delta^{(2)}_i} y^{(1)}_j $
+              <li class=fragment /> Gradient wrt $W^{(1)}$ is: $ \frac{\partial}{\partial { W_{jk}^{(1)}}}  C_{\text{MSE}} = \underbrace{(\sum_i \delta_i^{(2)}  W^{(2)}_{ij}) \sigma'(a^{(1)}_j)}_{backpropagated\, error\, \delta^{(1)}_{j}} x_k $
+          <li class=fragment /> This is a special case of the gradient backpropagation algorithm
+        </ul>
+
+        </textarea></section>
+
+
+
+
+
+
+        <section data-markdown><textarea data-template>
+        ## The Gradient Back-Propagation Algorithm
+
+        ![image.png](images/slides2_backprop.png)
+
+        1. Forward-propagate to compute $y^{(k)}$ for all layers $k$
+        2. Compute loss and error
+        3. Back-propagate error through network, *i.e* compute all $\mathbf{\delta}^{(k)}$
+
+        </textarea></section>
+
+
+        <section data-markdown data-background-color=#BBBBBB><textarea data-template>
+        ## The Gradient BP algorithm (for your reference)
+
+        <div style='font-size:24px;text-align:left;' >
+          <p>The task of learning is to minimize a cost function $\mathcal{L}$ over the entire dataset.
+        In a neural network, this can be achieved by gradient descent, which modifies the network parameters $\mathbf{W}$ in the direction opposite to the gradient:
+        $$
+        \begin{split}
+          W_{ij} \leftarrow W_{ij} - \eta \Delta W_{ij},  & \text{where } \Delta W_{ij} =
+         \Dp{\mathcal{L}}{W_{ij}} =
+         \Dp{\mathcal{L}}{y_i} 
+         \Dp{y_i}{ a_i }       
+         \Dp{a_i}{W_{ij}}      
+        \end{split}
+        $$
+        with $a_i = \sum_j W_{ij} x_j$ the total input to the neuron, $y_i$ is the output of neuron $i$, and $\eta$ a small learning rate.
+        The first term is the error of neuron $i$ and the second term reflects the sensitivity of the neuron output to changes in the parameter.
+        In multilayer networks, gradient descent is expressed as the BP of the errors starting from the prediction (output) layer to the inputs.
+        Using superscripts $l=0,...,L$ to denote the layer ($0$ is input, $L$ is output):
+
+        `$$
+        \frac{\mathrm{\partial}}{\mathrm{\partial} W^{(l)}_{ij}} \mathcal{L} =
+        \delta_{i}^{(l)} y^{(l-1)}_j,\text{ where }\delta_{i}^{(l)} = \sigma'\left(
+        a_i^{(l)} \right) \sum_k \delta_{k}^{(l+1)} W_{ik}^{\top,(l)},
+        $$`
+
+        where $\sigma'$ is the derivative of the activation function, and $\delta_{i}^{(L)}=\Dp{\mathcal{L}}{y_i^{(L)}}$ is the error of
+        output neuron $i$ and $y_{i}^{(0)}=x_i$ and $\top$ indicates the transpose.
+        Learning is typically carried out in forward passes (evaluation of the neural network activities) and backward passes (evaluation of $\delta$s).
+        </p>
+        </div>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## The Gradient Back-Propagation Algorithm
+        <img src="images/chinese_whispers.jpg" />
+        </textarea></section>
+
+        <section>
+
+        <iframe data-src="http://playground.tensorflow.org/" width=95%  style='max-height:720px;height:720px;max-width:100%;'></iframe>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Neural Networks with PyTorch
+
+        - PyTorch is a machine learning framework that facilitates the implementation of Deep Learning
+
+        - Other tools such as Tensorflow or Theano have a similar purpose, but PyTorch is more versatile and easier to use.
+
+        - To use pytorch, remember to import it:
+        <pre><code class="Python" data-trim data-noescape> import torch </code></pre>
+
+        - Follow-along notebook
+        [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://drive.google.com/open?id=1botgh24In3QFyMc9AmezPszgt2ntJ-OL)
+
+        - PyTorch is one out of several other ML frameworks (PyTorch, Tensorflow/Keras, Jax). PyTorch arguably the easiest to use
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Tensor
+
+        - The tensor is the basic data type of Pytorch (and many other tools likes tensorflow)
+        ![image.png](images/tensor.png)
+        - A tensor is a multi-dimensional array
+        > For example, a color image could be encoded as a 3D tensor with dimensions of width, height, and color plane.
+
+        - Apart from dimensions, a tensor is characterized by the type of its elements (integer, float, double, byte, boolean etc.).
+        </textarea></section>
+        <section data-markdown><textarea data-template>
+
+        ## Tensor Creation
+
+        Tensors can be created like numpy arrays
+        
+        <ul>
+        <li > Numpy
+        </ul>
+
+        <pre><code class="Python" data-trim data-noescape>
+        a = np.array([[1,2,3],[3,2,1]])
+        </code></pre>
+        
+          
+        <div class=fragment >
+        <ul>
+        <li > PyTorch
+        </ul>
+        <pre><code class="Python" data-trim data-noescape>
+        b = torch.FloatTensor([[1,2,3],[3,2,1]])
+        b = torch.FloatTensor(a) #equivalent
+        </code></pre>
+        </div>
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+
+        ## Tensor Creation
+
+        - Tensors can also be converted from a numpy array
+
+        <pre><code class="Python" data-trim data-noescape>
+        n = np.zeros(shape=(3, 2))
+        c= torch.tensor(n)
+        </code></pre>
+
+        </textarea></section>
+        <section data-markdown><textarea data-template>
+
+        ## Tensor Operations
+        There are many operations that can be performed on tensors. See http://pytorch.org/docs/. Some examples below
+
+        - Addition
+        <pre><code class="Python" data-trim data-noescape>
+        b + b
+        </code></pre>
+
+        - Multiplication
+        <pre><code class="Python" data-trim data-noescape>
+        b*b
+        </code></pre>
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Tensor Operations (continued)
+        There are many operations that can be performed on tensors. See http://pytorch.org/docs/. Some examples below
+
+        <ul>
+        <li/> Transpose
+
+        <pre><code class="Python" data-trim data-noescape>
+        b.transpose(0,1) #flips axes 0 and 1
+        </code></pre>
+
+        <li/> Matrix multiplication
+
+        <pre><code class="Python" data-trim data-noescape>
+        torch.mm(b,b.transpose(0,1))
+        b@b.transpose(0,1)
+        </code></pre>
+
+        </ul>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+
+        ## Graph Representation of an Expression
+        Pytorch and other frameworks represent a function using a graph
+
+        <img src="images/slides2_compgraph.png" id="fwimg" style="height:150px"/>
+
+        <pre><code class="Python" data-trim data-noescape>
+        v1 = torch.tensor([1.0, 1.0], requires_grad=True)
+        v2 = torch.tensor([2.0, 2.0])
+        v_sum = v1 + v2
+        v_res = (v_sum*2).sum()
+        </code></pre>
+
+        </textarea></section>
+
+
+        <section data-markdown><textarea data-template>
+        ## Automatic Differentiation
+
+        <ul>
+
+        <li/> A key feature of machine learning frameworks is automatic differentiation
+        <li/> With automatic differentation, the gradients are computed automatically across a set of operations
+          <li/> Once a backward operation is called on a node, the gradients of all <i>leaf</i> nodes and parameters in the expression are numerically computed
+
+        <pre><code class="Python" data-trim data-noescape>
+        v_res.backward() #this command computes the gradient
+        v1.grad # returns tensor([2., 2.])
+        </code></pre>
+
+        <li class=fragment /> The gradient of v2 is None because we did not enable requires_grad
+
+        <pre><code class="Python" data-trim data-noescape>
+        v2.grad # returns None
+        </code></pre>
+
+        <pre><code class="Python" data-trim data-noescape>
+        v2.requires_grad #returns False
+        </code></pre>
+        </ul>
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## GPUs and Tensors
+        <ul>
+        <li/> By default, tensors are stored in the CPU (main memory)
+        <pre><code class="Python" data-trim data-noescape>
+        b.device
+        </code></pre>
+        <li/> GPUs can be >100x faster on certain operations compared to CPUs
+
+        <li/> Tensors can be moved to the GPU using the cuda() function
+        <pre><code class="Python" data-trim data-noescape>
+        b_cuda = b.cuda(); b_cuda = b.to('cuda') #Both have the same effect
+        </code></pre>
+        <li/> If you get a runtime error, it means you didn't request for a gpu. go to Runtime> Change Runtime Type>Hardware accelerator and choose GPU, then SAVE
+        <img src=images/colab_runtime_cuda.png class=small />
+        <li/> All operations must occur on the same device. For example, you cannot add a cuda tensor to a cpu tensor (you need to cast it to cpu first).
+        </ul>
+
+
+
+        </textarea></section>
+        <section data-markdown><textarea data-template>
+        ## Neural Network Building Blocks: Modules
+
+        <ul>
+
+        Up to now, nothing was specific for neural networks:
+        <li/> Machine learning frameworks can be used for all types of computations
+
+        PyTorch has predefined modules for constructing neural networks
+        <li/> All neural network building blocks are PyTorch modules
+        <pre><code class="Python" data-trim data-noescape>
+        torch.nn.Module
+        </code></pre>
+        <li/> Modules are containers for functions, tensors and parameters
+        <li/> Modules can be called like functions. (but to call them, you need to implement the forward function)
+
+        <pre><code class="Python" data-trim data-noescape>
+        my_module = torch.nn.Module()
+        my_module() #returns NotImplementedError
+        my_module.forward() #same as above
+        </code></pre>
+        </ul>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Example: the linear module
+        - nn.Linear is a class that implements a module 
+        - For example the nn.Linear module defines the linear transformation $$y = Wx + b$$
+
+        <pre><code class="Python" data-trim data-noescape>
+        lin = torch.nn.Linear(in_features = 2, out_features = 5) 
+        x = torch.FloatTensor([1, 2])
+        y = lin(x)
+        </code></pre>
+
+        - The .parameters() function returns all parameters of the module
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+
+        ## Fully-connected Feedforward Networks (MLP)
+
+        <img src="images/mlp.png" id="fwimg" style="height:200px"/>
+
+        - Consists of fully connected (dense) layer.
+        - Implements the function: $$ \mathbf{y} = \sigma \left( W \mathbf{x} + \mathbf{b}\right) $$
+            - $W$ are trainable weights
+            - $\mathbf{b}$ are trainable biases
+            - $\sigma$ is an activation function
+
+        <pre><code class="Python" data-trim data-noescape>
+          a = torch.nn.Linear(in_channels=10, out_channels=5)
+          y = torch.sigmoid(a)
+        </code></pre>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Activation Functions
+
+        <div class=row >
+          <div class=column >
+            Sigmoid $ \sigma(z) = \frac{1} {1 + e^{-z}} $
+            <img src=images/sigmoid.png class=small />
+            <pre><code class="Python" data-trim data-noescape> torch.sigmoid </code></pre>
+          </div>
+
+          <div class=column >
+            Rectified Linear $ y = [a]^+ = \begin{split}Relu(a) = \begin{matrix}  a & a > 0 \\ 0 & a <= 0 \end{matrix}\end{split} $
+            <img src=images/relu.png class=small />
+            <pre><code class="Python" data-trim data-noescape> torch.relu </code></pre>
+
+          </div>
+
+        </div>
+        <div class=row>
+
+
+        <div class=column >
+        Tanh $ tanh(z) = \frac{e^{z} - e^{-z}}{e^{z} + e^{-z}} $
+        <img src=images/tanh.png class=small />
+            <pre><code class="Python" data-trim data-noescape> torch.sigmoid </code></pre>
+        </div>
+
+        <div class=column >
+        Step $ \begin{split}\Theta(z) = \begin{matrix} 1 & z>0 \\ 0 & z<0 \end{matrix}\end{split} $
+        <img src=images/step.png class=small />
+            <pre><code class="Python" data-trim data-noescape> torch.sign </code></pre>
+        </div>
+
+        </div>
+
+        </textarea></section>
+
+
+        <section data-markdown><textarea data-template>
+
+        ## PyTorch Neural Network Bulding Block: Module
+        Modules can be composed to build a neural network.
+        The simplest method is the "sequential" mode that chains the operations
+
+        <pre><code class="py" data-trim data-noescape>
+        my_first_nn = torch.nn.Sequential(
+              torch.nn.Linear(2, 5),
+              torch.nn.Sigmoid(), #this is an activation function
+              torch.nn.Linear(5, 20),
+              torch.nn.Sigmoid(),
+              torch.nn.Linear(20, 2))
+        </code></pre>
+
+        Sequential returns a module, so it can be called as a function
+        <pre><code class="py" data-trim data-noescape>
+        my_first_nn(x)
+        </code></pre>
+
+        - Note that output dimensions of layer l-1 must match input dimensions of current layer l!
+
+
+
+
+        </textarea></section>
+
+</section>
+<section>
+        <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
+            <h1> Lecture 4:  Fully Connected Networks <br/> </h1>
+        </textarea></section>
+
+        <section data-markdown data-vertical-align-top><textarea data-template>
+            <h2> Key Ingredients of a Neural Network Program </h2>
+
+            <ol>
+              <li> A model with free (trainable) parameters</li>
+              <li> A performance measure (loss function)</li>
+              <li> An optimization algorithm </li>
+              <li> A dataset </li>
+            </ol>
+
+        </textarea></section>
+
+         <section data-markdown><textarea data-template>
+        ## Sequential Module
+        Modules can be composed to build a neural network.
+        The simplest method is the "sequential" mode that chains the operations
+
+        <pre><code class="py" data-trim data-noescape>
+        my_first_nn = torch.nn.Sequential(torch.nn.Linear(2, 5),
+            torch.nn.Sigmoid(), #this is an activation function
+            torch.nn.Linear(5, 20),
+            torch.nn.Sigmoid(),
+            torch.nn.Linear(20, 2))
+        </code></pre>
+
+        Sequential returns a module, so it can be called as a function
+        <pre><code class="py" data-trim data-noescape>
+        my_first_nn(x)
+        </code></pre>
+
+        - Note that output dimensions of layer l-1 must match input dimensions of current layer l!
+
+        [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://drive.google.com/open?id=1botgh24In3QFyMc9AmezPszgt2ntJ-OL)
+
+
+        <pre><code class="py" data-trim data-noescape>
+        my_first_nn
+         Sequential(
+           (0): Linear(in_features=3, out_features=5, bias=True)
+           (1): Sigmoid()
+           (2): Linear(in_features=5, out_features=20, bias=True)
+           (3): Sigmoid()
+           (4): Linear(in_features=20, out_features=2, bias=True)
+         )
+        </code></pre>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## PyTorch Neural Network Building Block: Module
+
+        - Sequential works well for fully feedforward networks. 
+        - In most cases, however, neural networks are implemented explicitely:
+
+<pre><code class="Python" data-trim data-noescape>
+class MySecondNetwork(torch.nn.Module):
+  def __init__(self, n1, n2, n3, num_classes):
+    super(MySecondNetwork, self).__init__()
+    self.layer1 = torch.nn.Linear(n1,n2)
+    self.layer2 = torch.nn.Linear(n2,n3)
+    self.layer3 = torch.nn.Linear(n3,num_classes)
+    self.sigmoid = torch.nn.Sigmoid()
+
+  def forward(self, data):
+    y1 = self.sigmoid(self.layer1(data))
+    y2 = self.sigmoid(self.layer2(y1))
+    y3 = self.sigmoid(self.layer3(y2))
+    return y3
+
+my_second_net = MySecondNetwork(3,10,5,2)
+my_second_net(x) # x has shape [M,3]
+</code></pre>
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+## Loss functions and optimizers
+
+- The loss function defines our objective. It is generally a **scalar** function.
+- An optimizer defines the strategy to minimize the loss function
+
+- Common loss functions for regression and classification:
+  - nn.MSELoss: Mean-Squared Error, default for regression tasks
+  $$ L_{MSE} = \frac1N \sum_{n} \sum_i (y_{ni}-t_{ni})^2 $$
+  - nn.CrossEntropyLoss: Default for classification tasks
+  $$L_{XENT} = - \frac1N \sum_n \sum_i t_{ni}  \log y_{ni}$$
+</textarea></section>
+<section data-markdown><textarea data-template>
+
+## Loss Function Example
+- Mean-Squared Error (MSE)
+
+<pre><code class="Python" data-trim data-noescape>
+mse_loss = torch.nn.MSELoss()
+target = torch.FloatTensor([[1.,0.,0.],[0.,0.,1.]])
+loss = mse_loss(my_first_nn(data), target)
+</code></pre>
+
+- Cross Entropy
+<pre><code class="Python" data-trim data-noescape>
+xent_loss = torch.nn.CrossEntropyLoss()
+target = torch.LongTensor([0,2])
+loss = xent_loss(my_first_nn(data), target)
+</code></pre>
+</textarea></section>
+
+
+
+<section data-markdown><textarea data-template>
+## Loss functions and optimizers
+
+- The loss function defines our objective 
+- An optimizer that defines the strategy to minimize the loss function (thus reach the objective)
+
+- Common optimizers:
+<ul>
+<li /> SGD : A vanilla stochastic gradient descent algorithm
+<pre><code class="Python" data-trim data-noescape> torch.optim.SGD </code></pre>
+<li /> RMSprop : An optimizer that normalizes the gradients using moving root-mean-square averages
+<pre><code class="Python" data-trim data-noescape> torch.optim.RMSProp </code></pre>
+<li /> Adam : An adaptive gradients optimizer, works best in many cases
+<pre><code class="Python" data-trim data-noescape> torch.optim.Adam </code></pre>
+</ul>
+
+<ul>
+  <li/> The optimizer function takes network parameters and learning rate as mandatory arguments
+<pre><code class="Python" data-trim data-noescape>
+opt = torch.optim.SGD(my_first_nn.parameters(), lr=1e-3)
+</code></pre>
+</ul>
+</textarea></section>
+<section data-markdown><textarea data-template>
+
+        ## The Training Loop
+        All the parts of the machine learning algorithm come together in the training loop, *i.e.* proceeding iteratively over data samples and making gradient updates.
+        1. Create a neural network, cost function and optimizer
+        2. In a loop:
+            1. Compute the neural network loss
+            2. Take the gradient of the loss using .backward()
+            3. Run one optimization step (= apply the gradient)
+
+        <pre><code class="Python" data-trim data-noescape>
+        def train_step(data, tgt, net, opt_fn, loss_fn):
+            y = net(data)
+            loss = loss_fn(y, tgt)
+            loss.backward()
+            opt_fn.step()
+            opt_fn.zero_grad()
+            return loss
+        </code></pre>
+
+        <pre><code class="Python" data-trim data-noescape>
+        for i in range(100):
+            print(train_step(b, t, my_first_nn, opt, mse_loss))  
+        </code></pre>
+        </textarea></section>
+
+
+
+        <section data-markdown><textarea data-template>
+
+        ## Training with Minibatches
+        - Neural networks are trained in *minibatches* to parallelize the computations (GPUs are good at that)
+        - A dataset is splitted randomly into batches of equal size.
+        - A minibatch of data is simply provided as a higher order tensor. For example
+          - A data having 4 features would be a tensor with shape [4]
+          - A minibatch of $N$ such samples would be a tensor with shape [N,4]
+        - It is necessary to have a function that "slices" and "packages" minibatches. In PyTorch, this is most easily done with **data loaders**.
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Dataloaders
+        - Data loaders are PyTorch classes to help loading, slicing, shuffling, pre-processing and iterating over the data.
+        - MNIST is a dataset consisting of hand-written digits <a href="http://yann.lecun.com/exdb/mnist/" target="_blank">(http://yann.lecun.com/exdb/mnist/)</a>
+        - MNIST is large enough so that batching may be necessary
+        - The following code downloads MNIST and builds a dataloader. The data loader will dynamically slicing the 60k digits in minibatches of 100, shuffle it (shuffle), and pre-processes it (transform)
+
+        <pre><code class="Python" data-trim data-noescape>
+from torchvision import datasets, transforms
+
+train_set = datasets.MNIST(
+  './data',
+  train=True, download=True,
+  transform=transforms.Compose([ #Preprocessing
+    transforms.ToTensor(),
+    transforms.Normalize((0.1307,), (0.3081,))
+    ]),
+  )
+train_loader = torch.utils.data.DataLoader(train_set, batch_size=100, shuffle=True)
+        </code></pre>
+
+        - Later in this class, we will learn how to build our own data loader from raw data
+        - Datasets are generated separated in training, validation and test sets. Train=true here builds the train set. Train=False build the test set
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Dataloaders (one hot transform)
+        - If the labels are categorical and your loss requires a target vector, you need to use a one hot encoding. Use the following code:
+
+
+        <pre><code class="Python" data-trim data-noescape>
+class toOneHot(object):
+  def __init__(self, num_classes):
+      self.num_classes = num_classes
+
+  def __call__(self, integer):
+      y_onehot = torch.zeros(self.num_classes)
+      y_onehot[integer]=1
+      return y_onehot
+
+train_set = datasets.MNIST('./data',
+  train=True, download=True,
+  transform=transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize((0.1307,), (0.3081,))
+    ]),
+  target_transform = toOneHot(num_classes = 10),)
+train_loader = torch.utils.data.DataLoader(train_set, batch_size=100, shuffle=True)
+        </code></pre>
+
+        </textarea></section>
+
+
+        <section data-markdown><textarea data-template>
+        ## Iterators
+
+        - With a data loader, we can create a Python iterator to iterate over the entire dataset
+        <pre><code class="Python" data-trim data-noescape> train_iter = iter(train_loader) </code></pre>
+        - An iterator will iterate over all the samples by minibatches.  
+        <pre><code class="Python" data-trim data-noescape> data, target = next(train_iter) </code></pre>
+        - The dimensions of data are [100,1,28,28]. In words: 100 images of single channel (grayscale),  28 by 28 images.
+        - Let's plot the first sample in the minibatch. Note that we need to select the channel, hence the second 0
+        <pre><code class="Python" data-trim data-noescape>
+        from pylab import *
+        imshow(data[0,0]) 
+        </code></pre>
+        <img src="images/mnist_image.png" class=small />
+        </textarea></section>
+
+
+        <section data-markdown><textarea data-template>
+        ## Iterating over all training batches during training
+
+        - Data loaders are great because the training loop becomes very easy to implement:
+        <pre><code class="Python" data-trim data-noescape>
+        for x, t in iter(train_loader):
+            train_step(x, t)
+        </code></pre>
+
+        - If you use MSE loss, remember to use one hot target vectors (see week 1)
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Regularization
+
+        Regularization can improve generalization error. The simplest regularization technique is to add a term to the cost:
+        $$
+        C_{total} = C_{MSE} + \lambda R(W)
+        $$
+
+        For example:
+        - L2 Regularization: $R(W) = \sum_{ij} W_{ij}^2$
+
+        <pre><code class="Python" data-trim data-noescape>
+        opt = torch.optim.Adam(net.parameters(), lr=1e-3, weight_decay=1e-3)
+        </code></pre>
+
+        - L1 Regularization: $R(W) = \sum_{ij} |W_{ij}|$
+
+        <pre><code class="Python" data-trim data-noescape>
+        l1_loss = 0
+        for param in net.parameters():
+            l1_loss += torch.sum(torch.abs(param))
+        </code></pre>
+
+
+        </textarea></section>
+
+
+
+
+        <section data-markdown><textarea data-template>
+        ## Anatomy of a PyTorch script for training and testing a Neural Network 
+
+        0. Import necessary packages
+        1. Create Dataloaders for Train and Test
+        2. Create Model
+        3. Create Loss function (use MSE)
+        4. Create Optimizer 
+        5. Train (*e.g.* one or more full presentations of dataset)
+        6. Test
+        7. Repeat 5,6 until test error stops decreasing
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## A "no-bells-and-whistles" ANN on MNIST 
+
+        - Create a network module using two fully connected layers, of dimensions 784-100-10
+        - Data MNIST
+        - Model: Sequential
+        - Cost: MSE
+        - Optimizer: Adam
+
+        [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://drive.google.com/open?id=1kH4OrIZZqnKRT5wROxKqEFc9mwgQ5MLB)
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Converting PyTorch Tensors into Numpy Arrays
+
+        - Use the .numpy() function to convert a torch tensor into numpy. 
+        <pre><code class="Python" data-trim data-noescape>
+        x_numpy = x.numpy()
+        </code></pre>
+        - If the tensor is part of a graph, then you must "detach" it from the graph first 
+        <pre><code class="Python" data-trim data-noescape>
+        x_numpy = x.detach().numpy()
+        </code></pre>
+        - If the tensor is on a graph on the gpu, you have to move to cpu, detach, then convert:
+        <pre><code class="Python" data-trim data-noescape>
+        x_numpy = x.cpu().detach().numpy()
+        </code></pre>
+        </textarea></section>
+
+</section>
+
+<section>
+
+<section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
+    <h1> Lecture 5:  Neural Networks For Vision <br/> </h1>
+
+</textarea></section>
+
+
+<section data-markdown><textarea data-template>
+## Regularization
+
+Regularization can improve generalization error. The simplest regularization technique is to add a term to the cost:
+$$
+C_{total} = C_{task} + \lambda R(W)
+$$
+
+For example:
+- L2 Regularization: $R(W) = \sum_{ij} W_{ij}^2$
+<pre><code class="Python" data-trim data-noescape>
+opt = torch.optim.Adam(net.parameters(), lr=1e-3, weight_decay=1e-3)
+</code></pre>
+- L1 Regularization: $R(W) = \sum_{ij} |W_{ij}|$
+<pre><code class="Python" data-trim data-noescape>
+l1_loss = 0
+for param in net.parameters():
+    l1_loss += torch.sum(torch.abs(param))
+loss_total = loss + l1_loss
+</code></pre>
+
+
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+## Regularization: Dropout
+
+In the forward pass, randomly set the output of some neurons to zero. The probability of dropping is generally 50%
+
+<img src="images/dropout.png" />
+
+<p class=ref>Srivastava et al, Dropout: A simple way to prevent neural networks from overfitting, JMLR 2014</p>
+
+- Dropout is used as a layer placed *after* activation functions
+<pre><code class="Python" data-trim data-noescape>
+torch.nn.DropOut(.5)
+</code></pre>
+
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+## Regularization: Dropout
+
+Why is this a good idea?
+
+<img src="images/dropout_why.png" />
+
+<p class=ref>Li et al. CS231n Stanford.</p>
+
+- Dropout can be shown to have a regularizing effect (e.g. improves generalization error)
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+## Regularization: Dropout at Test Time
+
+At test time, units are generally not dropped out, but activities are scaled by the probability. 
+
+- The dropout layer can do this automatically, but you must explicitely set the network into training and evaluation mode:
+
+<pre><code class="Python" data-trim data-noescape>
+net.train() #network is in training mode, dropout is applied
+... #do training
+net.eval() #network is in testing mode, dropout is disabled, activities are scaled
+</code></pre>
+
+- But not always! Keeping dropout during test time may allow some probabilistic inference, see <a href='https://www.nature.com/articles/s41467-022-30305-8'>Neural sampling machine with stochastic synapse allows brain-like learning and inference</a>
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+<h2> How to Use Dropout </h2>
+
+<ul>
+  <li /> Use dropout between fully hidden layers outputs or the output of a group of hiddens layers at a rate of .5 for effective regularization
+  <pre><code class="Python" data-trim data-noescape>
+  dropout = torch.nn.Dropout(0.5) 
+  dropout(x)
+  </code></pre>
+  <li /> In convolutional networks, use 2D dropout to drop the entire feature 
+  <pre><code class="Python" data-trim data-noescape>
+  dropout2d = torch.nn.Dropout2d(0.5) 
+  dropout2d(x)
+  </code></pre>
+  <li /> Some use low rate (.25) dropout at the input
+  <li /> Don't use dropout after the output layer
+  <li /> If still overfitting, use weight decay (L2 norm). If sparse activity is desired, use L1 norm
+</ul>
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+    <h2>Weight Initialization</h2>
+    <img src="images/Glorot_fig6.png" class="large" />
+    <p class=ref> Glorot and Bengio, 2010 </p>
+<ul>
+  <li /> The parameters in a neural netwok must be initialized to some value. Setting all values to zero can be problematic, and should be avoided.
+  <li /> Some randomness is necessary to "break symmetries". The magnitude of the randomness must be carefully adjusted so the activities do not saturate/die across the network.
+  <li class=fragment /> PyTorch layers generally use initialization that is dependent on the layer sizes. Generally it uses the "Xavier Glorot initialization" 
+    $W \sim U[-\frac{\sqrt{6}}{N^{in} + N^{out}}, \frac{\sqrt{6}}{N^{in} + N^{out}}]$
+</ul>
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+<h2> How to Use Weight Initialization </h2>
+<ul>
+  <li /> If using standard layers, use the default settings!
+  <li /> On custom layers, try using the Xavier (Glorot) method, if using Relu, try using $U[-\frac{\sqrt{2}}{N},\frac{\sqrt{2}}{N}]$
+    <p class=ref>https://arxiv.org/abs/1502.01852</p>
+    <li /> In some cases, data-driven initalization may help, see <a href="https://arxiv.org/abs/1511.06422"> All you need is a good init </a>
+</ul>
+</textarea></section>
+
+
+
+
+<section data-markdown><textarea data-template>
+    <h2>Deep Neural Networks for Vision: Convolutional Neural Networks</h2>
+    <ul>
+      <li />Nearly all state-of-the-art algorithms in AI/ML have a deep learning component, often in the form of structured neural networks known as Convolutional Neural Networks
+    </ul>
+
+    <img src="images/typical_cnn.png" class=stretch/>
+    <p class=ref>LeCun_etal98</p>
+  <p class=pl>CNNs can learn end-to-end and outperform humans on certain recognition tasks</p>
+  <p class=pl>CNNs are generally not the best application for memristive crossbar arrays (Why?)</p>
+</textarea></section>
+
+</section>
+
+
+
+
+<section>
+<section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
+    <h1> Lecture 6: Modern ConvNets for Classification and Segmentation <br/> </h1>
+
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+    <h2>Normalization</h2>
+    <ul>
+      <li /> If preactivations drift during training, it is costly for subsequent layers to adapt to that drift.
+        <img src="images/layer_distribution.png" />
+      <li /> Several normalization techniques exist, we will focus on the one use the most commonly (Batch Norm).
+    </ul>
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+    <h2>Batch Normalization</h2>
+    <ul>
+
+      <li /> Batch Normalization (BN) is one solution to this problem. BN transforms the activations at a given layer x according to:
+    $$
+  \mathrm{BN}(\mathbf{x}) = \mathbf{\gamma} \odot \frac{\mathbf{x} - \hat{\mathbf{\mu}}}{\hat\sigma} + \mathbf{\beta}</div>
+    $$
+    where $\hat{\mathbf{\mu}}$ is the mean over the batch, $\hat\sigma$ is the standard deviation over the batch. $\gamma$ and $\beta$ are trainable scaling and offsets parameters.
+      <li class=fragment data-fragment-index="2" /> Typically a noise term is added to the calculation of $\hat\sigma$. This noise term prevents a division by zero and also acts as a regularizer
+      <li class=fragment data-fragment-index="3"/> BN speeds up the training in large networks
+      <li class=fragment data-fragment-index="3"/> BN is applied right before the application of the activation function
+    </ul>
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+    <h2>Use BN in Feed Forward Neural Networks</h2>
+
+<pre><code class="Python" data-trim data-noescape>
+def __init__(self):
+  super(Net, self).__init__()
+  self.layer1 = torch.nn.Linear(128,64)
+  self.layer1_bn =nn.BatchNorm1d(64)
+  ...
+
+def forward(self, x):
+  y = self.layer1(x)
+  y = self.layer1_bn(y)
+  y = torch.relu(y)
+  ...
+</code></pre>
+
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+    <h2>Use BN in Convolutional Neural Networks</h2>
+
+<pre><code class="Python" data-trim data-noescape>
+def __init__(self):
+  super(Net, self).__init__()
+  self.layer1 = torch.nn.Conv2d(3,32,3,1)
+  self.layer1_bn =nn.BatchNorm2d(32)
+  ...
+
+def forward(self, x):
+  y = self.layer1(x)
+  y = self.layer1_bn(y)
+  y = torch.relu(y)
+  ...
+</code></pre>
+</textarea></section>
+
+</section>
+<section>
+        <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
+            <h1> Lecture 9: Recurrent Neural Networks<br/> </h1>
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Time-Dependent Data </h2>                                                     
+        <ul>
+          <li/> Almost all real-world data has a time-like dimension: For example:
+            <ul>
+              <li />Videos
+                <img src="images/video_data.png" class=vsmall />
+              <li />Audio
+                <img src="images/some_soundwave.jpg" class=vsmall />
+              <li />Text
+                <img src="images/pos.png" class=vsmall />
+            </ul>
+
+          <li class=fragment /> So time is just another dimension, like channels in images. But what is special about it?
+        </ul>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> How to Deal with Variable-Sized Dimensions?</h2>                                                     
+        <ul>
+          <li/> Time is a variable dimension. Until now, we dealt with data having static dimensions. There are two ways to deal with this:
+          <ol>
+          <li class=fragment /> Fix the size, truncate (pad) the data that has a larger (smaller) dimension. For example for size 2:
+            <ul>
+              <li/> Three data samples: [[1, 5, 6], [3,4], [3]] $\rightarrow$ [[1, 5], [3,4], [3, None]]
+              <li /> Once the size is fixed, a feed-forward neural network can be used
+            </ul>
+            
+          <li class=fragment /> Use a recursive algorithm: Feed in the data time step by time step and keep a memory of the previously fed data samples
+            <ul>
+              <li/> [[1, 5, 6], [3,4], [3]] $\rightarrow$ [[1,3,3],[5,4, -],[3,-, -]
+              <li /> - is a special symbol means end-of-sequence. Recurrent neural networks are designed to deal with such data
+            </ul>
+          </ol>
+        </ul>
+        <div class=fragment ><p class=pl> Recurrent Neural Networks focus on approaches under 2.</div>
+        </textarea></section>
+
+
+
+        <section data-markdown><textarea data-template>
+        <h2> Recurrent Neural Network in Deep Learning </h2>                                                     
+        <ul>
+          <li/> What is the consequence of having a "loop" in the neural network graph?
+          <li class=fragment /> Errors must be propagated through the loop! In the variable size dimension is time, errors need to be propagated to the past.
+        </ul>
+          <img src="images/RNN-rolled.png"  class=medium />
+          <p class=ref>https://colah.github.io/posts/2015-08-Understanding-LSTMs/</p>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Recurrent Neural Networks in Deep Learning </h2>
+        <img src="images/RNN-unrolled.png" />
+
+        <ul>
+          <li/> RNNs can be unfolded to form a deep neural network
+            <li/> The depth along the unfolded dimension is equal to the number of time steps.
+            <li/> An output can be produced at some or every time steps.
+            <li/> Depending on the output structure, different problems can be solved
+        </ul>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Example Tasks</h2>                                                     
+        <img src="images/rnn_tasks.jpeg" />
+        <ul>
+          <li /> Can you find examples for each case
+        </ul>
+        </textarea></section>
+
+
+
+
+
+        <section data-markdown><textarea data-template>
+        <h2> Simple Recurrent Neural Network </h2>                                                     
+        <ul>
+          <li/> Also called Elman RNN, these are the simplest RNNs.
+            <img src="images/elman.png" class=medium />
+            <p class=ref> Elman, Finding Structure in Time <p>
+          $$ 
+          \begin{split}
+          h_t = \text{tanh}(W_{ih} x_t + W_{hh} h_{(t-1)} ) 
+          \end{split}
+          $$
+          <li/> A simple recurrent network is simply a network whose output feeds back to itself
+          <li/> They are useful to understand the challenges of training RNNs, but in practice variations such as LSTM or GRU are used
+        </ul>
+        </textarea></section>
+
+
+
+        <section data-markdown><textarea data-template>
+        <h2> Unrolled Neural Network </h2>                                                     
+        <ul>
+          <li /> We can use the same training framework as feed-forward networks by unrolling the variable-size dimension.
+          <img src="images/RNN-unrolled.png" />
+          <p class=ref>https://colah.github.io/posts/2015-08-Understanding-LSTMs/</p>
+          <li /> We apply back-propagation to the unrolled network. This is called Back-Propagation-Through-Time.
+          <li /> Conceptual difference wrt feedforward networks: Parameters are shared along the horizontal axis.
+        </ul>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Training a Simple Recurrent Neural Network </h2>                                                     
+        <ul>
+          <li/> For sequential tasks, Pytorch expects tensor to have the following dimensions: [time, batch, data]
+          <li/> We will use the MNIST data, but feed the data in row by row.
+            <img src="images/row-by-row-mnist.jpeg" />
+          <li/> Building the Simple RNN by "unrolling the loop" (Pytorch Tutorial)
+
+        [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1KArdyQh2v5XlO595OYK2agTcQk4rBznm?usp=sharing)
+
+        </ul>
+        </textarea></section>
+
+</section>
+<section>
+        <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
+            <h1> Lecture 10: Spiking Neural Networks <br/> </h1>
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+          <h2>Anatomy of the Neuron</h2>
+          <img src="images/neuron_drawing.png" />
+
+          - Dendrites: act as inputs ports 
+          - Soma: the body of the cell, usually where inputs converge and where action potentials are generated 
+          - Axon: propagates action potentials along to other neurons
+          - Terminal Boutons (Synapses): act as outputs of the neuron
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+          <h2>Membrane potential</h2>
+          <img src="images/bear-03-11.png" class=stretch />
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+          <h2>Action Potentials and the Axon</h2>
+          <img src="images/neuron_drawing.png" />
+          <img src="images/bear-04-02-1.png" />
+
+          <p class=pl> Neurons communicate by all-or-none events called Action Potentials, or ``Spikes''</p>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> "Biological" neuron model: The Leaky Integrate and Fire Neuron. </h2>                                                     
+        <div class=row>
+        <div class=column>
+        <ul>
+          <li/> Membrane Voltage
+            $$
+            \begin{split}
+            U_i(t) = &  V_i(t),\\
+            \tau_{mem}\frac{\mathrm{d}}{\mathrm{d}t} V_i(t) = & - V_i(t) + I_i(t),\\
+            \end{split}
+            $$
+
+          <li class=fragment /> Output Spike
+            $$
+            S_i = \Theta(U_i)
+            $$
+
+          <li class=fragment /> Synaptic Currents
+            $$
+            \begin{split}
+             I_{i}(t) = \sum_{j\in \text{pre}} W_{ij} S_j(t),
+            \end{split}
+            $$
+        </ul>
+        </div>
+        <div class=column>
+          <img src="images/leaky_if.png" />
+        </div>
+        </textarea></section>
+
+
+        <section data-markdown><textarea data-template>
+        <h2> "Biological" neuron model: The Leaky Integrate and Fire Neuron. </h2>                                                     
+
+          <img src="images/leaky_if.png"  class=stretch />
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Recurrent Neural Networks and Working Memory </h2>
+
+        <div class=row>
+        <div class=column>
+        <p>Working Memory:</p>
+        <ul>
+        <li /> A type of short-term memory
+        <li /> Limited in capacity
+        <li /> Task- and sensory modality-dependent
+        <li /> Necessary for cognitive control
+        </ul>
+        </div>
+        <div class=column>
+          <img src="images/brain_wm.png" />
+          Human brain areas for working
+        memory of face identity and
+        location
+        </div>
+        </div>
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Neural Correlates of Working Memory </h2>
+
+        <img src="images/primate_task.png" class=stretch />
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Working Memory of Cognitive Control </h2>
+
+        <img src="images/12ax.png" class=stretch />
+        <p class=ref>O’Reilly and Frank, 2006</p>
+
+        <p class=pl> How does the brain implement working memory? </p>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Recurrent Neural Networks (RNNs) in Neuroscience </h2>
+
+        <ul>
+          <li > Most models hypothesize that short term memory is a process supported by recurrent connections </li>
+          <li > An RNN is a network in which the output feeds back into the network (A: Feedforward, B: Recurrent) </li> 
+          <img src="images/feedfoward_vs_recurrent.png" class=small  />
+
+        <li class=fragment > The majority of connections in the brain are recurrent
+          <div class=row>
+            <div class=column>
+            <img src="images/cortical_microcircuit.png" />
+            <p class=ref> Douglas and Martin, 1989</p>
+            </div>
+            <div class=column>
+              <blockquote>
+                ... physically mapped the synapses on the dendritic trees (...) in layer 4 of the cat primary visual cortex and found that only 5% of the excitatory synapses arose from the lateral geniculate nucleus (LGN)
+              </blockquote>
+              <p class=ref> Binzegger et al. 2004</p>
+            </div>
+          </div>
+        </li>
+        </ul>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Recurrent Neural Networks (RNNs) in Neuroscience </h2>
+
+        <ul>
+          <li /> Recurrent connectivity can support sustained activity
+          <div class=row>
+          <div class=column>
+          <img src="images/F1.large.jpg"  />
+          </div>
+          <div class=column>
+          <img src="images/F2.large.jpg" class=large />
+          </div>
+          </div>
+          <p class=ref> Murray et al. 2017 </p>
+          <li class=fragment /> In the brain, how do such neural networks learn?
+        </ul>
+
+        </textarea></section>
+
+
+<section data-markdown><textarea data-template>
+  <h2>Types of Synaptic Plasticity in the Brain</h2>
+  <div class=row>
+    <div class=column >
+    <center>Long-Term Plasticity</center>
+    </div>
+    <div class=column >
+    <center>Short-Term Plasticity</center>
+    </div>
+  </div>
+
+  <div class=row>
+    <div class=column >
+      <img src="images/ltp.png" />
+    </div>
+    <div class=column >
+      <img src="images/stp.jpg" />
+    </div>
+    <p class=ref>Tsodyks_Markram97_neur-code</p>
+  </div class=row>
+
+  <div class=row>
+    <div class=column >
+    <ul>
+      <li/> Induced over seconds, persistance over >10 hours
+      <li/> Many mechanisms: Change in number of Receptors, Release Probability, ...
+    </ul>
+    </div>
+    <div class=column >
+    <ul>
+      <li/> Induced over fractions of a second
+      <li/> Recovery over seconds
+      <li/> Change in probability of vesicle release, ...
+    </ul>
+    </div>
+  </div class=row>
+  <p class=ref>Feldman09_syna-mech<p>
+  <p class=ref>Slide modified from Gerstner <i>et al.</i> 2015</p>
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+  <h2>Hebban Learning</h2>
+  <div class=row>
+  <div class=column>
+  <img src="images/gerstner_hebb_rule.png"  class=small />
+  </div>
+  <div class=column>
+  <img src="images/hebb_assemblies.jpg" />
+  </div>
+  </div>
+  When an axon of cell $j$ repeatedly or persistently takes part in activating cell $i$, then $j$'s efficiency as one of the cells activating $i$ is increased
+  <p class=ref>Hebb49_orga-beha</p>
+
+$$
+  \frac{\mathrm{d}}{\mathrm{d} t} w_{ij}(t) = \eta \nu_i \nu_j
+$$
+
+  <div class=row>
+  <div class=column>
+  <ul>
+    <li/> Plasticity rule operating on local information
+    <li/> Captures correlations in activity
+    <li/> Unsupervised
+  </ul>
+  </div>
+  <div class=column>
+  <blockquote>''Neurons that fire together wire together''</blockquote>
+  </div>
+  </div>
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+  <h2>Hebb's Cell Assembly</h2>
+  <img src="images/bear-24-05.png" />
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+  <h2>Generalized Hebbian Learning</h2>
+  Generalized Hebbian learning: Introduce dependence on pre-synaptic and post-synaptic activities, and the weight itself:
+
+$$
+\begin{split}
+  \frac{\mathrm{d}}{\mathrm{d} t} w_{ij}(t) &= F(w_{ij}, \nu_i, \nu_j)\\\\
+  \frac{\mathrm{d}}{\mathrm{d} t} w_{ij}(t) &= a_0(w_{ij}) + a_1^{pre}(w_{ij})\nu_j +  a_1^{post}(w_{ij})\nu_i + a_2(w_{ij})\nu_i \nu_j + \dots \\\\
+\end{split}
+$$
+
+  <center>
+  <table>
+    <tr>
+      <td>Pre (Index j)</td> 
+      <td>On</td> 
+      <td>Off</td>
+      <td>On</td>
+      <td>Off</td>
+    </tr>
+    <tr>
+      <td>Post (Index i) </td>
+      <td>On</td> 
+      <td>On</td> 
+      <td>Off</td> 
+      <td>Off</td>
+    </tr>
+    <tr class=fragment >
+      <td>$\frac{\mathrm{d}}{\mathrm{d} t} w_{ij}(t) \propto \nu_i \nu_j$</td><td>+   </td><td> 0 </td><td> 0 </td><td> 0 </td>
+
+    </tr>
+    <tr class=fragment >
+      <td>$\frac{\mathrm{d}}{\mathrm{d} t} w_{ij}(t) \propto \nu_i \nu_j - c$</td><td>+   </td><td> - </td><td> - </td><td> - </td>
+    </tr>
+    <tr class=fragment >
+      <td> $\frac{\mathrm{d}}{\mathrm{d} t} w_{ij}(t) \propto (\nu_i - c)  \nu_j$ </td><td>(+) </td><td> 0 </td><td> - </td><td> 0 </td>
+    </tr>
+    <tr class=fragment >
+      <td>$\frac{\mathrm{d}}{\mathrm{d} t} w_{ij}(t) \propto (\nu_i - \langle \nu_i \rangle)$</td><td>+   </td><td> - </td><td> - </td><td> + </td>
+    </tr>
+  </table>
+  </center>
+  <p class=ref>Gerstner_Kistler02_spik-neur</p>
+</textarea></section>
+
+
+
+<section data-markdown><textarea data-template>
+  <h2>Modulated Hebb rule</h2>
+  <b>Modulated Hebb rule: Neuromodulators + Hebbian Learning</b>
+$$
+\begin{split}
+  \frac{\mathrm{d}}{\mathrm{d} t} w_{ij}(t) &= F(w_{ij}, \nu_i, \nu_j, mod(t))\\\\
+\end{split}
+$$
+
+  Example causes of neuromodulation can be rewards, error, attention, novelty.
+
+  <b>Examples:</b>
+  <ul>
+    <li class=fragment> Reinforcement learning:
+
+$$
+\begin{split}
+  \frac{\mathrm{d}}{\mathrm{d} t} w_{ij}(t) \propto Reward(t) \nu_i \nu_j\\
+\end{split}
+$$
+
+  <p class=ref>Florian07_rein-lear</p>
+    </li>
+
+    <li class=fragment > Supervised Learning:
+$$
+\begin{split}
+  \frac{\mathrm{d}}{\mathrm{d} t} w_{ij}(t) &= Error_i(t) a_1^{pre}\nu_j\\
+\end{split}
+$$
+    </li>
+  </ul>
+  
+  <p class=pl> Some modulated synaptic plasticity rules are recently called three factor rules. </p>
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+  <h2>Spike-Timing Dependent Plasticity</h2>
+  <img src="images/bi_poo_scholarpedia.jpeg"/>
+      <p class=ref>Bi_Poo98_syna-modi</p>
+      <p class=ref>Jesper Sjostrom and Wulfram Gerstner (2010), Scholarpedia, 5(2):1362.</p>
+
+      <ul>
+      <li>$W$: Learning Window</li>
+      <li>$t_i^n$: $n$th spike time of post-synaptic neuron $i$</li>
+      <li>$t_j^f$: $f$th spike time of pre-synaptic neuron $i$</li>
+      </ul>
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+    <h2>Spike-Timing Dependent Plasticity (STDP)</h2>
+    <img src="images/bi_poo_scholarpedia.jpeg" />
+    <p class=ref>Gerstner_Kistler02_spik-neur</p>
+     Spike-Time Dependent Plasticity Rule: 
+$$
+\Delta w_j = \sum_{f=1}^N \sum_{n=1}^N W(t_i^n - t_j^f)
+$$
+
+
+      <p class=ref>Jesper Sjostrom and Wulfram Gerstner (2010), Scholarpedia, 5(2):1362.</p>
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+  <h2>The Concept of Locality</h2>
+  For computation to occur on a physical substrate, information much be spatially and temporally local.
+  <img src=images/local_information.png />
+  <p class=ref>Neftci_etal19_surrgrad</p>
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+  <h2>Back-Propagating Action Potentials</h2>
+  <b>STDP requires synapses to sense post-synaptic neuron spike times</b> 
+  <div class=row>
+    <div class=column > Long-term potentiation is regulated by coincidence of postsynaptic APs and EPSPs
+      <img src=images/Markram97_Fig_1.png ></img>
+  <p class=ref>Markram_etal97</p>
+    </div>
+    <div class=column > Somadendritic Backpropagation of Action Potentials in Cortical Pyramidal Cells
+      <img src=images/Buzsaki_Kandel98_Fig2.png />
+      <p class=ref>Buzsaki and Kandel, J. Neurophysiol. 79: 1587--1591, 1998</p>
+    </div>
+
+  </div class=row>
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+    <h2>Spike-Timing Dependent Plasticity (STDP) Implementation</h2>
+     Online implementation of the Spike-Time Dependent Plasticity Rule using pre-synaptic trace $P_j$ and post-synaptic trace $P_i$: 
+$$
+ \begin{split}
+   \tau_+{\mathrm{d} \over \mathrm{d}t}P_j &=    -P_j  + S^{pre}_j\\\\
+   \tau_-{\mathrm{d}\over   \mathrm{d}t} P_i &=    -P_i + S^{post}_i\\\\
+   {\mathrm{d} \over \mathrm{d}t}w_{ij} &=    a_+ P_j(t) S^{post}_i + a_- P_i(t) S^{pre}_j
+ \end{split}
+$$      
+     <ul>
+      <li>$\delta(t)$: Delta Dirac function (= spike at time $t$)</li>
+      <li>$a_+$: Amplitude of LTP &nbsp; $a_-$: Amplitude of LTD</li>
+      <li>$\tau_+$: Temporal window of LTP</li>
+      <li>$\tau_-$: Temporal window of LTD</li>
+     </ul>
+</textarea></section>
+
+
+<section data-markdown><textarea data-template>
+  <h2>STDP as Spike-Based Hebbian Learning</h2>
+  <img src=images/learning_window_Gerstner_Kistler02.png />
+  If the pre- and post-synaptic neuron spike times are independent:
+$$
+ \langle \frac{\mathrm{d}}{\mathrm{d}t} w_{ij} \rangle \cong  \nu_i \nu_j \underbrace{\int W(s) \mathrm{d}s}_{\text{Area under learning window}}
+$$
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+  <h2>STDP as Spike-Based Generalized Hebbian Learning</h2>
+  <p>A more general spike-time dependent plasticity rule</p> 
+$$
+\frac{\mathrm{d}}{\mathrm{d}t} w_j =  a_0(w_{ij}) +  a_1^{pre}(w_{ij}) S^{pre}_j + a_1^{post} (w_{ij}) S^{post}_i +  a_+ P_j(t) S^{post}_i + a_- P_i(t) S^{pre}_j 
+$$
+
+<p> If spike times are independent, the temporal average of generalized STDP implements the generalized Hebb rule:</p>
+$$
+\langle \frac{\mathrm{d}}{\mathrm{d}t} w_{ij} \rangle \cong a_0(w_{ij}) + a_1^{pre}(w_{ij}) \nu_j + a_1^{post}(w_{ij})\nu_i + \nu_i \nu_j \int W(s) \mathrm{d}s 
+$$
+
+</textarea></section>
+
+
+<section data-markdown><textarea data-template>
+  <h2>Notes about STDP</h2>
+  <ul>
+    <li/> Rate-based models are consistent with STDP
+    <li/> Spike-time dependence depends on synapse location wrt soma
+    <li/> The exponential fit of STDP is for computational convenience
+    <li/> Update in original model is relative
+      <img src=images/Bi_Poo_Fig_7.png />
+    <li/> STDP is not derived from computational requirements
+  </ul>
+  
+  <p class=pl >STDP is a measurement, not an accurate mechanistic model!</p>
+</textarea></section>
+
+
+<section data-markdown><textarea data-template>
+  <h2>Normative Models of Synaptic Plasticity</h2>
+  <ul>
+    <li/> Rather than building synaptic plasticity from the bottom-up (as in STDP) Normative model strat with a mathematical model, and make hypotheses about how these could be implemented in synapses.
+    <li/> Machine learning is a common source of inspiration for normative modeling
+  </ul>
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+<h2> Models of RNNs in Neuroscience: Surrogate Gradient Learning</h2>
+<div class=row>
+<img src="images/sgdecolle.png">
+</div>
+<p class=ref>Neftci, Mostafa, Zenke, 2019</p>
+<ul>
+  <li/> Models biological neurons as artificial recurrent neural networks and uses approximate gradient-based learning
+  <li/> Recurrent connections are trained with partial knowledge of the history
+</ul>
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+<h2> "Biological" neuron model: The Leaky Integrate and Fire Neuron. </h2>                                                     
+
+<div>
+$$
+\begin{align*}
+U^{t+1} & = \beta  U^t + (1-\beta) W S^t_{in} - S^t \tag{Membrane Potential}\\
+S^t &= \Theta(U^t-1) \tag{Spike & Reset} \\
+\beta & = \exp(\frac{t}{\tau_{mem}})\\
+\end{align*}
+$$
+</div>
+
+          <img src="images/leaky_if.png" />
+        </textarea></section>
+
+
+        <section data-markdown><textarea data-template>
+        <h2> Surrogate Gradient Learning </h2>                                                     
+
+        <img src="images/surr_grad_1.svg" class=stretch />
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Surrogate Gradient Learning </h2>                                                     
+
+        <img src="images/surr_grad_2.svg" class=stretch />
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Surrogate Gradient Learning </h2>                                                     
+
+        <img src="images/surr_grad_3.svg" class=stretch />
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Surrogate Gradient Learning </h2>                                                     
+
+        <img src="images/surr_grad_4.svg" class=stretch />
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Surrogate Gradient Learning </h2>                                                     
+
+        <img src="images/surr_grad_5.svg" class=stretch />
+        </textarea></section>
+
+
+        <section data-markdown><textarea data-template>
+        <h2> Surrogate Gradient Learning </h2>                                                     
+
+        <img src="images/sg_loss_cartoon.svg" class=large />
+        <ul>
+          <li/> With surrogate gradients, we can train any biological neuron dynamics using gradient backpropagation 
+          <li/> By approximating the temporal credit assignment problem, the gradient descent update is compatible with synaptic plasticity dynamics
+        </ul>
+
+        [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1-0S0iL0CVh72tXdBrZglZ5RPilcXSwik?usp=sharing)
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Why use recurrent neural networks</h2>                                                     
+        <ul>
+          <li> 
+            <div><div class=column >Few recurrent connections in shallow neural networks can give them similar power to deep neural networks</div><div class=column >
+            <img src="images/cornet-brainscore.png" class=large />
+            <p class=ref>Schrimpf et al. 2019</p></div></div></li>
+          <li class=fragment >Recurrent neural networks are Turing complete, <em> i.e.</em> they can theoretically emulated any computable algorithm</li>
+          <li class=fragment >We may not have found the right way to train recurrent neural networks yet <p class=ref>Miller and Hardt, International Conference on Learning Representations, 2019</p> </li> 
+            
+          <li class=fragment >The real world is continuous-time, physical computing systems (<em>e.g.</em> biological neurons) operate under real-time constraints.</li> 
+        </ul>
+        </textarea></section>
+</section>
+<section>
+        <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
+            <h1> Lecture 11: Neural Networks for Natural Language Processing <br/> </h1>
+
+        </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Example Tasks</h2>                                                     
+      <img src="images/rnn_tasks.jpeg" />
+      <ul>
+        <li class="fragment"/> Today: Sequence-to-sequence models for text-like data
+      </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Word embeddings</h2>                                                     
+      <ul>
+        <li /> Words can be represented as an <i>integer</i>, one for each word in a vocabularny
+<pre>Let's represent this sequence 
+23 450 27 124</pre>
+        <li /> The vocabulary size is the number of words we can represent. Typical sizes are 30000
+        <li class=fragment /> A word is like one category among 30000 possibilities: it is very sparse and not practical to work in it.
+          <li class=fragment /> Word embeddings are mappings that map a word into a real vector space of of smaller dimension (typicaly $\mathbb{R}^{256}$). 
+<pre>Let's represent this sequence 
+0.3  1.3   0.1  1.3
+-0.5 2.3   5.5  -2.5
+...  ...   ...   ...
+1.6  0.0   -3.2  8.2
+</pre>
+        <li class=fragment /> Various techniques exist to learn this function, let's assume this mapping exists
+      </ul>
+      </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Feed-Forward vs. Recurrent Networks</h2>                                                     
+        <ul>
+          <li/> Due to the difficulties of training recurrent neural networks, they are now falling out of favor. 
+            <ul>
+              <li/> Sequential computations are difficult to parallelize
+              <li/> No explicit modeling of long and short range dependencies (although Attention helps)
+            </ul>
+          <li/> This applies beyond NLP: State-of-the-art audio are also feed-forward networks (e.g. Wavenets)
+        </ul>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Feed-Forward Example For Time-Dependent Data: WaveNet</h2>
+        <ul>
+          <li/> Wavenet is a type of feedforward Convnet. It uses convolutions "à trous" to obtain large receptive fields
+        <div class=row>
+          <div class=column>
+            <img src="images/dilation.gif" />
+          </div>
+          <div class=column>
+            <img src="images/dilated_wavenet.png" />
+          </div>
+        </div>
+        <p class=ref> Van der Oord et al. 2016</p>
+          <li/> Learns generative model: 
+            $$
+            p(\mathbf{x}) = \prod_t p(x_t|x_{t-1}, ..., x_0)
+            $$
+            <li/> Wavenets are the state-of-the-art in audio generation. See <a href="https://deepmind.com/blog/article/wavenet-generative-model-raw-audio"> Google's blog </a>.
+        </ul>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Feed-Forward Example For Language Understanding: BERT </h2>
+        <ul>
+          <li/> BERT is a popular language modeling architecture. It uses a feedforward "transformers with "self-attention block" to learn relations across text
+        <div class=row>
+          <div class=column>
+            <img src="images/self-attention-block.png" class=medium />
+          </div>
+          <div class=column>
+            <img src="images/bert.png" class=medium />
+          </div>
+        </div>
+        <p class=ref> Vaswani et al. 2017, Devlin et al. 2017</p>
+          <li/> Trained to predict missing words: ("My dog is [MASK]", predict target "Hairy") and next sentence prediction
+        <div class=row>
+          <div class=column>
+        <blockquote>
+        the man went to [MASK] store [SEP] he bought a gallon [MASK] milk 
+
+        Label = IsNext
+        </blockquote>
+          </div>
+          <div class=column>
+        <blockquote>
+        the man [MASK] to the store [SEP] penguin [MASK] are flight ##less birds 
+
+        Label = NotNext
+        </blockquote>
+          </div>
+        </div>
+        </ul>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        <h2> Further Reading </h2>
+        <ul>
+          <li> <a href=http://web.stanford.edu/class/cs224n/slides/cs224n-2020-lecture01-wordvecs1.pdf > Word2Vec </a> </li>
+          <li> <a href = http://nlp.seas.harvard.edu/2018/04/03/attention.html>Transformer</a></li>
+          <li><a href=http://web.stanford.edu/class/cs224n/slides/cs224n-2019-lecture14-transformers.pdf>Self-Attention</a></li>
+          <li><a href=http://web.stanford.edu/class/cs224n/slides/cs224n-2019-lecture08-nmt.pdf>Machine Translation</a></li>
+        </ul>
+        </textarea></section>
+
+</section>
+<section>
+        <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
+            <h1> Lecture 12: Memristor Models in PyTorch<br/> </h1>
+            <ul>
+              <li/> Slides derived from <a href='https://aihwkit.readthedocs.io/'>AIHWKIT Documentation</a>
+        </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Memristor Introduction</h2>                                                     
+      <img src="img/" />
+      <ul>
+        <li class="fragment"/> 
+      </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> In-Memory Computing</h2>                                                     
+      <img src="img/analog_chip_description.png" />
+      <ul>
+        <li class="fragment"/> Multiple crossbar arrays that communicate with each other
+        <li class="fragment"/> Efficient vector-matrix multiplication
+          <li class="fragment"/> <b>Offchip Training:</b> weights are typically trained using a conventional GPU-based hardware and transferred
+        <li class="fragment"/>   <b>Onchip Training: </b>weights are typically trained using a conventional GPU-based hardware and transferred
+      </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Memristor Typees and Non-Idealities</h2>                                                     
+      <img src="img/analog_ai_hw.png" class="large"/>
+      <ul>
+        <li class="fragment"/> 
+      </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> RRAM Non-Idealities</h2>                                                     
+      <img src="img/asymmetry_memristor.png" />
+      <p class=ref>(Spiga and Menzel, 2021)</p>
+      <ul>
+        <li class="fragment"/> 
+      </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Memristor Non-Idealities</h2>                                                     
+      <div class=row>
+      <div class=column>
+      <p>Aymmetric non-linearity</p>
+      <img src="img/Agarwal_etal16_asymmetry_memristor_model1.png" class="medium"/>
+      </div>
+      <div class=column>
+
+      <p>Effects of aymmetric non-linearity</p>
+      <img src="img/Agarwal_etal16_asymmetric_memristor_figure2.png" class="large" />
+      </div>
+      </div>
+      <p class=ref>[Agarwal_etal16_resimemo]</p>
+      <div class=row>
+      <div class=column>
+        <p>Cycle to cycle non-linearity</p>
+      <img src="img/analog_non_idealities.png" class="medium"/>
+      </div>
+      <div class=column>
+        <p>Device to Device non-linearity</p>
+      <img src="img/" class="medium"/>
+      </div>
+      </div>
+      <ul>
+        <li class="fragment"/> It is necessary to take these non-idealities into account during training
+      </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Specialized Update Algorithms</h2>                                                     
+      <img src="img/toolkit_quantization.png" />
+      <ul>
+        <li class="fragment"/>       </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Specialized Update Algorithms</h2>                                                     
+      <p class="ref">(Rasch et al. 2021)</p>
+      <ul>
+        <li class="fragment"/>       </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> A Model of a Non-linear Device </h2>                                                     
+      <ul>
+        <li/> $$ TBD $$
+      </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Custom Dynamics in pure PyTorch</h2>                                                     
+      <ul>
+        <li/> 
+      </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Custom Updates in pure PyTorch</h2>                                                     
+      <ul>
+        <li/> Recall that updates $$w \leftarrow w -\eta \nabla_w \mathcal{L}$$ are applied at the optimizer.step(). 
+        <li/> So we need to create a custom optimizer
+        <li/> TBD: code for custom optimizer
+      </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> AI Kardware Kit</h2>                                                     
+      <div class=row>
+        <div class=column>
+        <img src="img/reram_measurements.png" />
+        </div>
+        <div class=column>
+        <img src="img/reram_measurements.png" />
+        </div>
+      </div>
+      <p class="ref">(Rasch et al. 2021)</p>
+      <ul>
+        <li class="fragment"/> aihwkit: Acceleration of training of crossbar arrays using PyTorch and GPUs.
+        <li/> Functional simulator of forward and barckward pass (for online training)
+      </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Specialized Update Algorithms</h2>                                                     
+      <img src="img/analog_dnn_training.png"/>
+      <p class="ref">(Rasch et al. 2021)</p>
+      <ul>
+        <li class="fragment"/> The range of the weights are limited because of the physical implementation details and hardware limitations $\rightarrow$ Quantization
+      </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Device configuration with aihwkit: RPUConfig</h2>                                                     
+      <ul>
+        <li class="fragment"/> 
+      </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Optimizer with aihwkit:AnalogSGD </h2>                                                     
+      <ul>
+        <li class="fragment"/> 
+      </ul>
+      </textarea></section>
+
+ 
+
+
+ 
+</section>
+      </div></div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/zoom/zoom.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/math/math.js"></script>
+		<script src="plugin/search/search.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+        width: 1280,
+        height: 720,
+        margin: 0.0,
+        navigationMode: 'grid',
+        transition: 'fade',
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+				plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.MathJax2],
+        math: {
+              mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+              config: 'TeX-AMS_HTML-full', 
+              TeX: { Macros: { Dp: ["\\frac{\\partial #1}{\\partial #2}",2] }}
+            },
+			});
+		</script>
+	</body>
+</html>

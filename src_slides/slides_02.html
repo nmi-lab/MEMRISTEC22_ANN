@@ -1,0 +1,420 @@
+<script>
+  //function for evaluation
+  function solve()
+  {
+          let w0 = parseFloat(document.getElementById("w0").value)-50
+          let w1 = parseFloat(document.getElementById("w1").value)-50
+          let b =  parseFloat(document.getElementById("b").value) -50
+          document.getElementById("a11").innerHTML = (eval(w0)*1+eval(w1)*1+eval(b)).toFixed(2)
+          document.getElementById("a10").innerHTML = (eval(w0)*1+eval(w1)*0+eval(b)).toFixed(2)
+          document.getElementById("a01").innerHTML = (eval(w0)*0+eval(w1)*1+eval(b)).toFixed(2)
+          document.getElementById("a00").innerHTML = (eval(w0)*0+eval(w1)*0+eval(b)).toFixed(2)
+          document.getElementById("y11").innerHTML = (((eval(w0)*1+eval(w1)*1+eval(b))>0)*1)
+          document.getElementById("y10").innerHTML = (((eval(w0)*1+eval(w1)*0+eval(b))>0)*1)
+          document.getElementById("y01").innerHTML = (((eval(w0)*0+eval(w1)*1+eval(b))>0)*1)
+          document.getElementById("y00").innerHTML = (((eval(w0)*0+eval(w1)*0+eval(b))>0)*1)
+          document.getElementById('w0val').innerHTML=eval(w0).toFixed(2); 
+          document.getElementById('w1val').innerHTML=eval(w1).toFixed(2); 
+          document.getElementById('bval').innerHTML =eval(b).toFixed(2); 
+        }
+
+</script>
+
+
+<section>
+        <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
+            <h1> Lecture 2: Pattern Recognition and Machine Learning<br/> </h1>
+        </textarea></section>
+
+        <section>
+        <h2>The First Artificial Neuron</h2><ul>
+        <li><p>In 1943, McCulloch and Walter Pitts propose the first artificial neuron, the Linear Threshold Unit. </p>
+        <img src="images/artificial_neuron.png" class="large"/>
+        </li>
+        <li>In the Linear Threshold Unit, $f$ is a step function: $f(x) = 1$ if $x&gt;0$
+        </li>
+        <li>"Modern" artificial neurons are similar, but $f$ is typically a sigmoid or rectified linear function</li>
+        </ul>
+        </section>
+
+        <section>
+        <h2>Basic Mathematical Model of the Artificial Neuron</h2>
+        <div class=row>
+        <div class=column>
+        <img src="images/artificial_neuron.png"/>
+        </div>
+        <div class=column>
+        <ul>
+        <li>$x_i$  is the state of the input neurons</li>
+        <li>$w_i$ is the weight of the connection</li>
+        <li>$b$ is a bias</li>
+        <li>The total input to the neuron is: $ a = \sum_i w_i x_i +b $</li>
+        <li>The output of the neuron is: $ y = f(a) $</li>
+        <li>where $f$ is the activation function</li>
+        </ul>
+        </div>
+        </div>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        <h2>The Perceptron</h2>
+        <img src="images/rosenblatt57_title.png" />
+        <blockquote>
+        <img src="images/rosenblatt57_quote1.png" class=small />
+        </blockquote>
+        <ul>
+          <li/> Further reading: <a href="https://news.cornell.edu/stories/2019/09/professors-perceptron-paved-way-ai-60-years-too-soon">Professor’s perceptron paved the way for AI – 60 years too soon </a>
+        </ul>
+        </textarea></section>
+
+
+        <section>
+        <h2>The Perceptron</h2>
+        <ul>
+          <li> The Perceptron is a special case of the artificial neuron where:
+        $$
+        \begin{eqnarray}
+        \mbox{y} & = & \begin{cases}
+              -1 & \mbox{if } a = \sum_j w_j x_j + b \leq 0  \\\\
+              1 & \mbox{if } a = \sum_j w_j x_j + b > 0
+              \end{cases}
+        \end{eqnarray}
+        $$</li>
+        <img src=images/single_perceptron.svg />
+        <li> Three inputs $x_1$, $x_2$, $x_3$ with weights $w_1$, $w_2$, $w_3$, and bias $b$</li>
+        </ul>
+        </section>
+
+        <section>
+          <h2> Perceptron Example</h2>
+          <ul>
+            <li/> Like McCulloch and Pitts neurons, Perceptrons can be hand-constructed to solve simple logical tasks
+            <li/> Let's build a "sprinkler" that activates only if it is dry and sunny.
+            <li/> Let's assume we have a dryness detector $x_0$ and a light detector $x_1$ (two inputs)
+            <li/> Find $w_0$, $w_1$ and $b$ such that output $y$ matches target $t$
+          </ul>
+
+
+        
+
+        
+        <div class=row>
+        <div class=column>
+        <img src="images/twonode_perceptron_template.svg"  style="height:200px"    />
+        </div>
+        <div class=column>
+          <table>
+          <thead>
+          <tr>
+          <th>Sunny</th>
+          <th>Dry</th>
+          <th>$a$</th>
+          <th>$y$</th>
+          <th>$t$</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+          <td>1 (yes)</td>
+          <td>1 (yes)</td>
+          <td> <div id="a11"></div></td>
+          <td> <div id="y11"></div></td>
+
+          <td>1</td>
+          </tr>
+          <tr>
+          <td>1 (yes)</td>
+          <td>0 (no)</td>
+          <td> <div id="a10"></div></td>
+          <td> <div id="y10"></div></td>
+
+          <td>0</td>
+          </tr>
+          <tr>
+          <td>0 (no)</td>
+          <td>1 (yes)</td>
+          <td> <div id="a01"></div></td>
+          <td> <div id="y01"></div></td>
+          <td>0</td>
+          </tr>
+          <tr>
+          <td>0 (no)</td>
+          <td>0 (no)</td>
+          <td> <div id="a00"/></div></td>
+          <td> <div id="y00"/></div></td>
+          <td>0</td>
+          </tr>
+          </tbody>
+          </table>
+        </div>
+        </div>
+
+            <table border="1">
+              <tr>
+                <td>$w_0 =$ <span id=w0val>0</span></td>
+                <td>$w_1 =$ <span id=w1val>0</span></td>
+                <td>$b =$   <span id=bval>0</span></td>
+              </tr>
+              <tr>
+                <td colspan="1"><input type="range" min="-50." max="100." step=0.01  onchange="solve();" id="w0"  /></td>
+                <td colspan="1"><input type="range" min="-50." max="100." step=0.01  onchange="solve();" id="w1"  /></td>
+                <td colspan="1"><input type="range" min="-50." max="100." step=0.01  onchange="solve();" id="b"  /></td>
+              </tr>
+            </table>
+
+
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Logic Gates 
+
+        - Logic gates are (idealized) devices that perform one logical operation
+        - Common operations are AND, Not, and OR and can perform Boolean logic
+        - Using only Not AND (NAND) gates, any boolean function can be built. <!-- .element: class="fragment" -->
+        <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/NAND_ANSI_Labelled.svg/240px-NAND_ANSI_Labelled.svg.png />
+        <table>
+        <tr bgcolor="#ddeeff" align="center">
+        <td colspan="2"><b>INPUT</b></td>
+        <td><b>OUTPUT</b>
+        </td></tr>
+        <tr bgcolor="#ddeeff" align="center">
+        <td>A</td>
+        <td>B</td>
+        <td>A NAND B
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>0</td>
+        <td>0</td>
+        <td>1
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>0</td>
+        <td>1</td>
+        <td>1
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>1</td>
+        <td>0</td>
+        <td>1
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>1</td>
+        <td>1</td>
+        <td>0
+        </td></tr>
+        </table>
+        - Thus: any Boolean function can be built out of Perceptrons: Big deal! <!-- .element: class="fragment" -->
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## The Perceptron Learning Algorithm
+        - Given inputs and targets, the Perceptron Algorithm can automatically learn the parameters so the output matches the target
+        - Number of Misclassified Samples as a Target for Learning
+          ![](pli/machine_learning_procedure.png)
+        <p class=pl>Perceptron weights are iteratively modified until number of misclassified samples is minimized</p>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## The Perceptron Criterion
+        - If a pattern $\mathbf{x}^n$ verifies $\mathbf{y}^n t^n>0$, then it is correctly classified.
+        - where $\mathbf{y}^n = \mathbf{x}^n \mathbf{w} = \sum_j x_j^n w_j$
+        - This can be used as a cost function
+          $$
+          C_P(\mathbf{w}) = - \sum_{n\in \mathcal{M}} (\mathbf{x}^n \mathbf{w} ) t^n
+          $$
+          where $\mathcal{M}$ is the set of misclassified samples.
+
+        - This cost function is also called the *Perceptron Criterion*
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## The Perceptron Learning Rule
+        To minimize error, repeat for every misclassified data sample:
+
+        $$
+          w_i  \leftarrow  w_i + \eta x_{i}^n t^n  
+        $$
+
+        $$
+          b  \leftarrow  b + \eta t^n
+        $$
+
+        where $\eta$ is a "learning rate".
+        - If $y^n = t^n$ no change
+        - If $y^n = 1$ and $t^n = -1$: add inputs  $x_{i}^n$ to weights
+        - If $y^n = -1$ and $t^n = 1$: subtract inputs $x_{i}^n$ from weights
+
+        - Let's implement it: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://drive.google.com/open?id=1XOkJh_bB7K1oiKLTKJrj5iaRjYUSNy2w)
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## The Perceptron Learning Rule
+        <img src=images/perceptron_convergence.png class=large />
+        <p class=ref>(Bishop, 2006 Pattern Recognition and Machine Learning)</p>
+
+        - Perceptron convergence theorem: if the training dataset is linearly separable, then the perceptron learning rule is guaranteed to find an exact solution
+        <p class=ref>(Rosenblatt, 1962, Principles of Neurodynamics: Perceptrons and the Theory of Brain Mechanisms)</p>
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Cost Functions
+
+        <ul>
+        <li/> The Cost (Error) function returns a number representing how well a model performed. 
+        <li/> Perceptrons: Cost function = Number of Misclassified Samples
+        <li/> Other common cost functions are 
+          <ul>
+          <li/> Mean Squared Error: $  C_\text{MSE}  = \frac{1}{2N} \sum_{n \in \text{train}} (\mathbf{y}^n - \mathbf{t}^n) ^2 $ 
+          <li/> Cross-Entropy: $  C_{XENT} = - \frac1N \sum_{n \in \text{train}} \sum_k y_{k}^n  \log t_{k}^n $
+          </ul>
+        <li /> The objective is to minimize the cost function. 
+        <li /> Cost functions can be minimized using an optimization algorithm
+        </ul>
+        </textarea></section>
+
+
+        <section data-markdown><textarea data-template>
+        ## Optimization Algorithm Gradient Descent
+          
+          Example: Find $x$ that minimizes $C(x) = x^2$
+
+          <img src=images/quadratix_function.png class=small />
+
+          - Incremental change in $\Delta x$:
+          $$
+          \begin{eqnarray} 
+            \Delta C \approx \underbrace{\frac{\partial C}{\partial x}}_{\text{=Slope of }C(x)} \Delta x 
+          \end{eqnarray}
+          $$
+          With $\Delta x = - \eta \frac{\partial C}{\partial x}$, $\Delta C \approx - \eta \left( \frac{\partial C}{\partial x} \right)^2$
+
+          - Gradient Descent for finding the optimal $x$: 
+          $
+          \begin{eqnarray} 
+            x \leftarrow x - \eta \frac{\partial C}{\partial x}
+          \end{eqnarray} 
+          $
+        </textarea></section>
+
+
+
+        <section  data-markdown><textarea data-template>
+        ## Smooth Activation Function
+        <img src="images/mlp_gradient_notext.png" />
+
+        $$
+        \begin{eqnarray} 
+          \Delta \mbox{y} \approx \sum_j \frac{\partial \mbox{y}}{\partial w_j} \Delta w_j 
+        \end{eqnarray}
+        $$
+
+        <ul>
+          <li/> Derivative of output: $\frac{\partial \mbox{y}}{\partial w_j} = \frac{\partial f(\mathbf{a})}{\partial w_j} = \frac{\partial f'(\mathbf{a})}{\partial \mathbf{a}} \frac{\partial\mathbf{a}}{\partial w_j}$
+          <li/> The function $f'$ needs to be defined, i.e. $f$ must be continuous
+          <li/> Problem with Perceptrons: A tiny $\Delta w$ can induce a flip (large $\Delta$ y)
+        </ul>
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Deriving the Perceptron Rule from Gradient Descent
+
+        - The Perceptron criterion is specifically chosen to avoid the discontinuity problem
+        $$  C_P(\mathbf{w}) = - \sum_{n\in \mathcal{M}} ( \mathbf{x}^n \mathbf{w}) t^n $$
+        - Gradient:  <!-- .element: class="fragment" -->
+        $$  \frac{\partial}{\partial w_i} C_P(\mathbf{w}) = - \sum_{n\in \mathcal{M}} \frac{\partial}{\partial w_i}( \mathbf{x}^n \mathbf{w}) t^n = - \sum_{n \in \mathcal{M}} x^n_i t^n $$
+        - Parameter Update: <!-- .element: class="fragment" -->
+        $$  \Delta \mathbf{w} = -\eta \frac{\partial}{\partial w_j} C_P(\mathbf{w}) =  \eta\sum_{n\in \mathcal{M}}  x^n_j t_j $$
+        - Note that biases can be considered as weights of an input that is always equal to 1 <!-- .element: class="fragment" -->
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## XOR Gate
+
+        - XOR is another important logic gate
+        <table>
+        <tbody><tr bgcolor="#ddeeff" align="center">
+        <td colspan="2"><b>INPUT</b></td>
+        <td><b>OUTPUT</b>
+        </td></tr>
+        <tr bgcolor="#ddeeff" align="center">
+        <td>A</td>
+        <td>B</td>
+        <td>A XOR B
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>0</td>
+        <td>0</td>
+        <td>0
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>0</td>
+        <td>1</td>
+        <td>1
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>1</td>
+        <td>0</td>
+        <td>1
+        </td></tr>
+        <tr bgcolor="#ddffdd" align="center">
+        <td>1</td>
+        <td>1</td>
+        <td>0
+        </td></tr></tbody>
+        </table>
+
+        - The XOR gate cannot be implemented using a Perceptron 
+
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ## Linear separability                                                     
+          A perceptron is equivalent to a decision boundary.
+          - A straight line can separate blue vs. red
+          <img src=images/perceptron_rain_hyperplane.png class="small">
+          - There is no straight line that can separate blue vs. red <!-- .element: class="fragment" -->
+          <img src=images/perceptron_xor_hyperplane.png class="small">
+          <p class="pl">Problems where a straight line can separate two classes are called <em>Linearly Separable</em></p>
+        </textarea></section>
+
+        <section data-markdown ><textarea data-template>
+        ## Machine Learning Basics
+        - An ML algorithm is an algorithm that is able to learn from data 
+        - In ML, learning is our means of attaining the ability to perform some task. 
+
+         <img src="images/ml-loop.svg" class="stretch" />
+
+        - The key ingredients of an ML algorithm are: <!-- .element: class="fragment" -->
+          - Performance Measure (cost function)
+          - Data
+          - Model
+          - Optimization algorithm
+
+        </textarea>
+        </section>
+
+        <section data-markdown><textarea data-template>
+        ## Features and representations
+
+        - Each piece of information included in the dataset is a *feature*
+        - Features can be raw (e.g. pixel intensity), processed (e.g. frequency power) or higher-level (e.g. "number of limbs" or "frequency power"), or all of these combined.
+        - The collection of features is a *representation*
+        - The performance of the ML algorithm is highly dependent on the representation
+        </textarea></section>
+
+        <section data-markdown><textarea data-template>
+        ##  Example Labeled Dataset: Iris Dataset
+        <img src=images/Iris_dataset_scatterplot.svg class=stretch />
+
+        - 150 Data Samples
+        - 4 Features: petal length, petal width, sepal length, sepal width
+        - 3 Classes:  Steosa, Vesicolor, Virginica
+        </textarea>
+        </section>
+
+  </section>
+
+
