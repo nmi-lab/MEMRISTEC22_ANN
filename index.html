@@ -1443,11 +1443,11 @@ train_loader = torch.utils.data.DataLoader(train_set, batch_size=100, shuffle=Tr
         <li class="fragment"/> 
         <li/> [TBD: Describe RPUConfig here with code block]
         Aihwkit layers can be configured with RPUConfig, which includes:
-        <li/> the cell type i.e. single device, unit cell (2 device in a group), mixed precision (digital + analog)
-        <li/> the device model used
-        <li/> the model parameters
-        <li/> the noise parameters
-        <li/> an mean minimal update step sizes "dw_min", which will be used for the updates.
+        <li/> Cell type i.e. single device, unit cell (2 device in a group), mixed precision (digital + analog)
+        <li/> Device model used
+        <li/> Model parameters
+        <li/> Noise parameters
+        <li/> Mean minimal update step sizes "dw_min", which will be used for the updates.
         <pre><code class="Python" data-trim data-noescape>
         # _dtod and _std are the standard deviations for the device to device and cycle to cycle noises.
         linearStep_config=SingleRPUConfig(device=LinearStepDevice(dw_min=0.001, dw_min_dtod=0.3, dw_min_std=0.3,
