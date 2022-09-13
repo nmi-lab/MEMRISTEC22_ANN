@@ -56,9 +56,8 @@
 </script>
 
 
-<section>
         <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
-            <h1> Lecture 2: Pattern Recognition and Machine Learning<br/> </h1>
+            <h1> Neural Network Basics: The Perceptron<br/> </h1>
         </textarea></section>
 
         <section>
@@ -200,88 +199,7 @@
 
         </section>
 
-        <section data-markdown><textarea data-template>
-        ## Logic Gates 
 
-        - Logic gates are (idealized) devices that perform one logical operation
-        - Common operations are AND, Not, and OR and can perform Boolean logic
-        - Using only Not AND (NAND) gates, any boolean function can be built. <!-- .element: class="fragment" -->
-        <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/NAND_ANSI_Labelled.svg/240px-NAND_ANSI_Labelled.svg.png />
-        <table>
-        <tr bgcolor="#ddeeff" align="center">
-        <td colspan="2"><b>INPUT</b></td>
-        <td><b>OUTPUT</b>
-        </td></tr>
-        <tr bgcolor="#ddeeff" align="center">
-        <td>A</td>
-        <td>B</td>
-        <td>A NAND B
-        </td></tr>
-        <tr bgcolor="#ddffdd" align="center">
-        <td>0</td>
-        <td>0</td>
-        <td>1
-        </td></tr>
-        <tr bgcolor="#ddffdd" align="center">
-        <td>0</td>
-        <td>1</td>
-        <td>1
-        </td></tr>
-        <tr bgcolor="#ddffdd" align="center">
-        <td>1</td>
-        <td>0</td>
-        <td>1
-        </td></tr>
-        <tr bgcolor="#ddffdd" align="center">
-        <td>1</td>
-        <td>1</td>
-        <td>0
-        </td></tr>
-        </table>
-        - Thus: any Boolean function can be built out of Perceptrons: Big deal! <!-- .element: class="fragment" -->
-        </textarea>
-        </section>
-
-        <section data-markdown><textarea data-template>
-        ## The Perceptron Learning Algorithm
-        - Given inputs and targets, the Perceptron Algorithm can automatically learn the parameters so the output matches the target
-        - Number of Misclassified Samples as a Target for Learning
-          ![](pli/machine_learning_procedure.png)
-        <p class=pl>Perceptron weights are iteratively modified until number of misclassified samples is minimized</p>
-        </textarea></section>
-
-        <section data-markdown><textarea data-template>
-        ## The Perceptron Criterion
-        - If a pattern $\mathbf{x}^n$ verifies $\mathbf{y}^n t^n>0$, then it is correctly classified.
-        - where $\mathbf{y}^n = \mathbf{x}^n \mathbf{w} = \sum_j x_j^n w_j$
-        - This can be used as a cost function
-          $$
-          C_P(\mathbf{w}) = - \sum_{n\in \mathcal{M}} (\mathbf{x}^n \mathbf{w} ) t^n
-          $$
-          where $\mathcal{M}$ is the set of misclassified samples.
-
-        - This cost function is also called the *Perceptron Criterion*
-        </textarea></section>
-
-        <section data-markdown><textarea data-template>
-        ## The Perceptron Learning Rule
-        To minimize error, repeat for every misclassified data sample:
-
-        $$
-          w_i  \leftarrow  w_i + \eta x_{i}^n t^n  
-        $$
-
-        $$
-          b  \leftarrow  b + \eta t^n
-        $$
-
-        where $\eta$ is a "learning rate".
-        - If $y^n = t^n$ no change
-        - If $y^n = 1$ and $t^n = -1$: add inputs  $x_{i}^n$ to weights
-        - If $y^n = -1$ and $t^n = 1$: subtract inputs $x_{i}^n$ from weights
-
-        - Let's implement it: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://drive.google.com/open?id=1XOkJh_bB7K1oiKLTKJrj5iaRjYUSNy2w)
-        </textarea></section>
 
         <section data-markdown><textarea data-template>
         ## The Perceptron Learning Rule
@@ -334,123 +252,9 @@
 
 
 
-        <section  data-markdown><textarea data-template>
-        ## Smooth Activation Function
-        <img src="images/mlp_gradient_notext.png" />
 
-        $$
-        \begin{eqnarray} 
-          \Delta \mbox{y} \approx \sum_j \frac{\partial \mbox{y}}{\partial w_j} \Delta w_j 
-        \end{eqnarray}
-        $$
 
-        <ul>
-          <li/> Derivative of output: $\frac{\partial \mbox{y}}{\partial w_j} = \frac{\partial f(\mathbf{a})}{\partial w_j} = \frac{\partial f'(\mathbf{a})}{\partial \mathbf{a}} \frac{\partial\mathbf{a}}{\partial w_j}$
-          <li/> The function $f'$ needs to be defined, i.e. $f$ must be continuous
-          <li/> Problem with Perceptrons: A tiny $\Delta w$ can induce a flip (large $\Delta$ y)
-        </ul>
 
-        </textarea></section>
-
-        <section data-markdown><textarea data-template>
-        ## Deriving the Perceptron Rule from Gradient Descent
-
-        - The Perceptron criterion is specifically chosen to avoid the discontinuity problem
-        $$  C_P(\mathbf{w}) = - \sum_{n\in \mathcal{M}} ( \mathbf{x}^n \mathbf{w}) t^n $$
-        - Gradient:  <!-- .element: class="fragment" -->
-        $$  \frac{\partial}{\partial w_i} C_P(\mathbf{w}) = - \sum_{n\in \mathcal{M}} \frac{\partial}{\partial w_i}( \mathbf{x}^n \mathbf{w}) t^n = - \sum_{n \in \mathcal{M}} x^n_i t^n $$
-        - Parameter Update: <!-- .element: class="fragment" -->
-        $$  \Delta \mathbf{w} = -\eta \frac{\partial}{\partial w_j} C_P(\mathbf{w}) =  \eta\sum_{n\in \mathcal{M}}  x^n_j t_j $$
-        - Note that biases can be considered as weights of an input that is always equal to 1 <!-- .element: class="fragment" -->
-
-        </textarea></section>
-
-        <section data-markdown><textarea data-template>
-        ## XOR Gate
-
-        - XOR is another important logic gate
-        <table>
-        <tbody><tr bgcolor="#ddeeff" align="center">
-        <td colspan="2"><b>INPUT</b></td>
-        <td><b>OUTPUT</b>
-        </td></tr>
-        <tr bgcolor="#ddeeff" align="center">
-        <td>A</td>
-        <td>B</td>
-        <td>A XOR B
-        </td></tr>
-        <tr bgcolor="#ddffdd" align="center">
-        <td>0</td>
-        <td>0</td>
-        <td>0
-        </td></tr>
-        <tr bgcolor="#ddffdd" align="center">
-        <td>0</td>
-        <td>1</td>
-        <td>1
-        </td></tr>
-        <tr bgcolor="#ddffdd" align="center">
-        <td>1</td>
-        <td>0</td>
-        <td>1
-        </td></tr>
-        <tr bgcolor="#ddffdd" align="center">
-        <td>1</td>
-        <td>1</td>
-        <td>0
-        </td></tr></tbody>
-        </table>
-
-        - The XOR gate cannot be implemented using a Perceptron 
-
-        </textarea></section>
-
-        <section data-markdown><textarea data-template>
-        ## Linear separability                                                     
-          A perceptron is equivalent to a decision boundary.
-          - A straight line can separate blue vs. red
-          <img src=images/perceptron_rain_hyperplane.png class="small">
-          - There is no straight line that can separate blue vs. red <!-- .element: class="fragment" -->
-          <img src=images/perceptron_xor_hyperplane.png class="small">
-          <p class="pl">Problems where a straight line can separate two classes are called <em>Linearly Separable</em></p>
-        </textarea></section>
-
-        <section data-markdown ><textarea data-template>
-        ## Machine Learning Basics
-        - An ML algorithm is an algorithm that is able to learn from data 
-        - In ML, learning is our means of attaining the ability to perform some task. 
-
-         <img src="images/ml-loop.svg" class="stretch" />
-
-        - The key ingredients of an ML algorithm are: <!-- .element: class="fragment" -->
-          - Performance Measure (cost function)
-          - Data
-          - Model
-          - Optimization algorithm
-
-        </textarea>
-        </section>
-
-        <section data-markdown><textarea data-template>
-        ## Features and representations
-
-        - Each piece of information included in the dataset is a *feature*
-        - Features can be raw (e.g. pixel intensity), processed (e.g. frequency power) or higher-level (e.g. "number of limbs" or "frequency power"), or all of these combined.
-        - The collection of features is a *representation*
-        - The performance of the ML algorithm is highly dependent on the representation
-        </textarea></section>
-
-        <section data-markdown><textarea data-template>
-        ##  Example Labeled Dataset: Iris Dataset
-        <img src=images/Iris_dataset_scatterplot.svg class=stretch />
-
-        - 150 Data Samples
-        - 4 Features: petal length, petal width, sepal length, sepal width
-        - 3 Classes:  Steosa, Vesicolor, Virginica
-        </textarea>
-        </section>
-
-  </section>
 
 
       </div></div>

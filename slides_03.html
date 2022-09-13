@@ -33,10 +33,9 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-<section>
 
         <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
-            <h1> Lecture 3: Artificial Neural Networks<br/> </h1>
+            <h1> Artificial Neural Networks<br/> </h1>
         </textarea></section>
         <section data-markdown><textarea data-template>
         ## Linear separability (Reminder)                   
@@ -120,8 +119,6 @@
         </table>
         </div>
         
-        Exercise: Try finding the weights by hand
-
         <div class=fragment><p class=pl> The strategy of automatically extending networks with intermediate units is the main idea of representation learning </p></div>
 
         </textarea></section>
@@ -217,14 +214,14 @@
 
         <div class="row">
           <div class="column">
-              Threshold unit (Perceptron)
+            <p>Threshold unit (Perceptron)</p>
               $$
               y = \Theta(a) = \begin{cases} -1 & \mbox{if } a \leq 0 \\  1 & \mbox{if } a > 0 \end{cases}
               $$
 
           </div>
           <div class="column">
-              Sigmoid unit
+            <p> Sigmoid unit</p>
               $$
               y = \sigma(\text{a}) = \frac{1}{1+e^{-a}}
               $$
@@ -320,7 +317,7 @@
         $$
         <ul>
           <li /> $\delta$ $\in \mathbb{R}^{N^{s}\times N}$, $X$ $\in \mathbb{R}^{N^{s} \times M}$, and dimension of $\Delta W$ must be same as $W$!
-          <li /> Implement it here:
+          <li /> Implement it here (Optional):
         </ul>
 
         [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1xQiNcjf-O88vi_09R5Zntv_gK2zB7MMh?usp=sharing)
@@ -423,7 +420,7 @@
         - Follow-along notebook
         [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://drive.google.com/open?id=1botgh24In3QFyMc9AmezPszgt2ntJ-OL)
 
-        - PyTorch is one out of several other ML frameworks (PyTorch, Tensorflow/Keras, Jax). PyTorch arguably the easiest to use
+        - PyTorch is one out of several other ML frameworks (PyTorch, Tensorflow/Keras, Jax). PyTorch arguably the easiest to use and is <a href="https://pytorch.org/blog/PyTorchfoundation/?utm_source=twitter&utm_medium=organic_social&utm_campaign=foundation3a" >belongs to the linux foundation</a> (open source)
         </textarea></section>
 
         <section data-markdown><textarea data-template>
@@ -700,7 +697,6 @@
 
         </textarea></section>
 
-</section>
       </div></div>
 
 		<script src="dist/reveal.js"></script>

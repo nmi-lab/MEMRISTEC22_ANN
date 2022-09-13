@@ -33,29 +33,20 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-<section>
         <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
-            <h1> Lecture 12: Memristor Models in PyTorch<br/> </h1>
+            <h1> Memristor Models in PyTorch<br/> </h1>
             <ul>
               <li/> Slides derived from <a href='https://aihwkit.readthedocs.io/'>AIHWKIT Documentation</a>
         </textarea></section>
 
       <section data-markdown><textarea data-template>
-      <h2> Memristor Introduction</h2>                                                     
-      <img src="img/" />
-      <ul>
-        <li class="fragment"/> 
-      </ul>
-      </textarea></section>
-
-      <section data-markdown><textarea data-template>
       <h2> In-Memory Computing</h2>                                                     
       <img src="img/analog_chip_description.png" />
       <ul>
-        <li class="fragment"/> Multiple crossbar arrays that communicate with each other
-        <li class="fragment"/> Efficient vector-matrix multiplication
-          <li class="fragment"/> <b>Offchip Training:</b> weights are typically trained using a conventional GPU-based hardware and transferred
-        <li class="fragment"/>   <b>Onchip Training: </b>weights are typically trained using a conventional GPU-based hardware and transferred
+        <li class="fragment"/> Goal: Multiple memristive crossbar arrays that communicate with each other
+        <li /> Typical scenario: you would like to test performance/power/latency on AI benchmarks, but do not have large enough arrays at you disposal 
+          <li class="fragment"/> <b>Offchip Training:</b> weights are typically trained using a conventional process and transferred (easy)
+        <li class="fragment"/>   <b>Onchip Training: </b> weights are trained on the device (hard/open problem)
       </ul>
       </textarea></section>
 
@@ -63,16 +54,13 @@
       <h2> Memristor Typees and Non-Idealities</h2>                                                     
       <img src="img/analog_ai_hw.png" class="large"/>
       <ul>
-        <li class="fragment"/> 
-      </ul>
-      </textarea></section>
-
-      <section data-markdown><textarea data-template>
-      <h2> RRAM Non-Idealities</h2>                                                     
-      <img src="img/asymmetry_memristor.png" />
-      <p class=ref>(Spiga and Menzel, 2021)</p>
-      <ul>
-        <li class="fragment"/> 
+        <li class="fragment"/> Different device technologies have different non-idealities
+        <ul>
+          <li/> Asymmetry
+          <li/> Cycle-to-cycle noise
+          <li/> Device-to-device noise
+          <li/> Read and/or write non-linearity
+          <li/> Drift, endurance, precision/ dynamic range ...
       </ul>
       </textarea></section>
 
@@ -106,17 +94,11 @@
       </textarea></section>
 
       <section data-markdown><textarea data-template>
-      <h2> Specialized Update Algorithms</h2>                                                     
+      <h2> Mapping conductances to weights</h2>                                                     
       <img src="img/toolkit_quantization.png" />
       <ul>
-        <li class="fragment"/>       </ul>
-      </textarea></section>
-
-      <section data-markdown><textarea data-template>
-      <h2> Specialized Update Algorithms</h2>                                                     
-      <p class="ref">(Rasch et al. 2021)</p>
-      <ul>
-        <li class="fragment"/>       </ul>
+        <li class="fragment"/> 
+      </ul>
       </textarea></section>
 
       <section data-markdown><textarea data-template>
@@ -127,15 +109,18 @@
       </textarea></section>
 
       <section data-markdown><textarea data-template>
-      <h2> Custom Dynamics in pure PyTorch</h2>                                                     
+      <h2> Offline learning: Custom Dynamics in pure PyTorch</h2>                                                     
       <ul>
-        <li/> 
+        <li/> Here, we assume that the learning is done offline, in a way that is consistent with the device
+        <li/> We implement read dynamics according to the device
+        <li/> We train using exact updates. This is called hardware-aware training
       </ul>
       </textarea></section>
 
       <section data-markdown><textarea data-template>
-      <h2> Custom Updates in pure PyTorch</h2>                                                     
+      <h2> Online learning: Custom Updates in pure PyTorch</h2>                                                     
       <ul>
+        <li/> Here, we assume that the devices are updated online.
         <li/> Recall that updates $$w \leftarrow w -\eta \nabla_w \mathcal{L}$$ are applied at the optimizer.step(). 
         <li/> So we need to create a custom optimizer
         <li/> TBD: code for custom optimizer
@@ -143,10 +128,10 @@
       </textarea></section>
 
       <section data-markdown><textarea data-template>
-      <h2> AI Kardware Kit</h2>                                                     
+      <h2> AI Hardware Kit</h2>                                                     
       <div class=row>
         <div class=column>
-        <img src="img/reram_measurements.png" />
+        <img src="img/aihwkit.png" />
         </div>
         <div class=column>
         <img src="img/reram_measurements.png" />
@@ -155,16 +140,8 @@
       <p class="ref">(Rasch et al. 2021)</p>
       <ul>
         <li class="fragment"/> aihwkit: Acceleration of training of crossbar arrays using PyTorch and GPUs.
-        <li/> Functional simulator of forward and barckward pass (for online training)
-      </ul>
-      </textarea></section>
-
-      <section data-markdown><textarea data-template>
-      <h2> Specialized Update Algorithms</h2>                                                     
-      <img src="img/analog_dnn_training.png"/>
-      <p class="ref">(Rasch et al. 2021)</p>
-      <ul>
-        <li class="fragment"/> The range of the weights are limited because of the physical implementation details and hardware limitations $\rightarrow$ Quantization
+        <li/> Programmable Functional simulator of forward and backward pass (for online training)
+        <li/> Here we focus on online training, but aihwkit can also do offline training (hardware-aware training)
       </ul>
       </textarea></section>
 
@@ -172,21 +149,28 @@
       <h2> Device configuration with aihwkit: RPUConfig</h2>                                                     
       <ul>
         <li class="fragment"/> 
+        <li/> [TBD: Describe RPUConfig here with code block]
       </ul>
       </textarea></section>
 
       <section data-markdown><textarea data-template>
       <h2> Optimizer with aihwkit:AnalogSGD </h2>                                                     
       <ul>
-        <li class="fragment"/> 
+        <li class="fragment"/> Hands-on tutorial aihwkit: 
+        <li/> [TBD: Describe AnalogSGD here with code block]
+        <li class="fragment"/> Hands-on tutorial aihwkit: 
       </ul>
+
+      [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1WAAf5PEt5tgj4ah2vVm2gmA_nhYD8bVT?usp=sharing)
+
       </textarea></section>
 
+
+
  
 
 
  
-</section>
       </div></div>
 
 		<script src="dist/reveal.js"></script>

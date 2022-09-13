@@ -33,74 +33,7 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-<section>
-<section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
-    <h1> Lecture 6: Modern ConvNets for Classification and Segmentation <br/> </h1>
 
-</textarea></section>
-
-<section data-markdown><textarea data-template>
-    <h2>Normalization</h2>
-    <ul>
-      <li /> If preactivations drift during training, it is costly for subsequent layers to adapt to that drift.
-        <img src="images/layer_distribution.png" />
-      <li /> Several normalization techniques exist, we will focus on the one use the most commonly (Batch Norm).
-    </ul>
-</textarea></section>
-
-<section data-markdown><textarea data-template>
-    <h2>Batch Normalization</h2>
-    <ul>
-
-      <li /> Batch Normalization (BN) is one solution to this problem. BN transforms the activations at a given layer x according to:
-    $$
-  \mathrm{BN}(\mathbf{x}) = \mathbf{\gamma} \odot \frac{\mathbf{x} - \hat{\mathbf{\mu}}}{\hat\sigma} + \mathbf{\beta}</div>
-    $$
-    where $\hat{\mathbf{\mu}}$ is the mean over the batch, $\hat\sigma$ is the standard deviation over the batch. $\gamma$ and $\beta$ are trainable scaling and offsets parameters.
-      <li class=fragment data-fragment-index="2" /> Typically a noise term is added to the calculation of $\hat\sigma$. This noise term prevents a division by zero and also acts as a regularizer
-      <li class=fragment data-fragment-index="3"/> BN speeds up the training in large networks
-      <li class=fragment data-fragment-index="3"/> BN is applied right before the application of the activation function
-    </ul>
-</textarea></section>
-
-<section data-markdown><textarea data-template>
-    <h2>Use BN in Feed Forward Neural Networks</h2>
-
-<pre><code class="Python" data-trim data-noescape>
-def __init__(self):
-  super(Net, self).__init__()
-  self.layer1 = torch.nn.Linear(128,64)
-  self.layer1_bn =nn.BatchNorm1d(64)
-  ...
-
-def forward(self, x):
-  y = self.layer1(x)
-  y = self.layer1_bn(y)
-  y = torch.relu(y)
-  ...
-</code></pre>
-
-</textarea></section>
-
-<section data-markdown><textarea data-template>
-    <h2>Use BN in Convolutional Neural Networks</h2>
-
-<pre><code class="Python" data-trim data-noescape>
-def __init__(self):
-  super(Net, self).__init__()
-  self.layer1 = torch.nn.Conv2d(3,32,3,1)
-  self.layer1_bn =nn.BatchNorm2d(32)
-  ...
-
-def forward(self, x):
-  y = self.layer1(x)
-  y = self.layer1_bn(y)
-  y = torch.relu(y)
-  ...
-</code></pre>
-</textarea></section>
-
-</section>
       </div></div>
 
 		<script src="dist/reveal.js"></script>
