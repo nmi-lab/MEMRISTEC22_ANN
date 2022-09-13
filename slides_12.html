@@ -114,20 +114,75 @@
 
       <section data-markdown><textarea data-template>
       <h2> Specialized Update Algorithms</h2>                                                     
-      <img src="img/reram_measurements.png" />
       <p class="ref">(Rasch et al. 2021)</p>
       <ul>
         <li class="fragment"/>       </ul>
       </textarea></section>
 
       <section data-markdown><textarea data-template>
-      <h2> AI Kardware Kit</h2>                                                     
-      <img src="img/" />
-      <p class="ref">(Rasch et al. 2021)</p>
+      <h2> A Model of a Non-linear Device </h2>                                                     
       <ul>
-        <li class="fragment"/>
+        <li/> $$ TBD $$
       </ul>
       </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Custom Dynamics in pure PyTorch</h2>                                                     
+      <ul>
+        <li/> 
+      </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Custom Updates in pure PyTorch</h2>                                                     
+      <ul>
+        <li/> Recall that updates $$w \leftarrow w -\eta \nabla_w \mathcal{L}$$ are applied at the optimizer.step(). 
+        <li/> So we need to create a custom optimizer
+        <li/> TBD: code for custom optimizer
+      </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> AI Kardware Kit</h2>                                                     
+      <div class=row>
+        <div class=column>
+        <img src="img/reram_measurements.png" />
+        </div>
+        <div class=column>
+        <img src="img/reram_measurements.png" />
+        </div>
+      </div>
+      <p class="ref">(Rasch et al. 2021)</p>
+      <ul>
+        <li class="fragment"/> aihwkit: Acceleration of training of crossbar arrays using PyTorch and GPUs.
+        <li/> Functional simulator of forward and barckward pass (for online training)
+      </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Specialized Update Algorithms</h2>                                                     
+      <img src="img/analog_dnn_training.png"/>
+      <p class="ref">(Rasch et al. 2021)</p>
+      <ul>
+        <li class="fragment"/> The range of the weights are limited because of the physical implementation details and hardware limitations $\rightarrow$ Quantization
+      </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Device configuration with aihwkit: RPUConfig</h2>                                                     
+      <ul>
+        <li class="fragment"/> 
+      </ul>
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> Optimizer with aihwkit:AnalogSGD </h2>                                                     
+      <ul>
+        <li class="fragment"/> 
+      </ul>
+      </textarea></section>
+
+ 
 
 
  
