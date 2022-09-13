@@ -1449,13 +1449,9 @@ train_loader = torch.utils.data.DataLoader(train_set, batch_size=100, shuffle=Tr
         <li/> the noise parameters
         <li/> an mean minimal update step sizes "dw_min", which will be used for the updates.
         <pre><code class="Python" data-trim data-noescape>
-	# dtod and std are device to device and cycle to cycle noise standard deviations
         linearStep_config=SingleRPUConfig(device=LinearStepDevice(dw_min=0.001, dw_min_dtod=0.3, dw_min_std=0.3,
-                              # dw_min is the average minimum update step
                               w_max=0.6, w_max_dtod=0.3, w_min=-0.6, w_min_dtod=0.3,
-                              # w_max and w_min is the maximum and minimum weight boundaries
                               gamma_up=-0.1, gamma_down=-0.1, gamma_up_dtod=0.05, gamma_down_dtod=0.05))
-                              # gamma_up and gamma_down is slope of the update stpes.
         </code></pre>
 	      
       </ul>
