@@ -1410,7 +1410,12 @@ train_loader = torch.utils.data.DataLoader(train_set, batch_size=100, shuffle=Tr
         <li/> Here, we assume that the devices are updated online.
         <li/> Recall that updates $$w \leftarrow w -\eta \nabla_w \mathcal{L}$$ are applied at the optimizer.step(). 
         <li/> So we need to create a custom optimizer
-        <li/> TBD: code for custom optimizer
+        <li/> TBD: code for custom optimizer (Is that what you want?)
+        <pre><code class="Python" data-trim data-noescape>
+        from torch.optim import Adam
+	from aihwkit.optim import AnalogOptimizer
+	AnalogAdam = AnalogOptimizer(Adam,...)
+        </code></pre>
       </ul>
       </textarea></section>
 
@@ -1437,14 +1442,37 @@ train_loader = torch.utils.data.DataLoader(train_set, batch_size=100, shuffle=Tr
       <ul>
         <li class="fragment"/> 
         <li/> [TBD: Describe RPUConfig here with code block]
+        Aihwkit layers can be configured with RPUConfig, which includes:
+        <li/> the cell type i.e. single device, unit cell (2 device in a group), mixed precision (digital + analog)
+        <li/> the device model used
+        <li/> the model parameters
+        <li/> the noise parameters
+        <li/> an mean minimal update step sizes "dw_min", which will be used for the updates.
+        <pre><code class="Python" data-trim data-noescape>
+	# dtod and std are device to device and cycle to cycle noise standard deviations
+        linearStep_config=SingleRPUConfig(device=LinearStepDevice(dw_min=0.001, dw_min_dtod=0.3, dw_min_std=0.3,
+                              # dw_min is the average minimum update step
+                              w_max=0.6, w_max_dtod=0.3, w_min=-0.6, w_min_dtod=0.3,
+                              # w_max and w_min is the maximum and minimum weight boundaries
+                              gamma_up=-0.1, gamma_down=-0.1, gamma_up_dtod=0.05, gamma_down_dtod=0.05))
+                              # gamma_up and gamma_down is slope of the update stpes.
+        </code></pre>
+	      
       </ul>
       </textarea></section>
 
       <section data-markdown><textarea data-template>
       <h2> Optimizer with aihwkit:AnalogSGD </h2>                                                     
       <ul>
-        <li class="fragment"/> Hands-on tutorial aihwkit: 
         <li/> [TBD: Describe AnalogSGD here with code block]
+	<li/> AnalogSGD is equivalent to a PyTorch SGD, but translates the weight updates into pulses, and update the device models based on that.
+        <pre><code class="Python" data-trim data-noescape>
+	optimizer = AnalogSGD(model.parameters(), lr=0.05)
+	optimizer.regroup_param_groups(model)
+        </code></pre>
+	<li/> After creating the analog optimizer, the 'regroup_param_groups' function has to be called.
+        <li/> This will identify the analog layers in the model that are supposed to be excuted on memristors,
+	      and regroup their parameters seperately.
         <li class="fragment"/> Hands-on tutorial aihwkit: 
       </ul>
 
