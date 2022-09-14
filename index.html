@@ -1221,36 +1221,9 @@ train_loader = torch.utils.data.DataLoader(train_set, batch_size=100, shuffle=Tr
             train_step(x, t)
         </code></pre>
 
-        - If you use MSE loss, remember to use one hot target vectors (see week 1)
+        - If you use MSE loss, remember to use one hot target vectors 
 
         </textarea></section>
-
-        <section data-markdown><textarea data-template>
-        ## Regularization
-
-        Regularization can improve generalization error. The simplest regularization technique is to add a term to the cost:
-        $$
-        C_{total} = C_{MSE} + \lambda R(W)
-        $$
-
-        For example:
-        - L2 Regularization: $R(W) = \sum_{ij} W_{ij}^2$
-
-        <pre><code class="Python" data-trim data-noescape>
-        opt = torch.optim.Adam(net.parameters(), lr=1e-3, weight_decay=1e-3)
-        </code></pre>
-
-        - L1 Regularization: $R(W) = \sum_{ij} |W_{ij}|$
-
-        <pre><code class="Python" data-trim data-noescape>
-        l1_loss = 0
-        for param in net.parameters():
-            l1_loss += torch.sum(torch.abs(param))
-        </code></pre>
-
-
-        </textarea></section>
-
 
 
 
@@ -1309,19 +1282,17 @@ train_loader = torch.utils.data.DataLoader(train_set, batch_size=100, shuffle=Tr
       <h2> In-Memory Computing</h2>                                                     
       <img src="img/analog_chip_description.png" />
       <ul>
-        <li class="fragment"/> Goal: Multiple memristive crossbar arrays that communicate with each other
+        <li /> Goal: Multiple memristive crossbar arrays that communicate with each other
         <li /> Typical scenario: you would like to test performance/power/latency on AI benchmarks, but do not have large enough arrays at you disposal 
-          <li class="fragment"/> <b>Offchip Training:</b> weights are typically trained using a conventional process and transferred (easy)
-        <li class="fragment"/>   <b>Onchip Training: </b> weights are trained on the device (hard/open problem)
+        <li /> <b>Offchip Training:</b> weights are typically trained using a conventional process and transferred (easy)
+        <li />   <b>Onchip Training: </b> weights are trained on the device (hard/open problem)
       </ul>
       </textarea></section>
 
       <section data-markdown><textarea data-template>
-      <h2> Memristor Typees and Non-Idealities</h2>                                                     
+      <h2> Memristor Types and Non-Idealities</h2>                                                     
       <img src="img/analog_ai_hw.png" class="large"/>
       <ul>
-        <li class="fragment"/> Different device technologies have different non-idealities
-        <ul>
           <li/> Asymmetry
           <li/> Cycle-to-cycle noise
           <li/> Device-to-device noise
@@ -1351,19 +1322,22 @@ train_loader = torch.utils.data.DataLoader(train_set, batch_size=100, shuffle=Tr
       </div>
       <div class=column>
         <p>Device to Device non-linearity</p>
-      <img src="img/" class="medium"/>
+        <img src="img/d2d_dmitri.png" class="medium"/>
+        <p class=ref>Prezioso, M., et al. (2018)</p>
       </div>
       </div>
       <ul>
         <li class="fragment"/> It is necessary to take these non-idealities into account during training
       </ul>
+      <p class=pl> These non-linearities can be captured in a read and write model.</p>
       </textarea></section>
 
       <section data-markdown><textarea data-template>
       <h2> Mapping conductances to weights</h2>                                                     
       <img src="img/toolkit_quantization.png" />
       <ul>
-        <li class="fragment"/> 
+        <li/> For experimentation with machine learning models, the conductances and inputs are mapped linearly to neural networks weights and activations. 
+        <li> Due to limited range in the physical system, it is common to clip the values to a given range </li>
       </ul>
       </textarea></section>
 
@@ -1385,36 +1359,10 @@ train_loader = torch.utils.data.DataLoader(train_set, batch_size=100, shuffle=Tr
         <li/>the $\Xi,\boldsymbol{\xi}_1,\boldsymbol{\xi}_2$ Gaussian noise variables (with corresponding matrix and vector sizes).
         <li/>The $\alpha$ is a scale factor.
         <li/>The symbol $\otimes$ refers to the 'analog' matrix-vector multiplication, that might have additional non-linearities. (Here we won't assume any)
-        <li/>$f_\text{ADC}$ and $f_\text{DAC}$ indicate the discretization to a number of equidistant steps between a bound value $-b_\text{Z},\ldots,b_\text{Z}$ potentially with stochastic rounding (SR)
+        <li/>$f_\text{ADC}$ and $f_\text{DAC}$ indicate the discretization to a number of equidistant steps between a bound value $-b_\text{Z},\ldots,b_\text{Z}$ potentially with <a href='https://arxiv.org/abs/1504.05767' >stochastic rounding.</a>
       </ul>
 
 
-      </textarea></section>
-
-
-
-      <section data-markdown><textarea data-template>
-      <h2> Read Model (PyTorch)</h2>                                                     
-<pre><code class="Python" data-trim data-noescape>
-class myMemristor(torch.nn.Module):
-  def __init__(self, channels_in: int, channels_out:int, sigma_in: float = .1, sigma_out: float = .1, sigma_w: float = .1):
-    super().__init__()
-    ... #skipped for slide         
-    self.linear = torch.nn.Linear(channels_in,channels_out)
-    self.register_buffer('xi_W', self.sigma_w *torch.normal(0,1,size=self.linear.weight.shape).to(self.linear.weight.device)) 
-
-  def __call__(self, x):
-    W = self.linear.weight
-    b = self.linear.bias
-    xi_d = self.sigma_in *torch.normal(0,1,size=x.shape).to(x.device)
-    xi_o = self.sigma_out*torch.normal(0,1,size=(x.shape[0],self.channels_out)).to(x.device)
-    return (x+xi_d) @ (W+self.xi_W).T + b + xi_o
-</code></pre>
-
-<p>Full script here:</p>
-
-  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1qqHMb7ShA8xwMxpt-DllLv96zKlYrlHu?usp=sharing)
- 
       </textarea></section>
 
       <section data-markdown><textarea data-template>
@@ -1448,6 +1396,8 @@ class myMemristor(torch.nn.Module):
         <li/> We implement read dynamics according to the device
         <li/> We train using exact updates. This is called hardware-aware training
       </ul>
+
+      [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1qqHMb7ShA8xwMxpt-DllLv96zKlYrlHu?usp=sharing)
       </textarea></section>
 
       <section data-markdown><textarea data-template>
@@ -1456,13 +1406,11 @@ class myMemristor(torch.nn.Module):
         <li/> Here, we assume that the devices are updated online.
         <li/> Recall that updates $$w \leftarrow w -\eta \nabla_w \mathcal{L}$$ are applied at the optimizer.step(). 
         <li/> So we need to create a custom optimizer
-        <li/> TBD: code for custom optimizer (Is that what you want?)
-        <pre><code class="Python" data-trim data-noescape>
-        from torch.optim import Adam
-	from aihwkit.optim import AnalogOptimizer
-	AnalogAdam = AnalogOptimizer(Adam,...)
+        <li/> See a full implemention in the following tutorial
         </code></pre>
       </ul>
+
+      [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1qqHMb7ShA8xwMxpt-DllLv96zKlYrlHu?usp=sharing)
       </textarea></section>
 
       <section data-markdown><textarea data-template>
@@ -1477,7 +1425,7 @@ class myMemristor(torch.nn.Module):
       </div>
       <p class="ref">(Rasch et al. 2021)</p>
       <ul>
-        <li class="fragment"/> aihwkit: Acceleration of training of crossbar arrays using PyTorch and GPUs.
+        <li/> aihwkit: Acceleration of training of crossbar arrays using PyTorch and GPUs.
         <li/> Programmable Functional simulator of forward and backward pass (for online training)
         <li/> Here we focus on online training, but aihwkit can also do offline training (hardware-aware training)
       </ul>
@@ -1487,8 +1435,7 @@ class myMemristor(torch.nn.Module):
       <h2> Device configuration with aihwkit: RPUConfig</h2>                                                     
       <ul>
         <li class="fragment"/> 
-        <li/> [TBD: Describe RPUConfig here with code block]
-        Aihwkit layers can be configured with RPUConfig, which includes:
+        <li/> Aihwkit layers can be configured with RPUConfig, which includes:
         <li/> Cell type i.e. single device, unit cell (2 device in a group), mixed precision (digital + analog)
         <li/> Device model used
         <li/> Model parameters
