@@ -49,38 +49,6 @@
         </textarea>
         </section>
 
-       <section data-markdown data-vertical-align-top><textarea data-template>
-        ## Machine Learning Approach
-
-        ![](images/ml-loop.svg)  
-        <ul>
-          <li /> The goal of Machine Learning (ML) is to learn to solve a problem by extracting patterns from raw data 
-          <li class=fragment /> The performance of ML models depends heavily on the representation of the data
-          <li class=fragment /> Neural Networks are particularly efficient at learning these representations  
-        </ul>
-
-
-        </textarea></section>
-        
-        <section>
-        <h2>Connectionism and Neural Networks</h2><ul>
-        <img src="images/connectionnism.png"/>
-        <li/>At the heart of deep learning, there is an <b>artificial neural network</b></li>
-        <li/>Artificial neural networks are a subset of machine learning approaches using networks of simple (neuron-like) units.</li>
-        </ul>
-        </section>
-
-        <section data-markdown><textarea data-template>
-        ## Machine Learning / Artificial Intelligence                                                     
-        <img src="images/venn_ml.png" class=stretch />
-
-        <blockquote>Deep learning is a kind of representation learning, which is in turn a kind of machine learning, which is used for many but not all approaches to AI" </blockquote>
-        <p class='ref'>(Goodfellow et al. 2016)</p>
-
-        </textarea>
-        </section>
-
-
 <script>
   //function for evaluation
   function solve()
@@ -103,10 +71,6 @@
 
 </script>
 
-
-        <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
-            <h1> Neural Network Basics: The Perceptron<br/> </h1>
-        </textarea></section>
 
         <section>
         <h2>The First Artificial Neuron</h2><ul>
@@ -302,15 +266,8 @@
 
 
 
-
-
-
-
-        <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
-            <h1> Artificial Neural Networks<br/> </h1>
-        </textarea></section>
         <section data-markdown><textarea data-template>
-        ## Linear separability (Reminder)                   
+        ## Linear separability  
           A perceptron is equivalent to a decision boundary.
           - A straight line can separate blue vs. red
           <img src=images/perceptron_rain_hyperplane.png class="small">
@@ -396,7 +353,7 @@
         </textarea></section>
 
 
-
+        <section>
         <section data-markdown><textarea data-template>
         ## Neural Network
 
@@ -412,7 +369,7 @@
 
         </textarea></section>
 
-
+      
         <section data-markdown><textarea data-template>
         ## Multiple Linear Layers are Equivalent to one Single Layer
 
@@ -669,16 +626,14 @@
         </div>
         </textarea></section>
 
-        <section data-markdown><textarea data-template>
-        ## The Gradient Back-Propagation Algorithm
-        <img src="images/chinese_whispers.jpg" />
-        </textarea></section>
+        </section>
 
         <section>
 
         <iframe data-src="http://playground.tensorflow.org/" width=95%  style='max-height:720px;height:720px;max-width:100%;'></iframe>
         </section>
 
+        <section>
         <section data-markdown><textarea data-template>
         ## Neural Networks with PyTorch
 
@@ -904,42 +859,6 @@
         </code></pre>
         </textarea></section>
 
-        <section data-markdown><textarea data-template>
-        ## Activation Functions
-
-        <div class=row >
-          <div class=column >
-            Sigmoid $ \sigma(z) = \frac{1} {1 + e^{-z}} $
-            <img src=images/sigmoid.png class=small />
-            <pre><code class="Python" data-trim data-noescape> torch.sigmoid </code></pre>
-          </div>
-
-          <div class=column >
-            Rectified Linear $ y = [a]^+ = \begin{split}Relu(a) = \begin{matrix}  a & a > 0 \\ 0 & a <= 0 \end{matrix}\end{split} $
-            <img src=images/relu.png class=small />
-            <pre><code class="Python" data-trim data-noescape> torch.relu </code></pre>
-
-          </div>
-
-        </div>
-        <div class=row>
-
-
-        <div class=column >
-        Tanh $ tanh(z) = \frac{e^{z} - e^{-z}}{e^{z} + e^{-z}} $
-        <img src=images/tanh.png class=small />
-            <pre><code class="Python" data-trim data-noescape> torch.sigmoid </code></pre>
-        </div>
-
-        <div class=column >
-        Step $ \begin{split}\Theta(z) = \begin{matrix} 1 & z>0 \\ 0 & z<0 \end{matrix}\end{split} $
-        <img src=images/step.png class=small />
-            <pre><code class="Python" data-trim data-noescape> torch.sign </code></pre>
-        </div>
-
-        </div>
-
-        </textarea></section>
 
 
         <section data-markdown><textarea data-template>
@@ -966,22 +885,6 @@
 
 
 
-
-        </textarea></section>
-
-        <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
-            <h1> Fully Connected Networks <br/> </h1>
-        </textarea></section>
-
-        <section data-markdown data-vertical-align-top><textarea data-template>
-            <h2> Key Ingredients of a Neural Network Program </h2>
-
-            <ol>
-              <li> A model with free (trainable) parameters</li>
-              <li> A performance measure (loss function)</li>
-              <li> An optimization algorithm </li>
-              <li> A dataset </li>
-            </ol>
 
         </textarea></section>
 
@@ -1070,6 +973,7 @@ loss = mse_loss(my_first_nn(data), target)
 </code></pre>
 
 - Cross Entropy
+
 <pre><code class="Python" data-trim data-noescape>
 xent_loss = torch.nn.CrossEntropyLoss()
 target = torch.LongTensor([0,2])
@@ -1210,7 +1114,7 @@ train_loader = torch.utils.data.DataLoader(train_set, batch_size=100, shuffle=Tr
         </code></pre>
         <img src="images/mnist_image.png" class=small />
         </textarea></section>
-
+        </section>
 
         <section data-markdown><textarea data-template>
         ## Iterating over all training batches during training
@@ -1275,7 +1179,7 @@ train_loader = torch.utils.data.DataLoader(train_set, batch_size=100, shuffle=Tr
         <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
             <h1> Memristor Models in PyTorch<br/> </h1>
             <ul>
-              <li/> Slides derived from <a href='https://aihwkit.readthedocs.io/'>AIHWKIT Documentation</a>
+              <li/> Slides partially derived from <a href='https://aihwkit.readthedocs.io/'>AIHWKIT Documentation</a>
         </textarea></section>
 
       <section data-markdown><textarea data-template>
@@ -1478,7 +1382,7 @@ train_loader = torch.utils.data.DataLoader(train_set, batch_size=100, shuffle=Tr
 
 
  
-
+      <section>
 <section data-markdown data-vertical-align-top data-background-color=#B2BA67><textarea data-template>
     <h1> Neural Networks' "Tricks of the Trade"  <br/> </h1>
 
@@ -1668,7 +1572,7 @@ def forward(self, x):
   <p class=pl>CNNs can learn end-to-end and outperform humans on certain recognition tasks</p>
   <p class=pl>CNNs are generally not the best application for memristive crossbar arrays (Why?)</p>
 </textarea></section>
-
+</section>
 
 
 
