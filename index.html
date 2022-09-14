@@ -1372,7 +1372,37 @@ train_loader = torch.utils.data.DataLoader(train_set, batch_size=100, shuffle=Tr
       </textarea></section>
 
       <section data-markdown><textarea data-template>
-      <h2> A Simple Memristor Model </h2>                                                     
+      <h2> A Simple Memristor Read Model </h2>                                                     
+
+      <p> The forward pass is computed as:
+
+  $$\begin{equation*}
+  \mathbf{y} = f_\text{ADC}\left[(W + \sigma_\text{w}\Xi) \otimes
+          (f_\text{DAC}( x/\alpha ) +
+          \sigma_\text{inp}\boldsymbol{\xi}_1 ) +
+          \sigma_\text{out}\boldsymbol{\xi}_2 \right]\alpha
+          \end{equation*}$$ </p>
+
+      <ul>        
+        <li/>$W$ is the weight matrix,
+        <li/>$\mathbf{x}$ the input vector
+        <li/>the $\Xi,\boldsymbol{\xi}_1,\boldsymbol{\xi}_2$ Gaussian noise variables (with corresponding matrix and vector sizes).
+        <li/>The $\alpha$ is a scale factor.
+        <li/>The symbol $\otimes$ refers to the 'analog' matrix-vector multiplication, that might have additional non-linearities. (Here we won't assume any)
+        <li/>$f_\text{Z}$ (with `Z` either `ADC` or `DAC`) indicates the discretization to a number of equidistant steps between a bound value $-b_\text{Z},\ldots,b_\text{Z}$ potentially with stochastic rounding (SR):
+
+$$\begin{equation*}
+        f_\text{Z}(x) = \text{round}(x\,
+        \frac{r_\text{Z}}{2\,b_\text{Z}} +
+        \zeta)\frac{2b_\text{Z}}{r_\text{Z}}
+\end{equation*} $$
+      </ul>
+
+
+      </textarea></section>
+
+      <section data-markdown><textarea data-template>
+      <h2> A Simple Memristor Update (Write) Model </h2>                                                     
 
       <p> Update Model:
       $$ 
@@ -1385,13 +1415,13 @@ train_loader = torch.utils.data.DataLoader(train_set, batch_size=100, shuffle=Tr
       </p>
 
       <ul>
-        <li/> $\sigma_\text{c-to-c}$ variance of cycle-to-cycle noise
-        <li/> $\gamma_{ij}^d$ crosspoint-dependent Slope parameter  initalized as 
+        <li/> $\sigma_\text{c-to-c}$ variance of cycle-to-cycle noise and $\xi\sim Gaussian$
+        <li/> $\gamma_{ij}^d$ crosspoint-dependent Slope parameter initalized as 
           $$\begin{eqnarray*}
 \gamma_{ij}^+ &=& - |\gamma^+ + \gamma_\text{d-to-d}^+ \xi|/b^\text{max}_{ij}\\
 \gamma_{ij}^- &=& - |\gamma^- + \gamma_\text{d-to-d}^- \xi|/b^\text{min}_{ij}
 \end{eqnarray*}$$
-<li/> b_{ij} crosspoint-dependent boundaries
+<li/> $b_{ij}$ crosspoint-dependent boundaries
       </ul>
       </textarea></section>
 
