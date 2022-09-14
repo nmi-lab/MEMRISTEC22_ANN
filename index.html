@@ -1391,6 +1391,32 @@ train_loader = torch.utils.data.DataLoader(train_set, batch_size=100, shuffle=Tr
 
       </textarea></section>
 
+
+
+      <section data-markdown><textarea data-template>
+      <h2> Read Model (PyTorch)</h2>                                                     
+<pre><code class="Python" data-trim data-noescape>
+class myMemristor(torch.nn.Module):
+  def __init__(self, channels_in: int, channels_out:int, sigma_in: float = .1, sigma_out: float = .1, sigma_w: float = .1):
+    super().__init__()
+    ... #skipped for slide         
+    self.linear = torch.nn.Linear(channels_in,channels_out)
+    self.register_buffer('xi_W', self.sigma_w *torch.normal(0,1,size=self.linear.weight.shape).to(self.linear.weight.device)) 
+
+  def __call__(self, x):
+    W = self.linear.weight
+    b = self.linear.bias
+    xi_d = self.sigma_in *torch.normal(0,1,size=x.shape).to(x.device)
+    xi_o = self.sigma_out*torch.normal(0,1,size=(x.shape[0],self.channels_out)).to(x.device)
+    return (x+xi_d) @ (W+self.xi_W).T + b + xi_o
+</code></pre>
+
+<p>Full script here:</p>
+
+  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1qqHMb7ShA8xwMxpt-DllLv96zKlYrlHu?usp=sharing)
+ 
+      </textarea></section>
+
       <section data-markdown><textarea data-template>
       <h2> A Simple Memristor Update (Write) Model </h2>                                                     
 
