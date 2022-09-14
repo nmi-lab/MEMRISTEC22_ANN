@@ -1338,7 +1338,6 @@ train_loader = torch.utils.data.DataLoader(train_set, batch_size=100, shuffle=Tr
       <section data-markdown><textarea data-template>
       <h2> Device configuration with aihwkit: RPUConfig</h2>                                                     
       <ul>
-        <li class="fragment"/> 
         <li/> Aihwkit layers can be configured with RPUConfig, which includes:
         <li/> Cell type i.e. single device, unit cell (2 device in a group), mixed precision (digital + analog)
         <li/> Device model used
@@ -1361,7 +1360,6 @@ train_loader = torch.utils.data.DataLoader(train_set, batch_size=100, shuffle=Tr
       <section data-markdown><textarea data-template>
       <h2> Optimizer with aihwkit:AnalogSGD </h2>                                                     
       <ul>
-        <li/> [TBD: Describe AnalogSGD here with code block]
 	<li/> AnalogSGD is equivalent to a PyTorch SGD, but translates the weight updates into pulses, and update the device models based on that.
         <pre><code class="Python" data-trim data-noescape>
 	optimizer = AnalogSGD(model.parameters(), lr=0.05)
